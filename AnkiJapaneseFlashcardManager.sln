@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnkiSentenceCardBuilder", "AnkiSentenceCardBuilder\AnkiSentenceCardBuilder.csproj", "{92D65620-AD74-4B67-91E5-A62B74960E08}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnkiJapaneseFlashcardManager", "AnkiSentenceCardBuilder\AnkiJapaneseFlashcardManager.csproj", "{92D65620-AD74-4B67-91E5-A62B74960E08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
