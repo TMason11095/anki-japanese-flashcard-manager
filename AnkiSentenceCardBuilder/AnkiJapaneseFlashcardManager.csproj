@@ -8,6 +8,14 @@
     <UserSecretsId>5f849e85-c477-47a3-8666-61b07b0b6a45</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="ankiBindingTags.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ankiBindingTags.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Azure.Storage.Blobs" Version="12.19.1" />
     <PackageReference Include="Azure.Storage.Files.Shares" Version="12.17.1" />
     <PackageReference Include="Azure.Storage.Queues" Version="12.17.1" />
@@ -20,6 +28,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Azure" Version="1.7.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">
@@ -32,5 +41,10 @@
   </ItemGroup>
   <ItemGroup>
     <Using Include="System.Threading.ExecutionContext" Alias="ExecutionContext" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Models\DTO\AnkiBindingTagsDTO.cs">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Compile>
   </ItemGroup>
 </Project>

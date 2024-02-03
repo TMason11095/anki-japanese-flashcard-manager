@@ -1,5 +1,6 @@
 using System.Net;
 using System.Runtime.InteropServices;
+using AnkiJapaneseFlashcardManager.Config;
 using AnkiSentenceCardBuilder.Controllers;
 using AnkiSentenceCardBuilder.Models;
 using Grpc.Core;
@@ -32,12 +33,13 @@ namespace AnkiSentenceCardBuilder.Services
             //Setup db controller
             Anki2Controller anki2Controller = new Anki2Controller(tempDbPath);
 
-            List<Deck> decks = anki2Controller.GetTable<Deck>();
+            //List<Deck> decks = anki2Controller.GetTable<Deck>();
 
+            //Find the deck id with the kanji binding
+            List<Deck> resourceKanjiDeck = anki2Controller.GetResourceKanjiDecks();
 
-
-            //Exit
-            var response = req.CreateResponse(HttpStatusCode.OK);
+			//Exit
+			var response = req.CreateResponse(HttpStatusCode.OK);
             return response;
         }
     }
