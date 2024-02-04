@@ -24,6 +24,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AnkiSentenceCardBuilder\AnkiJapaneseFlashcardManager.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Resources\Anki2 Files\empty_kanjiResource_deck.anki2">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
