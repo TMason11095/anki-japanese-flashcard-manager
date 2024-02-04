@@ -32,27 +32,35 @@ namespace AnkiSentenceCardBuilder.Controllers
             return System.Text.Encoding.UTF8.GetString(blob);
 		}
 
-        public List<Deck> GetResourceKanjiDecks()
+        public List<Deck> GetTaggedDecks(string deckTagName)
         {
-            //Get resource kanji deck tag
-            string deckTag = AnkiBindingConfig.Bindings.DeckTag;
-            string deckName = AnkiBindingConfig.Bindings.ResourceDecks.Kanji;
-            string resourceKanjiDeckTag = deckTag + deckName;
-            //Get all the decks
-            var decks = _context.Decks;
+			//Get the deck tag (prefix for the full tag)
+			string deckTag = AnkiBindingConfig.Bindings.DeckTag;
+			//Build the full tag
+            string fullDeckTag = deckTag + deckTagName;
+			//Get all the decks
+			var decks = _context.Decks;
 			//Remap to decode the description field (Kind) (Convert to List as the following .Where() tries calling DecodeBlob() and fails if you don't)
 			var deckDescs = decks.Select(d => new
-            {
-                deck = d,
-                description = DecodeBlob(d.Kind)
+			{
+				deck = d,
+				description = DecodeBlob(d.Kind)
 			}).ToList();
 			//Filter to find the decks with the tag in its description
-			var resourceKanjiDecks = deckDescs
-                .Where(d => d.description.Contains(resourceKanjiDeckTag, StringComparison.OrdinalIgnoreCase))
-                .Select(d => d.deck)
-                .ToList();
-            //Return the list
-            return resourceKanjiDecks;
+			var taggedDecks = deckDescs
+				.Where(d => d.description.Contains(fullDeckTag, StringComparison.OrdinalIgnoreCase))
+				.Select(d => d.deck)
+				.ToList();
+			//Return the list
+			return taggedDecks;
+		}
+
+		public List<Deck> GetResourceKanjiDecks()
+        {
+            //Get resource kanji deck tag name
+            string deckTagName = AnkiBindingConfig.Bindings.ResourceDecks.Kanji;
+			//Return the decks
+			return GetTaggedDecks(deckTagName);
 		}
 
 	}

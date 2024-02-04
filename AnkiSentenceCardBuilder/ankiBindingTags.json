@@ -1,7 +1,7 @@
 {
 	"deckTag": "deck:",
 	"resourceDecks": {
-		"kanji": "kanjiResource"
+		"kanji": "KanjiResource"
 	},
 	"inputDecks": {
 		"vocab": "vocab",

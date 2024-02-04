@@ -5,7 +5,7 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnkiJapaneseFlashcardManager", "AnkiSentenceCardBuilder\AnkiJapaneseFlashcardManager.csproj", "{92D65620-AD74-4B67-91E5-A62B74960E08}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnkiJapaneseFlashcardManagerTest", "AnkiJapaneseFlashcardManagerTest\AnkiJapaneseFlashcardManagerTest.csproj", "{4BEABD22-02EF-4A2F-9D4F-C5E306ABDBF8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnkiJapaneseFlashcardManagerTests", "AnkiJapaneseFlashcardManagerTest\AnkiJapaneseFlashcardManagerTests.csproj", "{4BEABD22-02EF-4A2F-9D4F-C5E306ABDBF8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
