@@ -1,5 +1,8 @@
 {
-	//Deck Description tag used for grabbing decks to be used as inputs for the main review deck
+	"deckTag": "deck:",
+	"resourceDecks": {
+		"kanji": "KanjiResource"
+	},
 	"inputDecks": {
 		"vocab": "vocab",
 		"grammar": "grammar",
