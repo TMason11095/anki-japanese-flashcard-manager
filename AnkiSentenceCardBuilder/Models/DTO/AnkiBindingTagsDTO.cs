@@ -10,22 +10,22 @@ namespace AnkiJapaneseFlashcardManager.Models.DTO
 	public class AnkiBindingTagsDTO
 	{
 		[JsonProperty("deckTag")]
-		public string DeckTag { get; }
+		public string DeckTag { get; protected set; }
 		[JsonProperty("resourceDecks")]
-		public ResourceDecksDTO ResourceDecks { get; }
+		public ResourceDecksDTO ResourceDecks { get; protected set; }
 		[JsonProperty("newDecks")]
-		public NewDecksDTO NewDecks { get; }
+		public NewDecksDTO NewDecks { get; protected set; }
 	}
 
 	public class ResourceDecksDTO
 	{
 		[JsonProperty("kanji")]
-		public string Kanji { get; }
+		public string Kanji { get; protected set; }
 	}
 
 	public class NewDecksDTO
 	{
 		[JsonProperty("kanji")]
-		public string Kanji { get; }
+		public string Kanji { get; protected set; }
 	}
 }

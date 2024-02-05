@@ -9,6 +9,7 @@ namespace AnkiJapaneseFlashcardManagerTest
 
 		[Theory]
 		[InlineData("empty_kanjiResource_deck.anki2", "KanjiResource")]
+		[InlineData("empty_kanjiResource_newKanji_decks.anki2", "KanjiResource")]
 		[InlineData("empty_random_decks.anki2", "Random")]
 		[InlineData("empty_random_decks.anki2", "RandomResource")]
 		public void Get_decks_by_description_tag(string anki2File, string deckTagName)
@@ -40,6 +41,7 @@ namespace AnkiJapaneseFlashcardManagerTest
 
 		[Theory]
 		[InlineData("empty_kanjiResource_deck.anki2")]
+		[InlineData("empty_kanjiResource_newKanji_decks.anki2")]
 		public void Get_kanji_resource_decks(string anki2File)
 		{
 			//Arange
@@ -64,6 +66,21 @@ namespace AnkiJapaneseFlashcardManagerTest
 
 			//Assert
 			taggedDecks.Should().BeEmpty();
+		}
+
+		[Theory]
+		[InlineData("empty_newKanji_deck.anki2")]
+		[InlineData("empty_kanjiResource_newKanji_decks.anki2")]
+		public void Get_new_kanji_decks(string anki2File)
+		{
+			//Arange
+			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+
+			//Act
+			var taggedDecks = anki2Controller.GetNewKanjiDecks();
+
+			//Assert
+			taggedDecks.Should().NotBeEmpty();
 		}
 	}
 }

@@ -31,6 +31,12 @@
     <None Update="Resources\Anki2 Files\empty_kanjiResource_deck.anki2">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\Anki2 Files\empty_kanjiResource_newKanji_decks.anki2">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Anki2 Files\empty_newKanji_deck.anki2">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\Anki2 Files\empty_random_decks.anki2">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
