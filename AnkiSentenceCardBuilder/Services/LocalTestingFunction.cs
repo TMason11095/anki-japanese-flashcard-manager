@@ -35,8 +35,10 @@ namespace AnkiSentenceCardBuilder.Services
 
             //List<Deck> decks = anki2Controller.GetTable<Deck>();
 
-            //Find the deck id with the kanji binding
-            List<Deck> resourceKanjiDeck = anki2Controller.GetResourceKanjiDecks();
+            //Find the decks with the kanji resource binding
+            List<Deck> resourceKanjiDecks = anki2Controller.GetResourceKanjiDecks();
+			//Find the decks with the new kanji binding
+			List<Deck> newKanjiDecks = anki2Controller.GetNewKanjiDecks();
 
 			//Exit
 			var response = req.CreateResponse(HttpStatusCode.OK);
