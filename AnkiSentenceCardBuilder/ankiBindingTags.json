@@ -3,10 +3,7 @@
 	"resourceDecks": {
 		"kanji": "KanjiResource"
 	},
-	"inputDecks": {
-		"vocab": "vocab",
-		"grammar": "grammar",
-		"kanji": "kanji",
-		"sentence": "sentence"
+	"newDecks": {
+		"kanji": "NewKanji"
 	}
 }

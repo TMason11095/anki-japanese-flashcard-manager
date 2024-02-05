@@ -63,5 +63,12 @@ namespace AnkiSentenceCardBuilder.Controllers
 			return GetTaggedDecks(deckTagName);
 		}
 
+		public List<Deck> GetNewKanjiDecks()
+		{
+			//Get new kanji deck tag name
+			string deckTagName = AnkiBindingConfig.Bindings.NewDecks.Kanji;
+			//Return the decks
+			return GetTaggedDecks(deckTagName);
+		}
 	}
 }
