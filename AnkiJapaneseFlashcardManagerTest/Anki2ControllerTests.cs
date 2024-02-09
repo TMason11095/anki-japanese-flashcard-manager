@@ -82,5 +82,29 @@ namespace AnkiJapaneseFlashcardManagerTest
 			//Assert
 			taggedDecks.Should().NotBeEmpty();
 		}
+
+		public void No_notes_in_a_deck_is_empty(string anki2File, long deckId)
+		{
+			//Arrange
+			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+
+			//Act
+			var notes = anki2Controller.GetDeckNotes(deckId);
+
+			//Assert
+			notes.Should().BeEmpty();
+		}
+
+		public void Get_notes_by_deck_id(string anki2File, long deckId)
+		{
+			//Arrange
+			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+
+			//Act
+			var notes = anki2Controller.GetDeckNotes(deckId);
+
+			//Assert
+			notes.Should().NotBeEmpty();
+		}
 	}
 }

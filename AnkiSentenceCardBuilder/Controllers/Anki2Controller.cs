@@ -32,6 +32,11 @@ namespace AnkiSentenceCardBuilder.Controllers
             return System.Text.Encoding.UTF8.GetString(blob);
 		}
 
+		public List<Note> GetDeckNotes(long deckId)//TODO
+		{
+			return null;
+		}
+
 		public List<Deck> GetTaggedDecks(string deckTagName)
         {
 			//Get the deck tag (prefix for the full tag)
