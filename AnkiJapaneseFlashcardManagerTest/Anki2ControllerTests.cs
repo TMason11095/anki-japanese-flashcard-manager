@@ -116,5 +116,19 @@ namespace AnkiJapaneseFlashcardManagerTest
 			//Assert
 			notes.Should().NotBeEmpty();
 		}
+
+		[Theory]
+		[InlineData("deck_with_different_card_types.anki2", 1707263514556, new[] { 1707263555296, 1707263973429, 1707263567670 })]
+		public void Mulitple_card_entries_of_the_same_note_is_a_distinct_list_of_notes(string anki2File, long deckId, long[] expectedNoteIds)
+		{
+			//Arrange
+			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+
+			//Act
+			var notes = anki2Controller.GetDeckNotes(deckId);
+
+			//Assert
+			notes.Select(n => n.Id).Should().BeEquivalentTo(expectedNoteIds);
+		}
 	}
 }
