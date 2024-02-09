@@ -32,9 +32,14 @@ namespace AnkiSentenceCardBuilder.Controllers
             return System.Text.Encoding.UTF8.GetString(blob);
 		}
 
-		public List<Note> GetDeckNotes(long deckId)//TODO
+		public List<Note> GetDeckNotes(long deckId)
 		{
-			return null;
+			//Return the notes from unique card entries with the given deck id
+			return _context.Cards
+					.Where(c => c.DeckId == deckId) //Grab cards with matching deck id
+					.Distinct() //Filter out duplicate entries
+					.Select(c => c.Note) //Grab the notes
+					.ToList();
 		}
 
 		public List<Deck> GetTaggedDecks(string deckTagName)
