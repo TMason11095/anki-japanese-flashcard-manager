@@ -83,7 +83,14 @@ namespace AnkiJapaneseFlashcardManagerTest
 			taggedDecks.Should().NotBeEmpty();
 		}
 
-		public void No_notes_in_a_deck_is_empty(string anki2File, long deckId)
+		[Theory]
+		[InlineData("empty_random_decks.anki2", 1706982318565)]
+		[InlineData("empty_random_decks.anki2", 1706982351536)]
+		[InlineData("empty_kanjiResource_newKanji_decks.anki2", 1706982318565)]
+		[InlineData("empty_kanjiResource_newKanji_decks.anki2", 1706982351536)]
+		[InlineData("empty_kanjiResource_newKanji_decks.anki2", 1707160682667)]
+		[InlineData("empty_kanjiResource_newKanji_decks.anki2", 1707160947123)]
+		public void No_notes_found_in_a_deck_is_empty(string anki2File, long deckId)
 		{
 			//Arrange
 			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
@@ -95,6 +102,9 @@ namespace AnkiJapaneseFlashcardManagerTest
 			notes.Should().BeEmpty();
 		}
 
+		[Theory]
+		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160947123)]
+		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160682667)]
 		public void Get_notes_by_deck_id(string anki2File, long deckId)
 		{
 			//Arrange
