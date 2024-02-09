@@ -37,8 +37,8 @@ namespace AnkiSentenceCardBuilder.Controllers
 			//Return the notes from unique card entries with the given deck id
 			return _context.Cards
 					.Where(c => c.DeckId == deckId) //Grab cards with matching deck id
-					.Distinct() //Filter out duplicate entries
 					.Select(c => c.Note) //Grab the notes
+					.Distinct() //Filter out duplicate entries
 					.ToList();
 		}
 
