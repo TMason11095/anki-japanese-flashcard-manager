@@ -32,14 +32,14 @@ namespace AnkiSentenceCardBuilder.Controllers
             return System.Text.Encoding.UTF8.GetString(blob);
 		}
 
-        public List<Deck> GetTaggedDecks(string deckTagName)
+		public List<Deck> GetTaggedDecks(string deckTagName)
         {
 			//Get the deck tag (prefix for the full tag)
 			string deckTag = AnkiBindingConfig.Bindings.DeckTag;
 			//Build the full tag
             string fullDeckTag = deckTag + deckTagName;
 			//Get all the decks
-			var decks = _context.Decks;
+			var decks = _context.Decks.Include(d => d.Cards);
 			//Remap to decode the description field (Kind) (Convert to List as the following .Where() tries calling DecodeBlob() and fails if you don't)
 			var deckDescs = decks.Select(d => new
 			{

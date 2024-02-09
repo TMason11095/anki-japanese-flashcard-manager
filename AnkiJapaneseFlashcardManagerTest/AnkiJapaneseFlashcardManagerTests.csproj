@@ -40,6 +40,9 @@
     <None Update="Resources\Anki2 Files\empty_random_decks.anki2">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\Anki2 Files\飲newKanji_食欠人良resourceKanji_decks.anki2">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

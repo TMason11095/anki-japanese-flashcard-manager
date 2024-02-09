@@ -33,10 +33,10 @@ namespace AnkiSentenceCardBuilder.Services
             //Setup db controller
             Anki2Controller anki2Controller = new Anki2Controller(tempDbPath);
 
-            //List<Deck> decks = anki2Controller.GetTable<Deck>();
+			//List<Deck> decks = anki2Controller.GetTable<Deck>();
 
-            //Find the decks with the kanji resource binding
-            List<Deck> resourceKanjiDecks = anki2Controller.GetResourceKanjiDecks();
+			//Find the decks with the kanji resource binding
+			List<Deck> resourceKanjiDecks = anki2Controller.GetResourceKanjiDecks();
 			//Find the decks with the new kanji binding
 			List<Deck> newKanjiDecks = anki2Controller.GetNewKanjiDecks();
 
