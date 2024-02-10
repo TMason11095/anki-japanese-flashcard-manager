@@ -31,6 +31,9 @@
     <None Update="Resources\Anki2 Files\deck_with_different_card_types.anki2">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\Anki2 Files\emptyLearningKanji_飲newKanji_食欠人良resourceKanji_decks.anki2">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\Anki2 Files\empty_kanjiResource_deck.anki2">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

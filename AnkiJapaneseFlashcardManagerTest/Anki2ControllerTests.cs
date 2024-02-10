@@ -84,6 +84,48 @@ namespace AnkiJapaneseFlashcardManagerTest
 		}
 
 		[Theory]
+		[InlineData("empty_random_decks.anki2")]
+		public void No_new_kanji_decks_is_empty(string anki2File)
+		{
+			//Arange
+			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+
+			//Act
+			var learningKanjiDecks = anki2Controller.GetNewKanjiDecks();
+
+			//Assert
+			learningKanjiDecks.Should().BeEmpty();
+		}
+
+		[Theory]
+		[InlineData("emptyLearningKanji_飲newKanji_食欠人良resourceKanji_decks.anki2")]
+		public void Get_learning_kanji_decks(string anki2File)
+		{
+			//Arange
+			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+
+			//Act
+			var learningKanjiDecks = anki2Controller.GetLearningKanjiDecks();
+
+			//Assert
+			learningKanjiDecks.Should().NotBeEmpty();
+		}
+
+		[Theory]
+		[InlineData("empty_random_decks.anki2")]
+		public void No_learning_kanji_decks_is_empty(string anki2File)
+		{
+			//Arange
+			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+
+			//Act
+			var learningKanjiDecks = anki2Controller.GetLearningKanjiDecks();
+
+			//Assert
+			learningKanjiDecks.Should().BeEmpty();
+		}
+
+		[Theory]
 		[InlineData("empty_random_decks.anki2", 1706982318565)]
 		[InlineData("empty_random_decks.anki2", 1706982351536)]
 		[InlineData("empty_kanjiResource_newKanji_decks.anki2", 1706982318565)]
