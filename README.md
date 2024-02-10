@@ -8,7 +8,7 @@ JSON file used to link Anki Tags from the .anki2 file to the program.
 * resourceDecks - Used to map resource decks using the deckTag.
   * kanji - Name of the deck that holds kanji cards that may be components of kanji you're currently learning. (ex. "KanjiResource")
     * Example use of deck: If the kanji 飲 (drink) is in your newDeck and the kanji 食 (food) and 欠 (lack) are in the resourceDeck, then the program will move the resource cards into your newDeck. (The idea of learning the components of a kanji before/while learning the kanji comes from [James Heisig's Remember the Kanji](https://www.goodreads.com/book/show/53499726-remembering-the-kanji).)
-* newDecks - Used to map newDecks (in-between deck for the program to check and see if any additional cards need to be moved from resourceDeck along with it.) using the deckTag. (ex. newDecks)
-  * kanji - Name of the deck that holds new kanji that you're learning. (ex. "NewKanji")
-* learningDecks - Used to map decks you're learning from. (ex. "learningDecks")
-  * kanji - Name of the deck that holds kanji that you're learning. (ex. "learningDecks")
+* newDecks - Used to map newDecks (in-between deck for the program to check and see if any additional cards need to be moved from resourceDeck along with it.) using the deckTag.
+  * kanji - Name of the deck that holds new kanji that you've just started learning or want to learn. (ex. "NewKanji")
+* learningDecks - Used to map decks using the deckTag that you're learning from. (ex. "learningDecks")
+  * kanji - Name of the deck that holds kanji that you're learning. (ex. "LearningDecks")
