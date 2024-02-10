@@ -94,9 +94,10 @@ namespace AnkiSentenceCardBuilder.Controllers
 					.ToList();
 		}
 
-		public List<Note> GetTaggedNotes(List<Note> deckNotes, string noteTagName)//TODO
+		public List<Note> GetTaggedNotes(List<Note> deckNotes, string noteTagName)
 		{
-			return null;
+			//Filter to find the notes that use the specified tag
+			return deckNotes.Where(n => n.TagsList.Exists(t => t.StartsWith(noteTagName))).ToList();
 		}
 
 		public List<Note> GetKanjiNotes(List<Note> deckNotes)//TODO
