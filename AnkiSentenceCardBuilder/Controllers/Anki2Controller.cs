@@ -32,16 +32,6 @@ namespace AnkiSentenceCardBuilder.Controllers
             return System.Text.Encoding.UTF8.GetString(blob);
 		}
 
-		public List<Note> GetDeckNotes(long deckId)
-		{
-			//Return the notes from unique card entries with the given deck id
-			return _context.Cards
-					.Where(c => c.DeckId == deckId) //Grab cards with matching deck id
-					.Select(c => c.Note) //Grab the notes
-					.Distinct() //Filter out duplicate entries
-					.ToList();
-		}
-
 		public List<Deck> GetTaggedDecks(string deckTagName)
         {
 			//Get the deck tag (prefix for the full tag)
@@ -87,6 +77,36 @@ namespace AnkiSentenceCardBuilder.Controllers
 			string deckTagName = AnkiBindingConfig.Bindings.LearningDecks.Kanji;
 			//Return the decks
 			return GetTaggedDecks(deckTagName);
+		}
+
+		public Deck GetDeckById(long deckId)//TODO
+		{
+			return null;
+		}
+
+		public List<Note> GetDeckNotes(long deckId)
+		{
+			//Return the notes from unique card entries with the given deck id
+			return _context.Cards
+					.Where(c => c.DeckId == deckId) //Grab cards with matching deck id
+					.Select(c => c.Note) //Grab the notes
+					.Distinct() //Filter out duplicate entries
+					.ToList();
+		}
+
+		public List<Note> GetTaggedNotes(List<Note> deckNotes, string noteTagName)//TODO
+		{
+			return null;
+		}
+
+		public List<Note> GetKanjiNotes(List<Note> deckNotes)//TODO
+		{
+			return null;
+		}
+
+		public List<long> GetSubKanjiIds(Note kanjiNote)//TODO
+		{
+			return null;
 		}
 	}
 }
