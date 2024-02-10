@@ -12,3 +12,6 @@ JSON file used to link Anki Tags from the .anki2 file to the program.
   * kanji - Name of the deck that holds new kanji that you've just started learning or want to learn. (ex. "NewKanji")
 * learningDecks - Used to map decks using the deckTag that you're learning from.
   * kanji - Name of the deck that holds kanji that you're learning. (ex. "LearningDecks")
+* noteTags - Used to identify the type or use of a note from their tags.  
+![image](https://github.com/TMason11095/anki-japanese-flashcard-manager/assets/134988352/757aeba4-2fba-4660-8d9e-1e48446a790f)
+  * kanjiId - Name of the prefix used to find the kanji's id. (ex. "kid:")
