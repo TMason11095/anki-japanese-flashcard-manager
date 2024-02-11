@@ -79,10 +79,10 @@ namespace AnkiSentenceCardBuilder.Controllers
 			return GetTaggedDecks(deckTagName);
 		}
 
-		public Deck GetDeckById(long deckId)//TODO
-		{
-			return null;
-		}
+		//public Deck GetDeckById(long deckId)//TODO
+		//{
+		//	return null;
+		//}
 
 		public List<Note> GetDeckNotes(long deckId)
 		{
@@ -108,7 +108,17 @@ namespace AnkiSentenceCardBuilder.Controllers
 			return GetTaggedNotes(deckNotes, kanjiTagName);
 		}
 
+		//public Note GetNoteById(long noteId)//TODO
+		//{
+		//	return null;
+		//}
+
 		public List<long> GetSubKanjiIds(Note kanjiNote)//TODO
+		{
+			return null;
+		}
+
+		public List<long> GetSubKanjiIds(List<Note> kanjiNotes)//TODO
 		{
 			return null;
 		}
