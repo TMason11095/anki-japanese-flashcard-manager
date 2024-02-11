@@ -8,5 +8,9 @@
 	},
 	"learningDecks": {
 		"kanji": "LearningKanji"
+	},
+	"noteTags": {
+		"kanjiId": "kid:",
+		"subKanjiId": "skid:"
 	}
 }

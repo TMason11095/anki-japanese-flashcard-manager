@@ -32,16 +32,6 @@ namespace AnkiSentenceCardBuilder.Controllers
             return System.Text.Encoding.UTF8.GetString(blob);
 		}
 
-		public List<Note> GetDeckNotes(long deckId)
-		{
-			//Return the notes from unique card entries with the given deck id
-			return _context.Cards
-					.Where(c => c.DeckId == deckId) //Grab cards with matching deck id
-					.Select(c => c.Note) //Grab the notes
-					.Distinct() //Filter out duplicate entries
-					.ToList();
-		}
-
 		public List<Deck> GetTaggedDecks(string deckTagName)
         {
 			//Get the deck tag (prefix for the full tag)
@@ -87,6 +77,57 @@ namespace AnkiSentenceCardBuilder.Controllers
 			string deckTagName = AnkiBindingConfig.Bindings.LearningDecks.Kanji;
 			//Return the decks
 			return GetTaggedDecks(deckTagName);
+		}
+
+		//public Deck GetDeckById(long deckId)//TODO
+		//{
+		//	return null;
+		//}
+
+		public List<Note> GetDeckNotes(long deckId)
+		{
+			//Return the notes from unique card entries with the given deck id
+			return _context.Cards
+					.Where(c => c.DeckId == deckId) //Grab cards with matching deck id
+					.Select(c => c.Note) //Grab the notes
+					.Distinct() //Filter out duplicate entries
+					.ToList();
+		}
+
+		public List<Note> GetTaggedNotes(List<Note> deckNotes, string noteTagName)
+		{
+			//Filter to find the notes that use the specified tag
+			return deckNotes.Where(n => n.TagsList.Exists(t => t.StartsWith(noteTagName))).ToList();
+		}
+
+		public List<Note> GetKanjiNotes(List<Note> deckNotes)
+		{
+			//Get the kanji note tag name
+			string kanjiTagName = AnkiBindingConfig.Bindings.NoteTags.KanjiId;
+			//Return the tagged notes
+			return GetTaggedNotes(deckNotes, kanjiTagName);
+		}
+
+		//public Note GetNoteById(long noteId)//TODO
+		//{
+		//	return null;
+		//}
+
+		public List<long> GetSubKanjiIds(Note kanjiNote)//TODO
+		{
+			return null;
+		}
+
+		public List<string> GetSubKanjiIds(List<Note> kanjiNotes)
+		{
+			//Get sub kanji id tag
+			string subKanjiIdTag = AnkiBindingConfig.Bindings.NoteTags.SubKanjiId;
+			//Return the sub kanji ids
+			return kanjiNotes.SelectMany(n => n.TagsList)//Get all the note tags
+				.Where(t => t.StartsWith(subKanjiIdTag))//Filter to find the sub kanji id tags
+				.Select(t => t.Substring(subKanjiIdTag.Length))//Get the sub kanji ids
+				.Distinct()//Filter out duplicate entries (Multiple kanji can share the same sub kanji id)
+				.ToList();
 		}
 	}
 }
