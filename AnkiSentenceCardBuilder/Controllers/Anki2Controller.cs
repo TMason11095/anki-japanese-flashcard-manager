@@ -129,5 +129,10 @@ namespace AnkiSentenceCardBuilder.Controllers
 				.Distinct()//Filter out duplicate entries (Multiple kanji can share the same sub kanji id)
 				.ToList();
 		}
+
+		public List<Note> GetNotesByKanjiIds(IEnumerable<Note> kanjiNotes, IEnumerable<string> kanjiIds)
+		{
+			return null;
+		}
 	}
 }
