@@ -10,6 +10,7 @@
 		"kanji": "LearningKanji"
 	},
 	"noteTags": {
-		"kanjiId": "kid:"
+		"kanjiId": "kid:",
+		"subKanjiId": "skid:"
 	}
 }

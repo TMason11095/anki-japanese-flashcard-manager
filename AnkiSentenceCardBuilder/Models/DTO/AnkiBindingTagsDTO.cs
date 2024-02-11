@@ -43,5 +43,7 @@ namespace AnkiJapaneseFlashcardManager.Models.DTO
 	{
 		[JsonProperty("kanjiId")]
 		public string KanjiId { get; protected set; }
+		[JsonProperty("subKanjiId")]
+		public string SubKanjiId { get; protected set; }
 	}
 }

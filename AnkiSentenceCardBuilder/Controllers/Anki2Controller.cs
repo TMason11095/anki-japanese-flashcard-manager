@@ -118,9 +118,16 @@ namespace AnkiSentenceCardBuilder.Controllers
 			return null;
 		}
 
-		public List<long> GetSubKanjiIds(List<Note> kanjiNotes)//TODO
+		public List<string> GetSubKanjiIds(List<Note> kanjiNotes)
 		{
-			return null;
+			//Get sub kanji id tag
+			string subKanjiIdTag = AnkiBindingConfig.Bindings.NoteTags.SubKanjiId;
+			//Return the sub kanji ids
+			return kanjiNotes.SelectMany(n => n.TagsList)//Get all the note tags
+				.Where(t => t.StartsWith(subKanjiIdTag))//Filter to find the sub kanji id tags
+				.Select(t => t.Substring(subKanjiIdTag.Length))//Get the sub kanji ids
+				.Distinct()//Filter out duplicate entries (Multiple kanji can share the same sub kanji id)
+				.ToList();
 		}
 	}
 }
