@@ -132,7 +132,17 @@ namespace AnkiSentenceCardBuilder.Controllers
 
 		public List<Note> GetNotesByKanjiIds(IEnumerable<Note> kanjiNotes, IEnumerable<string> kanjiIds)
 		{
-			return null;
+			//Get kanji id tag
+			string kanjiIdTag = AnkiBindingConfig.Bindings.NoteTags.KanjiId;
+			//Return the kanji notes with matching ids
+			return kanjiNotes.Where(n => GetIdsFromTagList(n.TagsList, kanjiIdTag).Exists(id => kanjiIds.Contains(id))).ToList();
+		}
+
+		public List<string> GetIdsFromTagList(List<string> tagList, string tag)
+		{
+			return tagList.Where(t => t.StartsWith(tag))
+						.Select(t => t.Substring(tag.Length))
+						.ToList();
 		}
 	}
 }
