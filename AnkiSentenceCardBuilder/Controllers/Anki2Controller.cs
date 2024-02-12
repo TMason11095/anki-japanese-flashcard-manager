@@ -122,12 +122,12 @@ namespace AnkiSentenceCardBuilder.Controllers
 		{
 			//Get sub kanji id tag
 			string subKanjiIdTag = AnkiBindingConfig.Bindings.NoteTags.SubKanjiId;
+			//Get all the note tags
+			List<string> allTags = kanjiNotes.SelectMany(n => n.TagsList).ToList();
 			//Return the sub kanji ids
-			return kanjiNotes.SelectMany(n => n.TagsList)//Get all the note tags
-				.Where(t => t.StartsWith(subKanjiIdTag))//Filter to find the sub kanji id tags
-				.Select(t => t.Substring(subKanjiIdTag.Length))//Get the sub kanji ids
-				.Distinct()//Filter out duplicate entries (Multiple kanji can share the same sub kanji id)
-				.ToList();
+			return GetIdsFromTagList(allTags, subKanjiIdTag)
+					.Distinct()//Filter out duplicate entries (Multiple kanji can share the same sub kanji id)
+					.ToList();
 		}
 
 		public List<Note> GetNotesByKanjiIds(IEnumerable<Note> kanjiNotes, IEnumerable<string> kanjiIds)
