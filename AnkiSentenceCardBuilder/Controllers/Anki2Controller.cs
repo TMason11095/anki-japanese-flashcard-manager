@@ -161,5 +161,10 @@ namespace AnkiSentenceCardBuilder.Controllers
 			//Return the full list of all related sub kanji notes
 			return subKanjiNotes;
 		}
+
+		public bool MoveNotesBetweenDecks(IEnumerable<long> noteIds, long newDeckId)//TODO
+		{
+			return false;
+		}
 	}
 }
