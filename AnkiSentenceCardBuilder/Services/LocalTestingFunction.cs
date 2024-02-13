@@ -44,6 +44,18 @@ namespace AnkiSentenceCardBuilder.Services
 
 			//Get notes from the kanji resource decks
 			List<Note> resourceKanjiNotes = resourceKanjiDecks.SelectMany(d => anki2Controller.GetDeckNotes(d.Id)).ToList();
+			//Get notes from the new kanji decks
+			List<Note> newKanjiNotes = newKanjiDecks.SelectMany(d => anki2Controller.GetDeckNotes(d.Id)).ToList();
+
+			//Get sub kanji ids from the new kanji notes
+			List<string> subKanjiIds = anki2Controller.GetSubKanjiIds(newKanjiNotes);
+			//Get kanji notes from the resource kanji decks with matching kanji ids
+			List<Note> subKanjiNotes = anki2Controller.GetNotesByKanjiIds(resourceKanjiNotes, subKanjiIds);
+			//Remove found notes from the resource kanji notes list
+			resourceKanjiNotes = resourceKanjiNotes.Except(subKanjiNotes).ToList();
+			//Recursively call to grab their sub kanji notes
+			List<string> subKanjiIds2 = anki2Controller.GetSubKanjiIds(subKanjiNotes);
+			List<Note> subKanjiNotes2 = anki2Controller.GetNotesByKanjiIds(resourceKanjiNotes, subKanjiIds2);
 
 			//Exit
 			var response = req.CreateResponse(HttpStatusCode.OK);

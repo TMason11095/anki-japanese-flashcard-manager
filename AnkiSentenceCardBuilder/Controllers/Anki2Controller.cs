@@ -2,6 +2,7 @@
 using AnkiSentenceCardBuilder.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -113,10 +114,10 @@ namespace AnkiSentenceCardBuilder.Controllers
 		//	return null;
 		//}
 
-		public List<long> GetSubKanjiIds(Note kanjiNote)//TODO
-		{
-			return null;
-		}
+		//public List<long> GetSubKanjiIds(Note kanjiNote)//TODO
+		//{
+		//	return null;
+		//}
 
 		public List<string> GetSubKanjiIds(List<Note> kanjiNotes)
 		{
@@ -143,6 +144,11 @@ namespace AnkiSentenceCardBuilder.Controllers
 			return tagList.Where(t => t.StartsWith(tag))
 						.Select(t => t.Substring(tag.Length))
 						.ToList();
+		}
+
+		public List<Note> PullAllSubKanjiNotesFromNoteList(ref List<Note> noteList, IEnumerable<Note> originalKanjiNotes)//TODO
+		{
+			return null;
 		}
 	}
 }
