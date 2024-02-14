@@ -182,5 +182,22 @@ namespace AnkiSentenceCardBuilder.Controllers
 			//Return success
 			return true;
 		}
+
+		public IEnumerable<long> GetNoteIdsWithAtLeastInterval(IEnumerable<long> noteIds, int interval)//TODO
+		{
+			return null;
+		}
+
+		/// <summary>
+		/// Get the minimum interval for each note in a list of note ids
+		/// </summary>
+		/// <param name="noteIds"></param>
+		/// <returns>
+		/// Dictionary of note ids to their minimum interval (if a card type that has duplicate notes)
+		/// </returns>
+		//public Dictionary<long, int> GetMinIntervalForEachNote(IEnumerable<long> noteIds)
+		//{
+		//	return null;
+		//}
 	}
 }

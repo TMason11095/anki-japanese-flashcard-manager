@@ -417,5 +417,36 @@ namespace AnkiJapaneseFlashcardManagerTest
 			//anki2Controller.Dispose();
 			//File.Delete(tempInputFilePath);
 		}
+
+		public void Get_note_ids_with_at_least_the_given_interval(string anki2File, long[] noteIds, int interval, long[] expectedNoteIds)
+		{
+			//Arrange
+			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+
+			//Act
+			var noteIdsWithGivenInterval = anki2Controller.GetNoteIdsWithAtLeastInterval(noteIds, interval);
+
+			//Assert
+			noteIdsWithGivenInterval.Should().BeEquivalentTo(expectedNoteIds);
+		}
+
+		//public void Get_minimum_interval_for_each_note(string anki2File, long[] noteIds, int[] expectedIntervals)
+		//{
+		//	//Arrange
+		//	noteIds.Length.Should().Be(expectedIntervals.Length);//Input/output arrays should be the same length
+		//	Dictionary<long, int> expectedNoteIntervals = new Dictionary<long, int>();//Setup the expected dictionary
+		//	for (int i = 0; i < noteIds.Length; i++)//Fill the dictionary using the input note ids and the expected output intervals
+		//	{
+		//		expectedNoteIntervals[noteIds[i]] = expectedIntervals[i];
+		//	}
+		//	Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+
+		//	//Act
+		//	var noteIntervals = anki2Controller.GetMinIntervalForEachNote(noteIds);
+
+		//	//Assert
+		//	noteIntervals.Count().Should().Be(expectedIntervals.Length);//Match length to original array in case the array had duplicate note ids
+		//	noteIntervals.Should().BeEquivalentTo(expectedNoteIntervals);
+		//}
 	}
 }

@@ -75,6 +75,8 @@ namespace AnkiSentenceCardBuilder.Models
 		public long NoteId { get; protected set; }
 		[Column("did")]
 		public long DeckId { get; set; }
+		[Column("ivl")]
+		public int Interval { get; protected set; }
 
 		//Navigation Properties
 		public virtual Deck Deck { get; protected set; }
