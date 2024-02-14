@@ -51,7 +51,9 @@ namespace AnkiSentenceCardBuilder.Services
 			List<Note> newKanjiSubKanjiNotes = anki2Controller.PullAllSubKanjiNotesFromNoteList(ref resourceKanjiNotes, newKanjiNotes);
 
 			//Update the DB to move the pulled notes from the resource kanji decks to the new kanji decks
+			bool movedFromResourceToNewKanji = anki2Controller.MoveNotesBetweenDecks(newKanjiSubKanjiNotes.Select(n => n.Id), newKanjiDecks.Select(d => d.Id).First());
 
+			anki2Controller.Dispose();
 
 			//Exit
 			var response = req.CreateResponse(HttpStatusCode.OK);

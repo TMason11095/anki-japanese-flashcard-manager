@@ -394,7 +394,10 @@ namespace AnkiJapaneseFlashcardManagerTest
 		public void Move_notes_between_decks(string anki2File, long[] noteIdsToMove, long deckIdToMoveTo)
 		{
 			//Arrange
-			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			string originalInputFilePath = _anki2FolderPath + anki2File;
+			string tempInputFilePath = _anki2FolderPath + "temp_" + anki2File;
+			File.Copy(originalInputFilePath, tempInputFilePath, true);//Copy the input file to prevent changes between unit tests
+			Anki2Controller anki2Controller = new Anki2Controller(tempInputFilePath);
 			List<Card> originalNoteDeckJunctions = anki2Controller.GetTable<Card>()
 																.Where(c => noteIdsToMove.Contains(c.NoteId))
 																.ToList();//Grab the current note/deck relations for the give note ids
@@ -409,6 +412,10 @@ namespace AnkiJapaneseFlashcardManagerTest
 																.ToList();//Grab the current note/deck relations for the give note ids after running the function
 			finalNoteDeckJunctions.Count().Should().Be(originalNoteDeckJunctions.Count());//No note/deck relations should have been removed/added
 			finalNoteDeckJunctions.Select(c => c.DeckId).Should().AllBeEquivalentTo(deckIdToMoveTo);//All junction deckIds should be the given deckId
+
+			//Cleanup (Can't delete temp file since the file won't close until after the test ends)
+			//anki2Controller.Dispose();
+			//File.Delete(tempInputFilePath);
 		}
 	}
 }
