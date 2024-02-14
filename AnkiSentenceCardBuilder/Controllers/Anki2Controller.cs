@@ -2,6 +2,7 @@
 using AnkiSentenceCardBuilder.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,8 +10,8 @@ using System.Threading.Tasks;
 
 namespace AnkiSentenceCardBuilder.Controllers
 {
-    public class Anki2Controller
-    {
+    public class Anki2Controller : IDisposable
+	{
         private readonly Anki2Context _context;
 
         public Anki2Controller(Anki2Context context)
@@ -21,8 +22,14 @@ namespace AnkiSentenceCardBuilder.Controllers
         public Anki2Controller(string dbPath) : this(new Anki2Context(dbPath))
         {
         }
-        
-        public List<T> GetTable<T>() where T : class
+
+		public void Dispose()
+		{
+			_context.Dispose();
+		}
+
+
+		public List<T> GetTable<T>() where T : class
         {
             return _context.Set<T>().ToList();
         }
@@ -113,21 +120,67 @@ namespace AnkiSentenceCardBuilder.Controllers
 		//	return null;
 		//}
 
-		public List<long> GetSubKanjiIds(Note kanjiNote)//TODO
-		{
-			return null;
-		}
+		//public List<long> GetSubKanjiIds(Note kanjiNote)//TODO
+		//{
+		//	return null;
+		//}
 
 		public List<string> GetSubKanjiIds(List<Note> kanjiNotes)
 		{
 			//Get sub kanji id tag
 			string subKanjiIdTag = AnkiBindingConfig.Bindings.NoteTags.SubKanjiId;
+			//Get all the note tags
+			List<string> allTags = kanjiNotes.SelectMany(n => n.TagsList).ToList();
 			//Return the sub kanji ids
-			return kanjiNotes.SelectMany(n => n.TagsList)//Get all the note tags
-				.Where(t => t.StartsWith(subKanjiIdTag))//Filter to find the sub kanji id tags
-				.Select(t => t.Substring(subKanjiIdTag.Length))//Get the sub kanji ids
-				.Distinct()//Filter out duplicate entries (Multiple kanji can share the same sub kanji id)
-				.ToList();
+			return GetIdsFromTagList(allTags, subKanjiIdTag)
+					.Distinct()//Filter out duplicate entries (Multiple kanji can share the same sub kanji id)
+					.ToList();
+		}
+
+		public List<Note> GetNotesByKanjiIds(IEnumerable<Note> kanjiNotes, IEnumerable<string> kanjiIds)
+		{
+			//Get kanji id tag
+			string kanjiIdTag = AnkiBindingConfig.Bindings.NoteTags.KanjiId;
+			//Return the kanji notes with matching ids
+			return kanjiNotes.Where(n => GetIdsFromTagList(n.TagsList, kanjiIdTag).Exists(id => kanjiIds.Contains(id))).ToList();
+		}
+
+		public List<string> GetIdsFromTagList(List<string> tagList, string tag)
+		{
+			return tagList.Where(t => t.StartsWith(tag))
+						.Select(t => t.Substring(tag.Length))
+						.ToList();
+		}
+
+		public List<Note> PullAllSubKanjiNotesFromNoteList(ref List<Note> noteList, List<Note> originalKanjiNotes)
+		{
+			//Return empty list if either input list is empty
+			if (originalKanjiNotes.Count == 0 || noteList.Count == 0) { return new List<Note>(); }
+			//Get sub kanji ids from the input original kanji notes
+			List<string> subKanjiIds = GetSubKanjiIds(originalKanjiNotes);
+			//Get kanji notes from the input note list with matching kanji ids
+			List<Note> subKanjiNotes = GetNotesByKanjiIds(noteList, subKanjiIds);
+			//Remove found notes from the input note list
+			noteList = noteList.Except(subKanjiNotes).ToList();
+			//Recursively call to grab any additional sub kanji notes based on the currently pulled kanji notes
+			subKanjiNotes.AddRange(PullAllSubKanjiNotesFromNoteList(ref noteList, subKanjiNotes));
+			//Return the full list of all related sub kanji notes
+			return subKanjiNotes;
+		}
+
+		public bool MoveNotesBetweenDecks(IEnumerable<long> noteIds, long newDeckId)
+		{
+			//Grab all the cards (Note/Deck junction table) with the given note ids
+			var existingCards = _context.Cards.Where(c => noteIds.Contains(c.NoteId));
+			//Update the deck id for each card
+			foreach (var card in existingCards)
+			{
+				card.DeckId = newDeckId;
+			}
+			//Save the changes
+			_context.SaveChanges();
+			//Return success
+			return true;
 		}
 	}
 }

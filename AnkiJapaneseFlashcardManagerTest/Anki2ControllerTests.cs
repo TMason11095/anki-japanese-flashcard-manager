@@ -316,5 +316,106 @@ namespace AnkiJapaneseFlashcardManagerTest
 			//Assert
 			subKanjiIds.Should().BeEquivalentTo(expectedSubKanjiIds);
 		}
+
+		[Theory]
+		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160682667, new[] { "1474" }, new[] { 1707169522144 })]
+		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160947123, new[] { "1472", "466", "951", "1468" }, new[] { 1707169497960, 1707169570657, 1707169983389, 1707170000793 })]
+		public void Get_notes_by_kanji_ids(string anki2File, long deckId, string[] kanjiIds, long[] expectedNoteIds)
+		{
+			//Arrange
+			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			List<Note> notes = anki2Controller.GetDeckNotes(deckId);
+
+			//Redundant? (Filter for "kid:" but then instantly filter again to grab the ids)
+			//(Only care about using GetKanjiNotes() when trying to access data that isn't "kid")
+			//List<Note> kanjiNotes = anki2Controller.GetKanjiNotes(notes);
+
+			//Act
+			List<Note> kanjiNotes = anki2Controller.GetNotesByKanjiIds(notes, kanjiIds);
+
+			//Assert
+			kanjiNotes.Select(n => n.Id).Should().BeEquivalentTo(expectedNoteIds);
+		}
+
+		[Theory]
+		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160682667, new[] { "0", "nonExistentId" })]
+		public void Invalid_kanji_id_is_empty(string anki2File, long deckId, string[] kanjiIds)
+		{
+			//Arrange
+			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			List<Note> notes = anki2Controller.GetDeckNotes(deckId);
+
+			//Act
+			List<Note> kanjiNotes = anki2Controller.GetNotesByKanjiIds(notes, kanjiIds);
+
+			//Assert
+			kanjiNotes.Should().BeEmpty();
+		}
+
+		[Theory]
+		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160947123, 1707160682667, new[] { 1707169497960, 1707169570657, 1707169983389, 1707170000793 })]
+		public void Pull_all_sub_kanji_notes_from_note_list(string anki2File, long sourceDeckId, long originalKanjiDeckId, long[] expectedKanjiNoteIds)
+		{
+			//Arrange
+			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			List<Note> sourceNotes = anki2Controller.GetDeckNotes(sourceDeckId);
+			int sourceNotesOriginalCount = sourceNotes.Count;
+			List<Note> originalKanjiNotes = anki2Controller.GetDeckNotes(originalKanjiDeckId);
+
+			//Act
+			var subKanjiNotes = anki2Controller.PullAllSubKanjiNotesFromNoteList(ref sourceNotes, originalKanjiNotes);
+
+			//Assert
+			sourceNotes.Count.Should().Be(sourceNotesOriginalCount - subKanjiNotes.Count);//Should have removed all the found kanji notes
+			subKanjiNotes.Select(n => n.Id).Should().BeEquivalentTo(expectedKanjiNoteIds);
+		}
+
+		[Theory]
+		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1706982318565, 1707160682667)]
+		 public void Sub_kanji_notes_not_found_in_note_list_is_empty(string anki2File, long sourceDeckId, long originalKanjiDeckId)
+		{
+			//Arrange
+			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			List<Note> sourceNotes = anki2Controller.GetDeckNotes(sourceDeckId);
+			int sourceNotesOriginalCount = sourceNotes.Count;
+			List<Note> originalKanjiNotes = anki2Controller.GetDeckNotes(originalKanjiDeckId);
+
+			//Act
+			var subKanjiNotes = anki2Controller.PullAllSubKanjiNotesFromNoteList(ref sourceNotes, originalKanjiNotes);
+
+			//Assert
+			sourceNotes.Count.Should().Be(sourceNotesOriginalCount);//Should not have removed any kanji notes
+			subKanjiNotes.Should().BeEmpty();
+		}
+
+
+		[Theory]
+		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", new[] { 1707169497960, 1707169570657, 1707169983389, 1707170000793 }, 1707160682667)]
+		public void Move_notes_between_decks(string anki2File, long[] noteIdsToMove, long deckIdToMoveTo)
+		{
+			//Arrange
+			string originalInputFilePath = _anki2FolderPath + anki2File;
+			string tempInputFilePath = _anki2FolderPath + "temp_" + anki2File;
+			File.Copy(originalInputFilePath, tempInputFilePath, true);//Copy the input file to prevent changes between unit tests
+			Anki2Controller anki2Controller = new Anki2Controller(tempInputFilePath);
+			List<Card> originalNoteDeckJunctions = anki2Controller.GetTable<Card>()
+																.Where(c => noteIdsToMove.Contains(c.NoteId))
+																.ToList();//Grab the current note/deck relations for the give note ids
+
+			//Act
+			bool movedNotes = anki2Controller.MoveNotesBetweenDecks(noteIdsToMove, deckIdToMoveTo);
+
+			//Assert
+			movedNotes.Should().BeTrue();//Function completed successfully
+			List<Card> finalNoteDeckJunctions = anki2Controller.GetTable<Card>()
+																.Where(c => noteIdsToMove.Contains(c.NoteId))
+																.ToList();//Grab the current note/deck relations for the give note ids after running the function
+			finalNoteDeckJunctions.Count().Should().Be(originalNoteDeckJunctions.Count());//No note/deck relations should have been removed/added
+			finalNoteDeckJunctions.Select(c => c.DeckId).Should().AllBeEquivalentTo(deckIdToMoveTo);//All junction deckIds should be the given deckId
+
+			//Cleanup (Can't delete temp file since the file won't close until after the test ends)
+			//anki2Controller.Dispose();
+			//File.Delete(tempInputFilePath);
+		}
 	}
 }
