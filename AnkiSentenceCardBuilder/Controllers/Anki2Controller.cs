@@ -183,9 +183,13 @@ namespace AnkiSentenceCardBuilder.Controllers
 			return true;
 		}
 
-		public IEnumerable<long> GetNoteIdsWithAtLeastInterval(IEnumerable<long> noteIds, int interval)//TODO
+		public IEnumerable<long> GetNoteIdsWithAtLeastInterval(IEnumerable<long> noteIds, int interval)
 		{
-			return null;
+			return _context.Cards
+						.Where(c => noteIds.Contains(c.NoteId))//Grab cards with matching note ids
+						.Where(c => c.Interval >= interval)//Filter cards with matching intervals
+						.Select(c => c.NoteId)//Grab the note ids
+						.ToList();//Return the list
 		}
 
 		/// <summary>
