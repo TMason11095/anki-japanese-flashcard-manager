@@ -418,6 +418,10 @@ namespace AnkiJapaneseFlashcardManagerTest
 			//File.Delete(tempInputFilePath);
 		}
 
+		[Theory]
+		[InlineData("emptyLearningKanji_0ivl飲1ivl食欠良5ivl人newKanji_decks.anki2", new[] { 1707169522144, 1707169497960, 1707169570657, 1707170000793, 1707169983389 }, 1, new[] { 1707169497960, 1707169570657, 1707170000793, 1707169983389 })]
+		[InlineData("emptyLearningKanji_0ivl飲1ivl食欠良5ivl人newKanji_decks.anki2", new[] { 1707169522144, 1707169497960, 1707169570657, 1707170000793, 1707169983389 }, 4, new[] { 1707169983389 })]
+		[InlineData("emptyLearningKanji_0ivl飲1ivl食欠良5ivl人newKanji_decks.anki2", new[] { 1707169522144, 1707169497960, 1707169570657, 1707170000793, 1707169983389 }, 5, new[] { 1707169983389 })]
 		public void Get_note_ids_with_at_least_the_given_interval(string anki2File, long[] noteIds, int interval, long[] expectedNoteIds)
 		{
 			//Arrange
@@ -428,6 +432,20 @@ namespace AnkiJapaneseFlashcardManagerTest
 
 			//Assert
 			noteIdsWithGivenInterval.Should().BeEquivalentTo(expectedNoteIds);
+		}
+
+		[Theory]
+		[InlineData("emptyLearningKanji_0ivl飲1ivl食欠良5ivl人newKanji_decks.anki2", new[] { 1707169522144, 1707169497960, 1707169570657, 1707170000793, 1707169983389 }, 7)]
+		public void No_note_ids_with_at_least_the_given_interval_is_empty(string anki2File, long[] noteIds, int interval)
+		{
+			//Arrange
+			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+
+			//Act
+			var noteIdsWithGivenInterval = anki2Controller.GetNoteIdsWithAtLeastInterval(noteIds, interval);
+
+			//Assert
+			noteIdsWithGivenInterval.Should().BeEmpty();
 		}
 
 		//public void Get_minimum_interval_for_each_note(string anki2File, long[] noteIds, int[] expectedIntervals)
