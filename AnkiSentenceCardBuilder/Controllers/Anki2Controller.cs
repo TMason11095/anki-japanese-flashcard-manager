@@ -203,5 +203,10 @@ namespace AnkiSentenceCardBuilder.Controllers
 		//{
 		//	return null;
 		//}
+
+		public IEnumerable<long> GetNoteIdsWithAtLeastKanjiInterval(IEnumerable<long> noteIds)//TODO
+		{
+			return null;
+		}
 	}
 }
