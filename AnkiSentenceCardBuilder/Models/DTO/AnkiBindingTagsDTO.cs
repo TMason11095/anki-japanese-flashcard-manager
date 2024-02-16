@@ -19,6 +19,8 @@ namespace AnkiJapaneseFlashcardManager.Models.DTO
 		public LearningDecksDTO LearningDecks { get; protected set; }
 		[JsonProperty("noteTags")]
 		public NoteTagsDTO NoteTags { get; protected set; }
+		[JsonProperty("noteIntervalLimits")]
+		public NoteIntervalLimitsDTO NoteIntervalLimits { get; protected set; }
 	}
 
 	public class ResourceDecksDTO
@@ -45,5 +47,11 @@ namespace AnkiJapaneseFlashcardManager.Models.DTO
 		public string KanjiId { get; protected set; }
 		[JsonProperty("subKanjiId")]
 		public string SubKanjiId { get; protected set; }
+	}
+
+	public class NoteIntervalLimitsDTO
+	{
+		[JsonProperty("moveFromNewKanji")]
+		public int MoveFromNewKanji { get; protected set; }
 	}
 }

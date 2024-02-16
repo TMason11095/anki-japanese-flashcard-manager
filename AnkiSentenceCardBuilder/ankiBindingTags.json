@@ -12,5 +12,8 @@
 	"noteTags": {
 		"kanjiId": "kid:",
 		"subKanjiId": "skid:"
+	},
+	"noteIntervalLimits": {
+		"moveFromNewKanji": 7
 	}
 }
