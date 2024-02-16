@@ -204,9 +204,12 @@ namespace AnkiSentenceCardBuilder.Controllers
 		//	return null;
 		//}
 
-		public IEnumerable<long> GetNoteIdsWithAtLeastKanjiInterval(IEnumerable<long> noteIds)//TODO
+		public IEnumerable<long> GetNoteIdsWithAtLeastKanjiInterval(IEnumerable<long> noteIds)
 		{
-			return null;
+			//Get the minimum interval for moving newKanji into learningKanji
+			int newKanjiInterval = AnkiBindingConfig.Bindings.NoteIntervalLimits.MoveFromNewKanji;
+			//Return the note ids with the minimum interval
+			return GetNoteIdsWithAtLeastInterval(noteIds, newKanjiInterval);
 		}
 	}
 }
