@@ -16,3 +16,5 @@ JSON file used to link Anki Tags from the .anki2 file to the program.
 ![image](https://github.com/TMason11095/anki-japanese-flashcard-manager/assets/134988352/757aeba4-2fba-4660-8d9e-1e48446a790f)
   * kanjiId - Name of the prefix used to find the kanji's id. (ex. "kid:")
   * subKanjiId - Name of the prefix used to find the kanji's sub kanji id. (ex. "skid:")
+* noteIntervalLimits - A note's minimum number of interval days before the app processes it.
+  * moveFromNewKanji - Minimum interval needed for a kanji note in the newKanji deck to be moved into the learningKanji deck. (ex. 7)
