@@ -211,5 +211,11 @@ namespace AnkiSentenceCardBuilder.Controllers
 			//Return the note ids with the minimum interval
 			return GetNoteIdsWithAtLeastInterval(noteIds, newKanjiInterval);
 		}
+
+		//Move_new_kanji_notes_to_learning_kanji_deck
+		public bool MoveNewKanjiToLearningKanji()//TODO
+		{
+			return false;
+		}
 	}
 }
