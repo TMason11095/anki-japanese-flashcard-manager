@@ -31,6 +31,12 @@
     <None Update="Resources\Anki2 Files\deck_with_different_card_types.anki2">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\Anki2 Files\emptyLearningKanji_0ivl飲1ivl食欠良5ivl人newKanji_decks.anki2">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Anki2 Files\emptyLearningKanji_1ivl飲12ivl良monthsIvl食欠人newKanji_decks.anki2">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\Anki2 Files\emptyLearningKanji_飲newKanji_食欠人良resourceKanji_decks.anki2">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

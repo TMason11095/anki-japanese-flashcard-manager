@@ -31,7 +31,7 @@ namespace AnkiSentenceCardBuilder.Controllers
 
 		public List<T> GetTable<T>() where T : class
         {
-            return _context.Set<T>().ToList();
+            return _context.Set<T>().AsNoTracking().ToList();
         }
 
         private static string DecodeBlob(byte[] blob)
@@ -181,6 +181,53 @@ namespace AnkiSentenceCardBuilder.Controllers
 			_context.SaveChanges();
 			//Return success
 			return true;
+		}
+
+		public IEnumerable<long> GetNoteIdsWithAtLeastInterval(IEnumerable<long> noteIds, int interval)
+		{
+			return _context.Cards
+						.Where(c => noteIds.Contains(c.NoteId))//Grab cards with matching note ids
+						.Where(c => c.Interval >= interval)//Filter cards with matching intervals
+						.Select(c => c.NoteId)//Grab the note ids
+						.ToList();//Return the list
+		}
+
+		/// <summary>
+		/// Get the minimum interval for each note in a list of note ids
+		/// </summary>
+		/// <param name="noteIds"></param>
+		/// <returns>
+		/// Dictionary of note ids to their minimum interval (if a card type that has duplicate notes)
+		/// </returns>
+		//public Dictionary<long, int> GetMinIntervalForEachNote(IEnumerable<long> noteIds)
+		//{
+		//	return null;
+		//}
+
+		public IEnumerable<long> GetNoteIdsWithAtLeastKanjiInterval(IEnumerable<long> noteIds)
+		{
+			//Get the minimum interval for moving newKanji into learningKanji
+			int newKanjiInterval = AnkiBindingConfig.Bindings.NoteIntervalLimits.MoveFromNewKanji;
+			//Return the note ids with the minimum interval
+			return GetNoteIdsWithAtLeastInterval(noteIds, newKanjiInterval);
+		}
+
+		public bool MoveNewKanjiToLearningKanji()
+		{
+			//Get new kanji decks
+			var newKanjiDecks = GetNewKanjiDecks();
+			//Get the new kanji note ids
+			var newKanjiNoteIds = newKanjiDecks.SelectMany(d => GetDeckNotes(d.Id)).Select(n => n.Id).ToList();
+			//Get the new kanji note ids to be moved (based on the minimum interval)
+			var newKanjiNoteIdsToMove = GetNoteIdsWithAtLeastKanjiInterval(newKanjiNoteIds);
+			//Get the learning kanji decks
+			var learningKanjiDecks = GetLearningKanjiDecks();
+			//Fail if no learning kanji decks found
+			if (!learningKanjiDecks.Any()) { return false; }
+			//Get the first learning deck id to move the new kanji notes to
+			var learningKanjiDeckId = learningKanjiDecks.First().Id;
+			//Move the new kanji notes to the learning kanji deck
+			return MoveNotesBetweenDecks(newKanjiNoteIdsToMove, learningKanjiDeckId);
 		}
 	}
 }
