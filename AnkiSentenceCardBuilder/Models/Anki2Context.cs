@@ -81,6 +81,26 @@ namespace AnkiSentenceCardBuilder.Models
 		//Navigation Properties
 		public virtual Deck Deck { get; protected set; }
 		public virtual Note Note { get; protected set; }
+
+		//Override Equals
+		public override bool Equals(object obj)
+		{
+			//Fail if not Card
+			if (obj is null || !(obj is Card otherCard))
+			{
+				return false;
+			}
+
+			return this.Id == otherCard.Id
+				&& this.NoteId == otherCard.NoteId
+				&& this.DeckId == otherCard.DeckId
+				&& this.Interval == otherCard.Interval;
+		}
+		//Override GetHashCode
+		public override int GetHashCode()
+		{
+			return HashCode.Combine(Id, NoteId, DeckId, Interval);
+		}
 	}
 
 	public class Note

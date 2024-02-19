@@ -31,7 +31,7 @@ namespace AnkiSentenceCardBuilder.Controllers
 
 		public List<T> GetTable<T>() where T : class
         {
-            return _context.Set<T>().ToList();
+            return _context.Set<T>().AsNoTracking().ToList();
         }
 
         private static string DecodeBlob(byte[] blob)
@@ -212,10 +212,22 @@ namespace AnkiSentenceCardBuilder.Controllers
 			return GetNoteIdsWithAtLeastInterval(noteIds, newKanjiInterval);
 		}
 
-		//Move_new_kanji_notes_to_learning_kanji_deck
-		public bool MoveNewKanjiToLearningKanji()//TODO
+		public bool MoveNewKanjiToLearningKanji()
 		{
-			return false;
+			//Get new kanji decks
+			var newKanjiDecks = GetNewKanjiDecks();
+			//Get the new kanji note ids
+			var newKanjiNoteIds = newKanjiDecks.SelectMany(d => GetDeckNotes(d.Id)).Select(n => n.Id).ToList();
+			//Get the new kanji note ids to be moved (based on the minimum interval)
+			var newKanjiNoteIdsToMove = GetNoteIdsWithAtLeastKanjiInterval(newKanjiNoteIds);
+			//Get the learning kanji decks
+			var learningKanjiDecks = GetLearningKanjiDecks();
+			//Fail if no learning kanji decks found
+			if (!learningKanjiDecks.Any()) { return false; }
+			//Get the first learning deck id to move the new kanji notes to
+			var learningKanjiDeckId = learningKanjiDecks.First().Id;
+			//Move the new kanji notes to the learning kanji deck
+			return MoveNotesBetweenDecks(newKanjiNoteIdsToMove, learningKanjiDeckId);
 		}
 	}
 }
