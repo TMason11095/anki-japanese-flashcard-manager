@@ -13,7 +13,7 @@ namespace AnkiSentenceCardBuilder.Controllers
 {
     public class Anki2Controller : IDisposable
 	{
-        public readonly Anki2Context _context;
+        private readonly Anki2Context _context;
 
         public Anki2Controller(Anki2Context context)
         {
