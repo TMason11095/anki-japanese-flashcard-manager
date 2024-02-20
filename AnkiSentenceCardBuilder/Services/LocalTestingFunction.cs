@@ -36,14 +36,14 @@ namespace AnkiSentenceCardBuilder.Services
 			//List<Deck> decks = anki2Controller.GetTable<Deck>();
 
 			//Find the decks with the kanji resource binding
-			List<Deck> resourceKanjiDecks = anki2Controller.GetResourceKanjiDecks();
+				List<Deck> resourceKanjiDecks = anki2Controller.GetResourceKanjiDecks();
 			//Find the decks with the new kanji binding
 			List<Deck> newKanjiDecks = anki2Controller.GetNewKanjiDecks();
 			//Find the decks with the learning kanji binding
 			List<Deck> learningKanjiDecks = anki2Controller.GetLearningKanjiDecks();
 
 			//Get notes from the kanji resource decks
-			List<Note> resourceKanjiNotes = resourceKanjiDecks.SelectMany(d => anki2Controller.GetDeckNotes(d.Id)).ToList();
+				List<Note> resourceKanjiNotes = resourceKanjiDecks.SelectMany(d => anki2Controller.GetDeckNotes(d.Id)).ToList();
 			//Get notes from the new kanji decks
 			List<Note> newKanjiNotes = newKanjiDecks.SelectMany(d => anki2Controller.GetDeckNotes(d.Id)).ToList();
 
