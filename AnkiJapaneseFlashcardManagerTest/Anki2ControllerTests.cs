@@ -413,9 +413,9 @@ namespace AnkiJapaneseFlashcardManagerTest
 			finalNoteDeckJunctions.Count().Should().Be(originalNoteDeckJunctions.Count());//No note/deck relations should have been removed/added
 			finalNoteDeckJunctions.Select(c => c.DeckId).Should().AllBeEquivalentTo(deckIdToMoveTo);//All junction deckIds should be the given deckId
 
-			//Cleanup (Can't delete temp file since the file won't close until after the test ends)
-			//anki2Controller.Dispose();
-			//File.Delete(tempInputFilePath);
+			//Cleanup
+			anki2Controller.Dispose();
+			File.Delete(tempInputFilePath);
 		}
 
 		[Theory]
@@ -514,6 +514,10 @@ namespace AnkiJapaneseFlashcardManagerTest
 			changedCards.Select(p => p.OriginalCard.NoteId).Distinct().Should().BeEquivalentTo(expectedNoteIdsToMove);//Original notes should match
 			changedCards.Select(p => p.UpdatedCard.DeckId).Should().AllBeEquivalentTo(expectedToDeckId);//Updated deck id should match
 			changedCards.Select(p => p.UpdatedCard.NoteId).Distinct().Should().BeEquivalentTo(expectedNoteIdsToMove);//Updated notes should match
+
+			//Cleanup
+			anki2Controller.Dispose();
+			File.Delete(tempInputFilePath);
 		}
 
 		[Theory]
@@ -546,6 +550,10 @@ namespace AnkiJapaneseFlashcardManagerTest
 			changedCards.Select(p => p.OriginalCard.NoteId).Distinct().Should().BeEquivalentTo(expectedNoteIdsToMove);//Original notes should match
 			changedCards.Select(p => p.UpdatedCard.DeckId).Should().AllBeEquivalentTo(expectedToDeckId);//Updated deck id should match
 			changedCards.Select(p => p.UpdatedCard.NoteId).Distinct().Should().BeEquivalentTo(expectedNoteIdsToMove);//Updated notes should match
+
+			//Cleanup
+			anki2Controller.Dispose();
+			File.Delete(tempInputFilePath);
 		}
 	}
 }
