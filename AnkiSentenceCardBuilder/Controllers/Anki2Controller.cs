@@ -1,5 +1,6 @@
 ﻿using AnkiJapaneseFlashcardManager.Config;
 using AnkiSentenceCardBuilder.Models;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections;
@@ -12,7 +13,7 @@ namespace AnkiSentenceCardBuilder.Controllers
 {
     public class Anki2Controller : IDisposable
 	{
-        private readonly Anki2Context _context;
+        public readonly Anki2Context _context;
 
         public Anki2Controller(Anki2Context context)
         {
@@ -25,9 +26,9 @@ namespace AnkiSentenceCardBuilder.Controllers
 
 		public void Dispose()
 		{
+			SqliteConnection.ClearPool((SqliteConnection) _context.Database.GetDbConnection());
 			_context.Dispose();
 		}
-
 
 		public List<T> GetTable<T>() where T : class
         {
