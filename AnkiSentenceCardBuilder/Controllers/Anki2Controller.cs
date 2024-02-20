@@ -40,7 +40,7 @@ namespace AnkiSentenceCardBuilder.Controllers
             return System.Text.Encoding.UTF8.GetString(blob);
 		}
 
-		public List<Deck> GetTaggedDecks(string deckTagName)
+		public List<Deck> GetTaggedDecks(string deckTagName)//Deck
         {
 			//Get the deck tag (prefix for the full tag)
 			string deckTag = AnkiBindingConfig.Bindings.DeckTag;
@@ -63,7 +63,7 @@ namespace AnkiSentenceCardBuilder.Controllers
 			return taggedDecks;
 		}
 
-		public List<Deck> GetResourceKanjiDecks()
+		public List<Deck> GetResourceKanjiDecks()//Deck
         {
             //Get resource kanji deck tag name
             string deckTagName = AnkiBindingConfig.Bindings.ResourceDecks.Kanji;
@@ -71,7 +71,7 @@ namespace AnkiSentenceCardBuilder.Controllers
 			return GetTaggedDecks(deckTagName);
 		}
 
-		public List<Deck> GetNewKanjiDecks()
+		public List<Deck> GetNewKanjiDecks()//Deck
 		{
 			//Get new kanji deck tag name
 			string deckTagName = AnkiBindingConfig.Bindings.NewDecks.Kanji;
@@ -84,7 +84,7 @@ namespace AnkiSentenceCardBuilder.Controllers
 			//Get new kanji deck tag name
 			string deckTagName = AnkiBindingConfig.Bindings.LearningDecks.Kanji;
 			//Return the decks
-			return GetTaggedDecks(deckTagName);
+			return GetTaggedDecks(deckTagName);//Deck
 		}
 
 		//public Deck GetDeckById(long deckId)//TODO
