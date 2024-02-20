@@ -229,5 +229,10 @@ namespace AnkiSentenceCardBuilder.Controllers
 			//Move the new kanji notes to the learning kanji deck
 			return MoveNotesBetweenDecks(newKanjiNoteIdsToMove, learningKanjiDeckId);
 		}
+
+		public bool MoveResourceSubKanjiToNewKanji()//TODO
+		{
+			return false;
+		}
 	}
 }
