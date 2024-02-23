@@ -49,7 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ApplicationLayer\DTOs\Config\" />
-    <Folder Include="ApplicationLayer\Interfaces\Services\Management\" />
+    <Folder Include="ApplicationLayer\Interfaces\Services\Managements\" />
     <Folder Include="ApplicationLayer\Services\Managements\" />
     <Folder Include="DataAccessLayer\Contexts\" />
     <Folder Include="DataAccessLayer\Interfaces\Contexts\" />
