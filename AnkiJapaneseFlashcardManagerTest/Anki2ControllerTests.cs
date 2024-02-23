@@ -1,4 +1,5 @@
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
+using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
 using AnkiSentenceCardBuilder.Controllers;
 
 namespace AnkiJapaneseFlashcardManagerTests

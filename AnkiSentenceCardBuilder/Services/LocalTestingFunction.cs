@@ -2,12 +2,12 @@ using System.Net;
 using System.Runtime.InteropServices;
 using AnkiJapaneseFlashcardManager.Config;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
+using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
 using AnkiSentenceCardBuilder.Controllers;
 using Grpc.Core;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
-using Deck = AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts.Deck;
 
 namespace AnkiSentenceCardBuilder.Services
 {
