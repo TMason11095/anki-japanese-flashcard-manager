@@ -1,5 +1,5 @@
-﻿using AnkiSentenceCardBuilder.Controllers;
-using AnkiSentenceCardBuilder.Models;
+﻿using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
+using AnkiSentenceCardBuilder.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AnkiJapaneseFlashcardManagerTests
 {
-	public class Anki2NoteControllerTests
+    public class Anki2NoteControllerTests
 	{
 		//TODO: MOVE TO GLOBAL VARIABLE
 		string _anki2FolderPath = "./Resources/Anki2 Files/";

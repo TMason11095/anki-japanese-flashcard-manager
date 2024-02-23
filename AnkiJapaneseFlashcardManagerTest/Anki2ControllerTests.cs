@@ -1,9 +1,9 @@
+using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
 using AnkiSentenceCardBuilder.Controllers;
-using AnkiSentenceCardBuilder.Models;
 
 namespace AnkiJapaneseFlashcardManagerTests
 {
-	public class Anki2ControllerTests
+    public class Anki2ControllerTests
 	{
 		string _anki2FolderPath = "./Resources/Anki2 Files/";
 
