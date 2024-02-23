@@ -79,12 +79,12 @@ namespace AnkiSentenceCardBuilder.Controllers
 			return GetTaggedDecks(deckTagName);
 		}
 
-		public List<Deck> GetLearningKanjiDecks()
+		public List<Deck> GetLearningKanjiDecks()//Deck
 		{
 			//Get new kanji deck tag name
 			string deckTagName = AnkiBindingConfig.Bindings.LearningDecks.Kanji;
 			//Return the decks
-			return GetTaggedDecks(deckTagName);//Deck
+			return GetTaggedDecks(deckTagName);
 		}
 
 		//public Deck GetDeckById(long deckId)//TODO
@@ -92,7 +92,7 @@ namespace AnkiSentenceCardBuilder.Controllers
 		//	return null;
 		//}
 
-		public List<Note> GetDeckNotes(long deckId)
+		public List<Note> GetDeckNotes(long deckId)//Card(Note)
 		{
 			//Return the notes from unique card entries with the given deck id
 			return _context.Cards
@@ -102,13 +102,13 @@ namespace AnkiSentenceCardBuilder.Controllers
 					.ToList();
 		}
 
-		public List<Note> GetTaggedNotes(List<Note> deckNotes, string noteTagName)
+		public List<Note> GetTaggedNotes(List<Note> deckNotes, string noteTagName)//Note
 		{
 			//Filter to find the notes that use the specified tag
 			return deckNotes.Where(n => n.TagsList.Exists(t => t.StartsWith(noteTagName))).ToList();
 		}
 
-		public List<Note> GetKanjiNotes(List<Note> deckNotes)
+		public List<Note> GetKanjiNotes(List<Note> deckNotes)//Note
 		{
 			//Get the kanji note tag name
 			string kanjiTagName = AnkiBindingConfig.Bindings.NoteTags.KanjiId;
@@ -126,7 +126,7 @@ namespace AnkiSentenceCardBuilder.Controllers
 		//	return null;
 		//}
 
-		public List<string> GetSubKanjiIds(List<Note> kanjiNotes)
+		public List<string> GetSubKanjiIds(List<Note> kanjiNotes)//Note
 		{
 			//Get sub kanji id tag
 			string subKanjiIdTag = AnkiBindingConfig.Bindings.NoteTags.SubKanjiId;
@@ -138,7 +138,7 @@ namespace AnkiSentenceCardBuilder.Controllers
 					.ToList();
 		}
 
-		public List<Note> GetNotesByKanjiIds(IEnumerable<Note> kanjiNotes, IEnumerable<string> kanjiIds)
+		public List<Note> GetNotesByKanjiIds(IEnumerable<Note> kanjiNotes, IEnumerable<string> kanjiIds)//Note
 		{
 			//Get kanji id tag
 			string kanjiIdTag = AnkiBindingConfig.Bindings.NoteTags.KanjiId;
@@ -146,14 +146,14 @@ namespace AnkiSentenceCardBuilder.Controllers
 			return kanjiNotes.Where(n => GetIdsFromTagList(n.TagsList, kanjiIdTag).Exists(id => kanjiIds.Contains(id))).ToList();
 		}
 
-		public List<string> GetIdsFromTagList(List<string> tagList, string tag)
+		public List<string> GetIdsFromTagList(List<string> tagList, string tag)//Note?
 		{
 			return tagList.Where(t => t.StartsWith(tag))
 						.Select(t => t.Substring(tag.Length))
 						.ToList();
 		}
 
-		public List<Note> PullAllSubKanjiNotesFromNoteList(ref List<Note> noteList, List<Note> originalKanjiNotes)
+		public List<Note> PullAllSubKanjiNotesFromNoteList(ref List<Note> noteList, List<Note> originalKanjiNotes)//Note
 		{
 			//Return empty list if either input list is empty
 			if (originalKanjiNotes.Count == 0 || noteList.Count == 0) { return new List<Note>(); }
@@ -169,7 +169,7 @@ namespace AnkiSentenceCardBuilder.Controllers
 			return subKanjiNotes;
 		}
 
-		public bool MoveNotesBetweenDecks(IEnumerable<long> noteIds, long newDeckId)
+		public bool MoveNotesBetweenDecks(IEnumerable<long> noteIds, long newDeckId)//Card(Note)
 		{
 			//Grab all the cards (Note/Deck junction table) with the given note ids
 			var existingCards = _context.Cards.Where(c => noteIds.Contains(c.NoteId));
@@ -184,7 +184,7 @@ namespace AnkiSentenceCardBuilder.Controllers
 			return true;
 		}
 
-		public IEnumerable<long> GetNoteIdsWithAtLeastInterval(IEnumerable<long> noteIds, int interval)
+		public IEnumerable<long> GetNoteIdsWithAtLeastInterval(IEnumerable<long> noteIds, int interval)//Card(Note)
 		{
 			return _context.Cards
 						.Where(c => noteIds.Contains(c.NoteId))//Grab cards with matching note ids
@@ -205,7 +205,7 @@ namespace AnkiSentenceCardBuilder.Controllers
 		//	return null;
 		//}
 
-		public IEnumerable<long> GetNoteIdsWithAtLeastKanjiInterval(IEnumerable<long> noteIds)
+		public IEnumerable<long> GetNoteIdsWithAtLeastKanjiInterval(IEnumerable<long> noteIds)//Card(Note)
 		{
 			//Get the minimum interval for moving newKanji into learningKanji
 			int newKanjiInterval = AnkiBindingConfig.Bindings.NoteIntervalLimits.MoveFromNewKanji;
@@ -213,7 +213,7 @@ namespace AnkiSentenceCardBuilder.Controllers
 			return GetNoteIdsWithAtLeastInterval(noteIds, newKanjiInterval);
 		}
 
-		public bool MoveNewKanjiToLearningKanji()
+		public bool MoveNewKanjiToLearningKanji()//Deck and Card(Note)
 		{
 			//Get new kanji decks
 			var newKanjiDecks = GetNewKanjiDecks();
@@ -231,7 +231,7 @@ namespace AnkiSentenceCardBuilder.Controllers
 			return MoveNotesBetweenDecks(newKanjiNoteIdsToMove, learningKanjiDeckId);
 		}
 
-		public bool MoveResourceSubKanjiToNewKanji()
+		public bool MoveResourceSubKanjiToNewKanji()//Deck and Card(Note)
 		{
 			//Get the kanji resource decks
 			var kanjiResourceDecks = GetResourceKanjiDecks();
