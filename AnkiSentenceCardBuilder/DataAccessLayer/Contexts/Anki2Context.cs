@@ -1,4 +1,5 @@
-﻿using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
+﻿using AnkiJapaneseFlashcardManager.DataAccessLayer.Interfaces.Contexts;
+using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,8 +12,8 @@ using System.Threading.Tasks.Dataflow;
 
 namespace AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts
 {
-    public class Anki2Context : DbContext
-    {
+    public class Anki2Context : DbContext, IAnki2DbContext
+	{
         //android_metadata
         public DbSet<Card> Cards { get; protected set; }
         //col
