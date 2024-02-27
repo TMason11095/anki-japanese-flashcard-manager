@@ -1,4 +1,6 @@
 ﻿using AnkiSentenceCardBuilder.Controllers;
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +18,11 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services.Managements
 		{
 			_anki2Controller = anki2Controller;
 			_kanjiDeckService = new KanjiDeckService(anki2Controller);
+		}
+
+		public void Dispose()
+		{
+			_anki2Controller.Dispose();
 		}
 
 		public bool MoveNewKanjiToLearningKanji()//Deck and Card(Note)

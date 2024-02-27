@@ -47,7 +47,7 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services.Management
 			changedCards.Select(p => p.UpdatedCard.NoteId).Distinct().Should().BeEquivalentTo(expectedNoteIdsToMove);//Updated notes should match
 
 			//Cleanup
-			anki2Controller.Dispose();
+			kanjiServiceManagement.Dispose();
 			File.Delete(tempInputFilePath);
 		}
 
@@ -84,7 +84,7 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services.Management
 			changedCards.Select(p => p.UpdatedCard.NoteId).Distinct().Should().BeEquivalentTo(expectedNoteIdsToMove);//Updated notes should match
 
 			//Cleanup
-			anki2Controller.Dispose();
+			kanjiServiceManagement.Dispose();
 			File.Delete(tempInputFilePath);
 		}
 	}
