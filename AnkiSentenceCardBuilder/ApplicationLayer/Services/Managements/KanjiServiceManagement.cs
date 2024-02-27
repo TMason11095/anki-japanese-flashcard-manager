@@ -27,7 +27,7 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services.Managements
 			//Get the new kanji note ids to be moved (based on the minimum interval)
 			var newKanjiNoteIdsToMove = _anki2Controller.GetNoteIdsWithAtLeastKanjiInterval(newKanjiNoteIds);
 			//Get the learning kanji decks
-			var learningKanjiDecks = _anki2Controller.GetLearningKanjiDecks();
+			var learningKanjiDecks = _kanjiDeckService.GetLearningKanjiDecks();
 			//Fail if no learning kanji decks found
 			if (!learningKanjiDecks.Any()) { return false; }
 			//Get the first learning deck id to move the new kanji notes to
