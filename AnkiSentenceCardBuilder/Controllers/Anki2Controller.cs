@@ -47,8 +47,14 @@ namespace AnkiSentenceCardBuilder.Controllers
 			string deckTag = AnkiBindingConfig.Bindings.DeckTag;
 			//Build the full tag
             string fullDeckTag = deckTag + deckTagName;
+			//Return the tagged decks
+			return GetDecksByDescriptionContaining(fullDeckTag).ToList();
+		}
+
+		public IEnumerable<Deck> GetDecksByDescriptionContaining(string descriptionPart)
+		{
 			//Get all the decks
-			var decks = _context.Decks.Include(d => d.Cards);
+			var decks = _context.Decks;
 			//Remap to decode the description field (Kind) (Convert to List as the following .Where() tries calling DecodeBlob() and fails if you don't)
 			var deckDescs = decks.Select(d => new
 			{
@@ -56,12 +62,11 @@ namespace AnkiSentenceCardBuilder.Controllers
 				description = DecodeBlob(d.Kind)
 			}).ToList();
 			//Filter to find the decks with the tag in its description
-			var taggedDecks = deckDescs
-				.Where(d => d.description.Contains(fullDeckTag, StringComparison.OrdinalIgnoreCase))
-				.Select(d => d.deck)
-				.ToList();
-			//Return the list
-			return taggedDecks;
+			var DecksContaining = deckDescs
+				.Where(d => d.description.Contains(descriptionPart, StringComparison.OrdinalIgnoreCase))
+				.Select(d => d.deck);
+			//Return
+			return DecksContaining;
 		}
 
 		//public Deck GetDeckById(long deckId)//TODO
