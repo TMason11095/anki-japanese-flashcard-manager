@@ -1,7 +1,8 @@
 using System.IO;
 using System.Threading.Tasks;
+using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
+using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
 using AnkiSentenceCardBuilder.Controllers;
-using AnkiSentenceCardBuilder.Models;
 using Azure.Storage.Blobs.Specialized;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;

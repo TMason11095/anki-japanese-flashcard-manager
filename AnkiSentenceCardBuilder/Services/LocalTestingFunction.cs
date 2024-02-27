@@ -1,17 +1,17 @@
 using System.Net;
 using System.Runtime.InteropServices;
 using AnkiJapaneseFlashcardManager.Config;
+using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
+using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
 using AnkiSentenceCardBuilder.Controllers;
-using AnkiSentenceCardBuilder.Models;
 using Grpc.Core;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
-using Deck = AnkiSentenceCardBuilder.Models.Deck;
 
 namespace AnkiSentenceCardBuilder.Services
 {
-	public class LocalTestingFunction
+    public class LocalTestingFunction
 	{
 		private readonly ILogger _logger;
 
