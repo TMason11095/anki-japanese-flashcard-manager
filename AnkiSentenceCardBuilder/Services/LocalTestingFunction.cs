@@ -56,7 +56,7 @@ namespace AnkiSentenceCardBuilder.Services
 			//Update to pull sub kanji notes from the kanji resource decks into the new kanji deck based on the existing new kanji notes
 
 			//Update to pull valid new kanji notes into the learning kanji deck
-			bool movedFromNewKanjiToLearningKanjiDeck = anki2Controller.MoveNewKanjiToLearningKanji();
+			//bool movedFromNewKanjiToLearningKanjiDeck = anki2Controller.MoveNewKanjiToLearningKanji();
 
 			anki2Controller.Dispose();
 
