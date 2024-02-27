@@ -61,9 +61,10 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services.Management
 			File.Copy(originalInputFilePath, tempInputFilePath, true);//Copy the input file to prevent changes between unit tests
 			Anki2Controller anki2Controller = new Anki2Controller(tempInputFilePath);
 			List<Card> allOriginalCards = anki2Controller.GetTable<Card>();
+			KanjiServiceManagement kanjiServiceManagement = new KanjiServiceManagement(anki2Controller);
 
 			//Act
-			bool movedNotes = anki2Controller.MoveResourceSubKanjiToNewKanji();
+			bool movedNotes = kanjiServiceManagement.MoveResourceSubKanjiToNewKanji();
 
 			//Get Assert Values
 			//Get changed cards

@@ -33,5 +33,29 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services.Managements
 			//Move the new kanji notes to the learning kanji deck
 			return _anki2Controller.MoveNotesBetweenDecks(newKanjiNoteIdsToMove, learningKanjiDeckId);
 		}
+
+		public bool MoveResourceSubKanjiToNewKanji()//Deck and Card(Note)
+		{
+			//Get the kanji resource decks
+			var kanjiResourceDecks = _anki2Controller.GetResourceKanjiDecks();
+			//Get the kanji resource notes
+			var kanjiResourceNotes = kanjiResourceDecks.SelectMany(d => _anki2Controller.GetDeckNotes(d.Id)).ToList();
+			//Get the new kanji decks
+			var newKanjiDecks = _anki2Controller.GetNewKanjiDecks();
+			//Fail if no new kanji decks found
+			if (!newKanjiDecks.Any()) { return false; }
+			//Get the new kanji notes
+			var newKanjiNotes = newKanjiDecks.SelectMany(d => _anki2Controller.GetDeckNotes(d.Id)).ToList();
+			//Pull kanji resource notes based on the new kanji sub kanji ids
+			var SubKanjiResourceNotes = _anki2Controller.PullAllSubKanjiNotesFromNoteList(ref kanjiResourceNotes, newKanjiNotes);
+			//Skip if no new kanji sub kanji notes to move
+			if (!SubKanjiResourceNotes.Any()) { return true; }
+			//Get the sub kanji resource note ids
+			var subKanjiResourceNoteIdsToMove = SubKanjiResourceNotes.Select(n => n.Id).ToList();
+			//Get the first new kanji deck id to move the resource kanji notes to
+			var newKanjiDeckId = newKanjiDecks.First().Id;
+			//Move the resource kanji notes to the new kanji deck
+			return _anki2Controller.MoveNotesBetweenDecks(subKanjiResourceNoteIdsToMove, newKanjiDeckId);
+		}
 	}
 }

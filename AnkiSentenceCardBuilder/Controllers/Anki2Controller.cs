@@ -214,28 +214,6 @@ namespace AnkiSentenceCardBuilder.Controllers
 			return GetNoteIdsWithAtLeastInterval(noteIds, newKanjiInterval);
 		}
 
-		public bool MoveResourceSubKanjiToNewKanji()//Deck and Card(Note)
-		{
-			//Get the kanji resource decks
-			var kanjiResourceDecks = GetResourceKanjiDecks();
-			//Get the kanji resource notes
-			var kanjiResourceNotes = kanjiResourceDecks.SelectMany(d => GetDeckNotes(d.Id)).ToList();
-			//Get the new kanji decks
-			var newKanjiDecks = GetNewKanjiDecks();
-			//Fail if no new kanji decks found
-			if (!newKanjiDecks.Any()) { return false; }
-			//Get the new kanji notes
-			var newKanjiNotes = newKanjiDecks.SelectMany(d => GetDeckNotes(d.Id)).ToList();
-			//Pull kanji resource notes based on the new kanji sub kanji ids
-			var SubKanjiResourceNotes = PullAllSubKanjiNotesFromNoteList(ref kanjiResourceNotes, newKanjiNotes);
-			//Skip if no new kanji sub kanji notes to move
-			if (!SubKanjiResourceNotes.Any()) { return true; }
-			//Get the sub kanji resource note ids
-			var subKanjiResourceNoteIdsToMove = SubKanjiResourceNotes.Select(n => n.Id).ToList();
-			//Get the first new kanji deck id to move the resource kanji notes to
-			var newKanjiDeckId = newKanjiDecks.First().Id;
-			//Move the resource kanji notes to the new kanji deck
-			return MoveNotesBetweenDecks(subKanjiResourceNoteIdsToMove, newKanjiDeckId);
-		}
+		
 	}
 }
