@@ -10,22 +10,24 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services.Managements
 	public class KanjiServiceManagement
 	{
 		private readonly Anki2Controller _anki2Controller;
+		private readonly KanjiDeckService _kanjiDeckService;
 
 		public KanjiServiceManagement(Anki2Controller anki2Controller)
 		{
 			_anki2Controller = anki2Controller;
+			_kanjiDeckService = new KanjiDeckService(anki2Controller);
 		}
 
 		public bool MoveNewKanjiToLearningKanji()//Deck and Card(Note)
 		{
 			//Get new kanji decks
-			var newKanjiDecks = _anki2Controller.GetNewKanjiDecks();
+			var newKanjiDecks = _kanjiDeckService.GetNewKanjiDecks();
 			//Get the new kanji note ids
 			var newKanjiNoteIds = newKanjiDecks.SelectMany(d => _anki2Controller.GetDeckNotes(d.Id)).Select(n => n.Id).ToList();
 			//Get the new kanji note ids to be moved (based on the minimum interval)
 			var newKanjiNoteIdsToMove = _anki2Controller.GetNoteIdsWithAtLeastKanjiInterval(newKanjiNoteIds);
 			//Get the learning kanji decks
-			var learningKanjiDecks = _anki2Controller.GetLearningKanjiDecks();
+			var learningKanjiDecks = _kanjiDeckService.GetLearningKanjiDecks();
 			//Fail if no learning kanji decks found
 			if (!learningKanjiDecks.Any()) { return false; }
 			//Get the first learning deck id to move the new kanji notes to
@@ -37,11 +39,11 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services.Managements
 		public bool MoveResourceSubKanjiToNewKanji()//Deck and Card(Note)
 		{
 			//Get the kanji resource decks
-			var kanjiResourceDecks = _anki2Controller.GetResourceKanjiDecks();
+			var kanjiResourceDecks = _kanjiDeckService.GetResourceKanjiDecks();
 			//Get the kanji resource notes
 			var kanjiResourceNotes = kanjiResourceDecks.SelectMany(d => _anki2Controller.GetDeckNotes(d.Id)).ToList();
 			//Get the new kanji decks
-			var newKanjiDecks = _anki2Controller.GetNewKanjiDecks();
+			var newKanjiDecks = _kanjiDeckService.GetNewKanjiDecks();
 			//Fail if no new kanji decks found
 			if (!newKanjiDecks.Any()) { return false; }
 			//Get the new kanji notes
