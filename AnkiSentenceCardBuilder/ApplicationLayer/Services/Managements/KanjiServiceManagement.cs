@@ -21,7 +21,7 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services.Managements
 		public bool MoveNewKanjiToLearningKanji()//Deck and Card(Note)
 		{
 			//Get new kanji decks
-			var newKanjiDecks = _anki2Controller.GetNewKanjiDecks();
+			var newKanjiDecks = _kanjiDeckService.GetNewKanjiDecks();
 			//Get the new kanji note ids
 			var newKanjiNoteIds = newKanjiDecks.SelectMany(d => _anki2Controller.GetDeckNotes(d.Id)).Select(n => n.Id).ToList();
 			//Get the new kanji note ids to be moved (based on the minimum interval)
@@ -43,7 +43,7 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services.Managements
 			//Get the kanji resource notes
 			var kanjiResourceNotes = kanjiResourceDecks.SelectMany(d => _anki2Controller.GetDeckNotes(d.Id)).ToList();
 			//Get the new kanji decks
-			var newKanjiDecks = _anki2Controller.GetNewKanjiDecks();
+			var newKanjiDecks = _kanjiDeckService.GetNewKanjiDecks();
 			//Fail if no new kanji decks found
 			if (!newKanjiDecks.Any()) { return false; }
 			//Get the new kanji notes

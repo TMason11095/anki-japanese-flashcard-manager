@@ -51,9 +51,10 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		{
 			//Arange
 			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			KanjiDeckService kanjiDeckService = new KanjiDeckService(anki2Controller);
 
 			//Act
-			var taggedDecks = anki2Controller.GetNewKanjiDecks();
+			var taggedDecks = kanjiDeckService.GetNewKanjiDecks();
 
 			//Assert
 			taggedDecks.Should().NotBeEmpty();
@@ -65,9 +66,10 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		{
 			//Arange
 			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			KanjiDeckService kanjiDeckService = new KanjiDeckService(anki2Controller);
 
 			//Act
-			var learningKanjiDecks = anki2Controller.GetNewKanjiDecks();
+			var learningKanjiDecks = kanjiDeckService.GetNewKanjiDecks();
 
 			//Assert
 			learningKanjiDecks.Should().BeEmpty();

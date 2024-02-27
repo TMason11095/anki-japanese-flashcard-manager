@@ -25,5 +25,13 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services
 			//Return the decks
 			return _anki2Controller.GetTaggedDecks(deckTagName);
 		}
+
+		public List<Deck> GetNewKanjiDecks()//Deck
+		{
+			//Get new kanji deck tag name
+			string deckTagName = AnkiBindingConfig.Bindings.NewDecks.Kanji;
+			//Return the decks
+			return _anki2Controller.GetTaggedDecks(deckTagName);
+		}
 	}
 }
