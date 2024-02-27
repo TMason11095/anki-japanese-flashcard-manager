@@ -50,6 +50,5 @@
   <ItemGroup>
     <Folder Include="ApplicationLayer\DTOs\Config\" />
     <Folder Include="ApplicationLayer\Interfaces\Services\Managements\" />
-    <Folder Include="ApplicationLayer\Services\Managements\" />
   </ItemGroup>
 </Project>

@@ -58,7 +58,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ApplicationLayer\Services\Managements\" />
     <Folder Include="DataAccessLayer\Repositories\" />
   </ItemGroup>
 
