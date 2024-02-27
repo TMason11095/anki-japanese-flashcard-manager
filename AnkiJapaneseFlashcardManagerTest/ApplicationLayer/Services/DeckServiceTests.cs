@@ -1,4 +1,5 @@
-﻿using AnkiSentenceCardBuilder.Controllers;
+﻿using AnkiJapaneseFlashcardManager.ApplicationLayer.Services;
+using AnkiSentenceCardBuilder.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,9 +22,10 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		{
 			//Arange
 			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			DeckService deckService = new DeckService(anki2Controller);
 
 			//Act
-			var taggedDecks = anki2Controller.GetTaggedDecks(deckTagName);
+			var taggedDecks = deckService.GetTaggedDecks(deckTagName);
 
 			//Assert
 			taggedDecks.Should().NotBeEmpty();
@@ -36,9 +38,10 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		{
 			//Arange
 			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			DeckService deckService = new DeckService(anki2Controller);
 
 			//Act
-			var taggedDecks = anki2Controller.GetTaggedDecks(deckTagName);
+			var taggedDecks = deckService.GetTaggedDecks(deckTagName);
 
 			//Assert
 			taggedDecks.Should().BeEmpty();
