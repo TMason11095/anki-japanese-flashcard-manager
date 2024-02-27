@@ -43,5 +43,34 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 			//Assert
 			taggedDecks.Should().BeEmpty();
 		}
+
+		[Theory]
+		[InlineData("empty_newKanji_deck.anki2")]
+		[InlineData("empty_kanjiResource_newKanji_decks.anki2")]
+		public void Get_new_kanji_decks(string anki2File)//TODO: Refactor to check for expected values
+		{
+			//Arange
+			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+
+			//Act
+			var taggedDecks = anki2Controller.GetNewKanjiDecks();
+
+			//Assert
+			taggedDecks.Should().NotBeEmpty();
+		}
+
+		[Theory]
+		[InlineData("empty_random_decks.anki2")]
+		public void No_new_kanji_decks_is_empty(string anki2File)
+		{
+			//Arange
+			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+
+			//Act
+			var learningKanjiDecks = anki2Controller.GetNewKanjiDecks();
+
+			//Assert
+			learningKanjiDecks.Should().BeEmpty();
+		}
 	}
 }
