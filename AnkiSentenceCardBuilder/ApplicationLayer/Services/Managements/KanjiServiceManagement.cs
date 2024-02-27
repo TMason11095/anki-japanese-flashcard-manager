@@ -10,10 +10,12 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services.Managements
 	public class KanjiServiceManagement
 	{
 		private readonly Anki2Controller _anki2Controller;
+		private readonly KanjiDeckService _kanjiDeckService;
 
 		public KanjiServiceManagement(Anki2Controller anki2Controller)
 		{
 			_anki2Controller = anki2Controller;
+			_kanjiDeckService = new KanjiDeckService(anki2Controller);
 		}
 
 		public bool MoveNewKanjiToLearningKanji()//Deck and Card(Note)
@@ -37,7 +39,7 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services.Managements
 		public bool MoveResourceSubKanjiToNewKanji()//Deck and Card(Note)
 		{
 			//Get the kanji resource decks
-			var kanjiResourceDecks = _anki2Controller.GetResourceKanjiDecks();
+			var kanjiResourceDecks = _kanjiDeckService.GetResourceKanjiDecks();
 			//Get the kanji resource notes
 			var kanjiResourceNotes = kanjiResourceDecks.SelectMany(d => _anki2Controller.GetDeckNotes(d.Id)).ToList();
 			//Get the new kanji decks

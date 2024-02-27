@@ -1,4 +1,5 @@
-﻿using AnkiSentenceCardBuilder.Controllers;
+﻿using AnkiJapaneseFlashcardManager.ApplicationLayer.Services;
+using AnkiSentenceCardBuilder.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,9 +20,10 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		{
 			//Arange
 			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			KanjiDeckService kanjiDeckService = new KanjiDeckService(anki2Controller);
 
 			//Act
-			var taggedDecks = anki2Controller.GetResourceKanjiDecks();
+			var taggedDecks = kanjiDeckService.GetResourceKanjiDecks();
 
 			//Assert
 			taggedDecks.Should().NotBeEmpty();
@@ -33,9 +35,10 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		{
 			//Arange
 			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			KanjiDeckService kanjiDeckService = new KanjiDeckService(anki2Controller);
 
 			//Act
-			var taggedDecks = anki2Controller.GetResourceKanjiDecks();
+			var taggedDecks = kanjiDeckService.GetResourceKanjiDecks();
 
 			//Assert
 			taggedDecks.Should().BeEmpty();
