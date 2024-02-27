@@ -51,7 +51,5 @@
     <Folder Include="ApplicationLayer\DTOs\Config\" />
     <Folder Include="ApplicationLayer\Interfaces\Services\Managements\" />
     <Folder Include="ApplicationLayer\Services\Managements\" />
-    <Folder Include="DataAccessLayer\Repositories\" />
-    <Folder Include="DomainLayer\Interfaces\Repositories\" />
   </ItemGroup>
 </Project>

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AnkiJapaneseFlashcardManager.DataAccessLayer.Interfaces.Contexts
 {
-	public interface IAnki2DbContext
+	public interface IAnki2Context
 	{
 		public DbSet<Card> Cards { get; }
 		public DbSet<Deck> Decks { get; }

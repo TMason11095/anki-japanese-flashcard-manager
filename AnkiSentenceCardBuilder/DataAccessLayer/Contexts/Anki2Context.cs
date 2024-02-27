@@ -12,7 +12,7 @@ using System.Threading.Tasks.Dataflow;
 
 namespace AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts
 {
-    public class Anki2Context : DbContext, IAnki2DbContext
+    public class Anki2Context : DbContext, IAnki2Context
 	{
         //android_metadata
         public DbSet<Card> Cards { get; protected set; }
