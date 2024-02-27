@@ -41,16 +41,6 @@ namespace AnkiSentenceCardBuilder.Controllers
             return System.Text.Encoding.UTF8.GetString(blob);
 		}
 
-		public List<Deck> GetTaggedDecks(string deckTagName)//Deck
-        {
-			//Get the deck tag (prefix for the full tag)
-			string deckTag = AnkiBindingConfig.Bindings.DeckTag;
-			//Build the full tag
-            string fullDeckTag = deckTag + deckTagName;
-			//Return the tagged decks
-			return GetDecksByDescriptionContaining(fullDeckTag).ToList();
-		}
-
 		public IEnumerable<Deck> GetDecksByDescriptionContaining(string descriptionPart)
 		{
 			//Get all the decks

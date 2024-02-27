@@ -9,13 +9,19 @@ using System.Threading.Tasks;
 
 namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services
 {
-	public class KanjiDeckService
+	public class KanjiDeckService : IDisposable
 	{
 		private readonly Anki2Controller _anki2Controller;
+		private readonly DeckService _deckService;
 
 		public KanjiDeckService(Anki2Controller anki2Controller)
 		{
 			_anki2Controller = anki2Controller;
+			_deckService = new DeckService(anki2Controller);
+		}
+		public void Dispose()
+		{
+			_anki2Controller.Dispose();
 		}
 
 		public List<Deck> GetResourceKanjiDecks()//Deck
@@ -23,7 +29,7 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services
 			//Get resource kanji deck tag name
 			string deckTagName = AnkiBindingConfig.Bindings.ResourceDecks.Kanji;
 			//Return the decks
-			return _anki2Controller.GetTaggedDecks(deckTagName);
+			return _deckService.GetTaggedDecks(deckTagName);
 		}
 
 		public List<Deck> GetNewKanjiDecks()//Deck
@@ -31,7 +37,7 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services
 			//Get new kanji deck tag name
 			string deckTagName = AnkiBindingConfig.Bindings.NewDecks.Kanji;
 			//Return the decks
-			return _anki2Controller.GetTaggedDecks(deckTagName);
+			return _deckService.GetTaggedDecks(deckTagName);
 		}
 
 		public List<Deck> GetLearningKanjiDecks()//Deck
@@ -39,7 +45,7 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services
 			//Get new kanji deck tag name
 			string deckTagName = AnkiBindingConfig.Bindings.LearningDecks.Kanji;
 			//Return the decks
-			return _anki2Controller.GetTaggedDecks(deckTagName);
+			return _deckService.GetTaggedDecks(deckTagName);
 		}
 	}
 }
