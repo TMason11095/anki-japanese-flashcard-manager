@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services.Managements
 {
-	public class KanjiServiceManagement
+	public class KanjiServiceManagement : IDisposable
 	{
 		private readonly Anki2Controller _anki2Controller;
 		private readonly KanjiDeckService _kanjiDeckService;
