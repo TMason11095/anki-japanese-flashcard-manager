@@ -24,18 +24,20 @@ namespace AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts
         //graves
         public DbSet<Note> Notes { get; protected set; }
 
-        private string _dbPath { get; }
-
-        public Anki2Context(string dbPath)
+        public Anki2Context(string dbPath) : base(GetOptions(dbPath))
         {
-            _dbPath = dbPath;
         }
 
-        //Override OnConfiguring to use Sqlite
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
+        public Anki2Context(DbContextOptions<Anki2Context> options) : base(options)
         {
-            options.UseSqlite($"Data Source={_dbPath}");
         }
+
+        private static DbContextOptions<Anki2Context> GetOptions(string dbPath)
+        {
+            return new DbContextOptionsBuilder<Anki2Context>()
+				.UseSqlite($"Data Source={dbPath}")
+				.Options;
+		}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

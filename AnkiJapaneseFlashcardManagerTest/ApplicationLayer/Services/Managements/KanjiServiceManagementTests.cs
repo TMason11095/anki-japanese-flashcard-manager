@@ -20,7 +20,7 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services.Management
 		{
 			//Arrange
 			string originalInputFilePath = _anki2FolderPath + anki2File;
-			string tempInputFilePath = _anki2FolderPath + "temp_" + anki2File;
+			string tempInputFilePath = $"{_anki2FolderPath}temp_{Guid.NewGuid()}.anki2";
 			File.Copy(originalInputFilePath, tempInputFilePath, true);//Copy the input file to prevent changes between unit tests
 			Anki2Controller anki2Controller = new Anki2Controller(tempInputFilePath);
 			List<Card> allOriginalCards = anki2Controller.GetTable<Card>();
@@ -57,7 +57,7 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services.Management
 		{
 			//Arrange
 			string originalInputFilePath = _anki2FolderPath + anki2File;
-			string tempInputFilePath = _anki2FolderPath + "temp_" + anki2File;
+			string tempInputFilePath = $"{_anki2FolderPath}temp_{Guid.NewGuid()}.anki2";
 			File.Copy(originalInputFilePath, tempInputFilePath, true);//Copy the input file to prevent changes between unit tests
 			Anki2Controller anki2Controller = new Anki2Controller(tempInputFilePath);
 			List<Card> allOriginalCards = anki2Controller.GetTable<Card>();
