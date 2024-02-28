@@ -28,6 +28,10 @@ namespace AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts
         {
         }
 
+        public Anki2Context(DbContextOptions<Anki2Context> options) : base(options)
+        {
+        }
+
         private static DbContextOptions<Anki2Context> GetOptions(string dbPath)
         {
             return new DbContextOptionsBuilder<Anki2Context>()
