@@ -1,4 +1,5 @@
-﻿using AnkiJapaneseFlashcardManager.Config;
+﻿using AnkiJapaneseFlashcardManager.ApplicationLayer.Helpers;
+using AnkiJapaneseFlashcardManager.Config;
 using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
 using AnkiSentenceCardBuilder.Controllers;
 using System;
@@ -33,7 +34,7 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services
 			//Get all the note tags
 			List<string> allTags = kanjiNotes.SelectMany(n => n.TagsList).ToList();
 			//Return the sub kanji ids
-			return _anki2Controller.GetIdsFromTagList(allTags, subKanjiIdTag)
+			return NoteHelper.GetIdsFromTagList(allTags, subKanjiIdTag)
 					.Distinct()//Filter out duplicate entries (Multiple kanji can share the same sub kanji id)
 					.ToList();
 		}
@@ -65,7 +66,7 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services
 			//Get kanji id tag
 			string kanjiIdTag = AnkiBindingConfig.Bindings.NoteTags.KanjiId;
 			//Return the kanji notes with matching ids
-			return kanjiNotes.Where(n => _anki2Controller.GetIdsFromTagList(n.TagsList, kanjiIdTag).Exists(id => kanjiIds.Contains(id))).ToList();
+			return kanjiNotes.Where(n => NoteHelper.GetIdsFromTagList(n.TagsList, kanjiIdTag).Exists(id => kanjiIds.Contains(id))).ToList();
 		}
 	}
 }
