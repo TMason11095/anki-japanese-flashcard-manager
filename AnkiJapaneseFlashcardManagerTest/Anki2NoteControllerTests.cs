@@ -1,4 +1,5 @@
-﻿using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
+﻿using AnkiJapaneseFlashcardManager.ApplicationLayer.Services;
+using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
 using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
 using AnkiSentenceCardBuilder.Controllers;
 using System;
@@ -53,7 +54,8 @@ namespace AnkiJapaneseFlashcardManagerTests
 			//Arrange
 			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
 			List<Note> deckNotes = anki2Controller.GetDeckNotes(deckId);
-			List<Note> kanjiNotes = anki2Controller.GetKanjiNotes(deckNotes);
+			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
+			List<Note> kanjiNotes = kanjiNoteService.GetKanjiNotes(deckNotes);
 
 			//Act
 			List<string> subKanjiIds = anki2Controller.GetSubKanjiIds(kanjiNotes);
@@ -69,7 +71,8 @@ namespace AnkiJapaneseFlashcardManagerTests
 			//Arrange
 			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
 			List<Note> deckNotes = anki2Controller.GetDeckNotes(deckId);
-			List<Note> kanjiNotes = anki2Controller.GetKanjiNotes(deckNotes);
+			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
+			List<Note> kanjiNotes = kanjiNoteService.GetKanjiNotes(deckNotes);
 
 			//Act
 			List<string> subKanjiIds = anki2Controller.GetSubKanjiIds(kanjiNotes);
@@ -85,7 +88,8 @@ namespace AnkiJapaneseFlashcardManagerTests
 			//Arrange
 			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
 			List<Note> deckNotes = anki2Controller.GetDeckNotes(deckId);
-			List<Note> kanjiNotes = anki2Controller.GetKanjiNotes(deckNotes);
+			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
+			List<Note> kanjiNotes = kanjiNoteService.GetKanjiNotes(deckNotes);
 
 			//Act
 			List<string> subKanjiIds = anki2Controller.GetSubKanjiIds(kanjiNotes);

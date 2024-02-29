@@ -1,4 +1,5 @@
-﻿using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
+﻿using AnkiJapaneseFlashcardManager.ApplicationLayer.Services;
+using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
 using AnkiSentenceCardBuilder.Controllers;
 using System;
 using System.Collections.Generic;
@@ -21,9 +22,10 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 			//Arrange
 			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
 			List<Note> notes = anki2Controller.GetDeckNotes(deckId);
+			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
 
 			//Act
-			var taggedNotes = anki2Controller.GetKanjiNotes(notes);
+			var taggedNotes = kanjiNoteService.GetKanjiNotes(notes);
 
 			//Assert
 			taggedNotes.Select(n => n.Id).Should().BeEquivalentTo(expectedNoteIds);
@@ -36,9 +38,10 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 			//Arrange
 			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
 			List<Note> notes = anki2Controller.GetDeckNotes(deckId);
+			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
 
 			//Act
-			var taggedNotes = anki2Controller.GetKanjiNotes(notes);
+			var taggedNotes = kanjiNoteService.GetKanjiNotes(notes);
 
 			//Assert
 			taggedNotes.Should().BeEmpty();

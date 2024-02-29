@@ -80,14 +80,6 @@ namespace AnkiSentenceCardBuilder.Controllers
 			return deckNotes.Where(n => n.TagsList.Exists(t => t.StartsWith(noteTagName))).ToList();
 		}
 
-		public List<Note> GetKanjiNotes(List<Note> deckNotes)//Note
-		{
-			//Get the kanji note tag name
-			string kanjiTagName = AnkiBindingConfig.Bindings.NoteTags.KanjiId;
-			//Return the tagged notes
-			return GetTaggedNotes(deckNotes, kanjiTagName);
-		}
-
 		//public Note GetNoteById(long noteId)//TODO
 		//{
 		//	return null;
