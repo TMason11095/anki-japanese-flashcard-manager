@@ -26,6 +26,18 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services
 			return _anki2Controller.GetTaggedNotes(deckNotes, kanjiTagName);
 		}
 
+		public List<string> GetSubKanjiIds(List<Note> kanjiNotes)//Note
+		{
+			//Get sub kanji id tag
+			string subKanjiIdTag = AnkiBindingConfig.Bindings.NoteTags.SubKanjiId;
+			//Get all the note tags
+			List<string> allTags = kanjiNotes.SelectMany(n => n.TagsList).ToList();
+			//Return the sub kanji ids
+			return _anki2Controller.GetIdsFromTagList(allTags, subKanjiIdTag)
+					.Distinct()//Filter out duplicate entries (Multiple kanji can share the same sub kanji id)
+					.ToList();
+		}
+
 		public List<Note> PullAllSubKanjiNotesFromNoteList(ref List<Note> noteList, List<Note> originalKanjiNotes)//Note
 		{
 			//Return empty list if either input list is empty

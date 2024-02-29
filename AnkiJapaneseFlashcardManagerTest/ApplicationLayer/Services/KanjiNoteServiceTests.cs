@@ -58,7 +58,7 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 			List<Note> kanjiNotes = kanjiNoteService.GetKanjiNotes(deckNotes);
 
 			//Act
-			List<string> subKanjiIds = anki2Controller.GetSubKanjiIds(kanjiNotes);
+			List<string> subKanjiIds = kanjiNoteService.GetSubKanjiIds(kanjiNotes);
 
 			//Assert
 			subKanjiIds.Should().BeEquivalentTo(expectedSubKanjiIds);
@@ -75,7 +75,7 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 			List<Note> kanjiNotes = kanjiNoteService.GetKanjiNotes(deckNotes);
 
 			//Act
-			List<string> subKanjiIds = anki2Controller.GetSubKanjiIds(kanjiNotes);
+			List<string> subKanjiIds = kanjiNoteService.GetSubKanjiIds(kanjiNotes);
 
 			//Assert
 			subKanjiIds.Should().BeEmpty();
@@ -92,7 +92,7 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 			List<Note> kanjiNotes = kanjiNoteService.GetKanjiNotes(deckNotes);
 
 			//Act
-			List<string> subKanjiIds = anki2Controller.GetSubKanjiIds(kanjiNotes);
+			List<string> subKanjiIds = kanjiNoteService.GetSubKanjiIds(kanjiNotes);
 
 			//Assert
 			subKanjiIds.Should().BeEquivalentTo(expectedSubKanjiIds);
