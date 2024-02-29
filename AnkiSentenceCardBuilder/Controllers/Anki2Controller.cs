@@ -84,13 +84,6 @@ namespace AnkiSentenceCardBuilder.Controllers
 		//	return null;
 		//}
 
-		public List<string> GetIdsFromTagList(List<string> tagList, string tag)//Note?
-		{
-			return tagList.Where(t => t.StartsWith(tag))
-						.Select(t => t.Substring(tag.Length))
-						.ToList();
-		}
-
 		public bool MoveNotesBetweenDecks(IEnumerable<long> noteIds, long newDeckId)//Card(Note)
 		{
 			//Grab all the cards (Note/Deck junction table) with the given note ids

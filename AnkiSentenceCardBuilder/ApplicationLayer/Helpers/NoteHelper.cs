@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Helpers
 {
-	public class NoteHelper
+	public static class NoteHelper
 	{
-
+		public static List<string> GetIdsFromTagList(List<string> tagList, string tag)//Note?
+		{
+			return tagList.Where(t => t.StartsWith(tag))
+						.Select(t => t.Substring(tag.Length))
+						.ToList();
+		}
 	}
 }
