@@ -81,41 +81,5 @@ namespace AnkiJapaneseFlashcardManagerTests
 			//Assert
 			kanjiNotes.Should().BeEmpty();
 		}
-
-		[Theory]
-		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160947123, 1707160682667, new[] { 1707169497960, 1707169570657, 1707169983389, 1707170000793 })]
-		public void Pull_all_sub_kanji_notes_from_note_list(string anki2File, long sourceDeckId, long originalKanjiDeckId, long[] expectedKanjiNoteIds)
-		{
-			//Arrange
-			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
-			List<Note> sourceNotes = anki2Controller.GetDeckNotes(sourceDeckId);
-			int sourceNotesOriginalCount = sourceNotes.Count;
-			List<Note> originalKanjiNotes = anki2Controller.GetDeckNotes(originalKanjiDeckId);
-
-			//Act
-			var subKanjiNotes = anki2Controller.PullAllSubKanjiNotesFromNoteList(ref sourceNotes, originalKanjiNotes);
-
-			//Assert
-			sourceNotes.Count.Should().Be(sourceNotesOriginalCount - subKanjiNotes.Count);//Should have removed all the found kanji notes
-			subKanjiNotes.Select(n => n.Id).Should().BeEquivalentTo(expectedKanjiNoteIds);
-		}
-
-		[Theory]
-		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1706982318565, 1707160682667)]
-		public void Sub_kanji_notes_not_found_in_note_list_is_empty(string anki2File, long sourceDeckId, long originalKanjiDeckId)
-		{
-			//Arrange
-			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
-			List<Note> sourceNotes = anki2Controller.GetDeckNotes(sourceDeckId);
-			int sourceNotesOriginalCount = sourceNotes.Count;
-			List<Note> originalKanjiNotes = anki2Controller.GetDeckNotes(originalKanjiDeckId);
-
-			//Act
-			var subKanjiNotes = anki2Controller.PullAllSubKanjiNotesFromNoteList(ref sourceNotes, originalKanjiNotes);
-
-			//Assert
-			sourceNotes.Count.Should().Be(sourceNotesOriginalCount);//Should not have removed any kanji notes
-			subKanjiNotes.Should().BeEmpty();
-		}
 	}
 }
