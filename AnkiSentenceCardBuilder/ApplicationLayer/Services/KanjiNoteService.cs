@@ -43,7 +43,7 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services
 			//Return empty list if either input list is empty
 			if (originalKanjiNotes.Count == 0 || noteList.Count == 0) { return new List<Note>(); }
 			//Get sub kanji ids from the input original kanji notes
-			List<string> subKanjiIds = _anki2Controller.GetSubKanjiIds(originalKanjiNotes);
+			List<string> subKanjiIds = GetSubKanjiIds(originalKanjiNotes);
 			//Get kanji notes from the input note list with matching kanji ids
 			List<Note> subKanjiNotes = _anki2Controller.GetNotesByKanjiIds(noteList, subKanjiIds);
 			//Remove found notes from the input note list
