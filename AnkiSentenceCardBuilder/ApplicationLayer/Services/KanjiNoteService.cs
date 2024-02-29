@@ -45,7 +45,7 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services
 			//Get sub kanji ids from the input original kanji notes
 			List<string> subKanjiIds = GetSubKanjiIds(originalKanjiNotes);
 			//Get kanji notes from the input note list with matching kanji ids
-			List<Note> subKanjiNotes = _anki2Controller.GetNotesByKanjiIds(noteList, subKanjiIds);
+			List<Note> subKanjiNotes = GetNotesByKanjiIds(noteList, subKanjiIds);
 			//Remove found notes from the input note list
 			noteList = noteList.Except(subKanjiNotes).ToList();
 			//Recursively call to grab any additional sub kanji notes based on the currently pulled kanji notes
@@ -58,6 +58,14 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services
 		{
 			//Filter to find the notes that use the specified tag
 			return deckNotes.Where(n => n.TagsList.Exists(t => t.StartsWith(noteTagName))).ToList();
+		}
+
+		public List<Note> GetNotesByKanjiIds(IEnumerable<Note> kanjiNotes, IEnumerable<string> kanjiIds)//Note
+		{
+			//Get kanji id tag
+			string kanjiIdTag = AnkiBindingConfig.Bindings.NoteTags.KanjiId;
+			//Return the kanji notes with matching ids
+			return kanjiNotes.Where(n => _anki2Controller.GetIdsFromTagList(n.TagsList, kanjiIdTag).Exists(id => kanjiIds.Contains(id))).ToList();
 		}
 	}
 }

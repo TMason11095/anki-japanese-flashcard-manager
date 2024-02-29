@@ -177,6 +177,7 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		{
 			//Arrange
 			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
 			List<Note> notes = anki2Controller.GetDeckNotes(deckId);
 
 			//Redundant? (Filter for "kid:" but then instantly filter again to grab the ids)
@@ -184,7 +185,7 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 			//List<Note> kanjiNotes = anki2Controller.GetKanjiNotes(notes);
 
 			//Act
-			List<Note> kanjiNotes = anki2Controller.GetNotesByKanjiIds(notes, kanjiIds);
+			List<Note> kanjiNotes = kanjiNoteService.GetNotesByKanjiIds(notes, kanjiIds);
 
 			//Assert
 			kanjiNotes.Select(n => n.Id).Should().BeEquivalentTo(expectedNoteIds);
@@ -196,10 +197,11 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		{
 			//Arrange
 			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
 			List<Note> notes = anki2Controller.GetDeckNotes(deckId);
 
 			//Act
-			List<Note> kanjiNotes = anki2Controller.GetNotesByKanjiIds(notes, kanjiIds);
+			List<Note> kanjiNotes = kanjiNoteService.GetNotesByKanjiIds(notes, kanjiIds);
 
 			//Assert
 			kanjiNotes.Should().BeEmpty();
