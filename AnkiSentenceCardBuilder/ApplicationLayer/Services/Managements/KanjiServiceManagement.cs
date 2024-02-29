@@ -13,11 +13,13 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services.Managements
 	{
 		private readonly Anki2Controller _anki2Controller;
 		private readonly KanjiDeckService _kanjiDeckService;
+		private readonly KanjiNoteService _kanjiNoteService;
 
 		public KanjiServiceManagement(Anki2Controller anki2Controller)
 		{
 			_anki2Controller = anki2Controller;
 			_kanjiDeckService = new KanjiDeckService(anki2Controller);
+			_kanjiNoteService = new KanjiNoteService(anki2Controller);
 		}
 
 		public void Dispose()
@@ -56,7 +58,7 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services.Managements
 			//Get the new kanji notes
 			var newKanjiNotes = newKanjiDecks.SelectMany(d => _anki2Controller.GetDeckNotes(d.Id)).ToList();
 			//Pull kanji resource notes based on the new kanji sub kanji ids
-			var SubKanjiResourceNotes = _anki2Controller.PullAllSubKanjiNotesFromNoteList(ref kanjiResourceNotes, newKanjiNotes);
+			var SubKanjiResourceNotes = _kanjiNoteService.PullAllSubKanjiNotesFromNoteList(ref kanjiResourceNotes, newKanjiNotes);
 			//Skip if no new kanji sub kanji notes to move
 			if (!SubKanjiResourceNotes.Any()) { return true; }
 			//Get the sub kanji resource note ids

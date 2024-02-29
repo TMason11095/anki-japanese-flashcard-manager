@@ -104,12 +104,13 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		{
 			//Arrange
 			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
 			List<Note> sourceNotes = anki2Controller.GetDeckNotes(sourceDeckId);
 			int sourceNotesOriginalCount = sourceNotes.Count;
 			List<Note> originalKanjiNotes = anki2Controller.GetDeckNotes(originalKanjiDeckId);
 
 			//Act
-			var subKanjiNotes = anki2Controller.PullAllSubKanjiNotesFromNoteList(ref sourceNotes, originalKanjiNotes);
+			var subKanjiNotes = kanjiNoteService.PullAllSubKanjiNotesFromNoteList(ref sourceNotes, originalKanjiNotes);
 
 			//Assert
 			sourceNotes.Count.Should().Be(sourceNotesOriginalCount - subKanjiNotes.Count);//Should have removed all the found kanji notes
@@ -122,12 +123,13 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		{
 			//Arrange
 			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
 			List<Note> sourceNotes = anki2Controller.GetDeckNotes(sourceDeckId);
 			int sourceNotesOriginalCount = sourceNotes.Count;
 			List<Note> originalKanjiNotes = anki2Controller.GetDeckNotes(originalKanjiDeckId);
 
 			//Act
-			var subKanjiNotes = anki2Controller.PullAllSubKanjiNotesFromNoteList(ref sourceNotes, originalKanjiNotes);
+			var subKanjiNotes = kanjiNoteService.PullAllSubKanjiNotesFromNoteList(ref sourceNotes, originalKanjiNotes);
 
 			//Assert
 			sourceNotes.Count.Should().Be(sourceNotesOriginalCount);//Should not have removed any kanji notes
