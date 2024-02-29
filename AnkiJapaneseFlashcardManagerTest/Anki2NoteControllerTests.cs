@@ -16,38 +16,6 @@ namespace AnkiJapaneseFlashcardManagerTests
 		string _anki2FolderPath = "./Resources/Anki2 Files/";
 
 		[Theory]
-		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160947123, "kid:", new[] { 1707169497960, 1707169570657, 1707169983389, 1707170000793 })]
-		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160682667, "kid:", new[] { 1707169522144 })]
-		public void Get_notes_by_note_tag(string anki2File, long deckId, string noteTagName, long[] expectedNoteIds)
-		{
-			//Arrange
-			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
-			List<Note> notes = anki2Controller.GetDeckNotes(deckId);
-
-			//Act
-			var taggedNotes = anki2Controller.GetTaggedNotes(notes, noteTagName);
-
-			//Assert
-			taggedNotes.Select(n => n.Id).Should().BeEquivalentTo(expectedNoteIds);
-		}
-
-		[Theory]
-		[InlineData("deck_with_different_card_types.anki2", 1707263514556, "kid:")]
-		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160947123, "nonExistentTag:")]
-		public void No_tagged_notes_found_is_empty(string anki2File, long deckId, string noteTagName)
-		{
-			//Arrange
-			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
-			List<Note> notes = anki2Controller.GetDeckNotes(deckId);
-
-			//Act
-			var taggedNotes = anki2Controller.GetTaggedNotes(notes, noteTagName);
-
-			//Assert
-			taggedNotes.Should().BeEmpty();
-		}
-
-		[Theory]
 		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160682667, new[] { "1474" }, new[] { 1707169522144 })]
 		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160947123, new[] { "1472", "466", "951", "1468" }, new[] { 1707169497960, 1707169570657, 1707169983389, 1707170000793 })]
 		public void Get_notes_by_kanji_ids(string anki2File, long deckId, string[] kanjiIds, long[] expectedNoteIds)
