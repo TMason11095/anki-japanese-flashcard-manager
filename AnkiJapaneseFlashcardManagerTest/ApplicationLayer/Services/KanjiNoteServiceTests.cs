@@ -143,10 +143,11 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		{
 			//Arrange
 			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
 			List<Note> notes = anki2Controller.GetDeckNotes(deckId);
 
 			//Act
-			var taggedNotes = anki2Controller.GetTaggedNotes(notes, noteTagName);
+			var taggedNotes = kanjiNoteService.GetTaggedNotes(notes, noteTagName);
 
 			//Assert
 			taggedNotes.Select(n => n.Id).Should().BeEquivalentTo(expectedNoteIds);
@@ -159,10 +160,11 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		{
 			//Arrange
 			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
 			List<Note> notes = anki2Controller.GetDeckNotes(deckId);
 
 			//Act
-			var taggedNotes = anki2Controller.GetTaggedNotes(notes, noteTagName);
+			var taggedNotes = kanjiNoteService.GetTaggedNotes(notes, noteTagName);
 
 			//Assert
 			taggedNotes.Should().BeEmpty();

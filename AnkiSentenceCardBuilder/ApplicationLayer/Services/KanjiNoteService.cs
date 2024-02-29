@@ -23,7 +23,7 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services
 			//Get the kanji note tag name
 			string kanjiTagName = AnkiBindingConfig.Bindings.NoteTags.KanjiId;
 			//Return the tagged notes
-			return _anki2Controller.GetTaggedNotes(deckNotes, kanjiTagName);
+			return GetTaggedNotes(deckNotes, kanjiTagName);
 		}
 
 		public List<string> GetSubKanjiIds(List<Note> kanjiNotes)//Note
@@ -52,6 +52,12 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services
 			subKanjiNotes.AddRange(PullAllSubKanjiNotesFromNoteList(ref noteList, subKanjiNotes));
 			//Return the full list of all related sub kanji notes
 			return subKanjiNotes;
+		}
+
+		public List<Note> GetTaggedNotes(List<Note> deckNotes, string noteTagName)//Note
+		{
+			//Filter to find the notes that use the specified tag
+			return deckNotes.Where(n => n.TagsList.Exists(t => t.StartsWith(noteTagName))).ToList();
 		}
 	}
 }
