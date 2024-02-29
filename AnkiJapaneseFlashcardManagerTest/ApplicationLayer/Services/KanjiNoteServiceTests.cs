@@ -46,5 +46,56 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 			//Assert
 			taggedNotes.Should().BeEmpty();
 		}
+
+		[Theory]
+		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160682667, new[] { "1472", "466" })]
+		public void Get_sub_kanji_ids_from_notes(string anki2File, long deckId, string[] expectedSubKanjiIds)
+		{
+			//Arrange
+			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			List<Note> deckNotes = anki2Controller.GetDeckNotes(deckId);
+			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
+			List<Note> kanjiNotes = kanjiNoteService.GetKanjiNotes(deckNotes);
+
+			//Act
+			List<string> subKanjiIds = anki2Controller.GetSubKanjiIds(kanjiNotes);
+
+			//Assert
+			subKanjiIds.Should().BeEquivalentTo(expectedSubKanjiIds);
+		}
+
+		[Theory]
+		[InlineData("deck_with_different_card_types.anki2", 1707263514556)]
+		public void No_sub_kanji_ids_found_is_empty(string anki2File, long deckId)
+		{
+			//Arrange
+			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			List<Note> deckNotes = anki2Controller.GetDeckNotes(deckId);
+			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
+			List<Note> kanjiNotes = kanjiNoteService.GetKanjiNotes(deckNotes);
+
+			//Act
+			List<string> subKanjiIds = anki2Controller.GetSubKanjiIds(kanjiNotes);
+
+			//Assert
+			subKanjiIds.Should().BeEmpty();
+		}
+
+		[Theory]
+		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160947123, new[] { "1468", "951" })]
+		public void Duplicate_sub_kanji_ids_found_is_a_distinct_list(string anki2File, long deckId, string[] expectedSubKanjiIds)
+		{
+			//Arrange
+			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			List<Note> deckNotes = anki2Controller.GetDeckNotes(deckId);
+			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
+			List<Note> kanjiNotes = kanjiNoteService.GetKanjiNotes(deckNotes);
+
+			//Act
+			List<string> subKanjiIds = anki2Controller.GetSubKanjiIds(kanjiNotes);
+
+			//Assert
+			subKanjiIds.Should().BeEquivalentTo(expectedSubKanjiIds);
+		}
 	}
 }

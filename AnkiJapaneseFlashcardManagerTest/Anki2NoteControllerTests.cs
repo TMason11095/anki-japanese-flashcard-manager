@@ -48,57 +48,6 @@ namespace AnkiJapaneseFlashcardManagerTests
 		}
 
 		[Theory]
-		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160682667, new[] { "1472", "466" })]
-		public void Get_sub_kanji_ids_from_notes(string anki2File, long deckId, string[] expectedSubKanjiIds)
-		{
-			//Arrange
-			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
-			List<Note> deckNotes = anki2Controller.GetDeckNotes(deckId);
-			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
-			List<Note> kanjiNotes = kanjiNoteService.GetKanjiNotes(deckNotes);
-
-			//Act
-			List<string> subKanjiIds = anki2Controller.GetSubKanjiIds(kanjiNotes);
-
-			//Assert
-			subKanjiIds.Should().BeEquivalentTo(expectedSubKanjiIds);
-		}
-
-		[Theory]
-		[InlineData("deck_with_different_card_types.anki2", 1707263514556)]
-		public void No_sub_kanji_ids_found_is_empty(string anki2File, long deckId)
-		{
-			//Arrange
-			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
-			List<Note> deckNotes = anki2Controller.GetDeckNotes(deckId);
-			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
-			List<Note> kanjiNotes = kanjiNoteService.GetKanjiNotes(deckNotes);
-
-			//Act
-			List<string> subKanjiIds = anki2Controller.GetSubKanjiIds(kanjiNotes);
-
-			//Assert
-			subKanjiIds.Should().BeEmpty();
-		}
-
-		[Theory]
-		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160947123, new[] { "1468", "951" })]
-		public void Duplicate_sub_kanji_ids_found_is_a_distinct_list(string anki2File, long deckId, string[] expectedSubKanjiIds)
-		{
-			//Arrange
-			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
-			List<Note> deckNotes = anki2Controller.GetDeckNotes(deckId);
-			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
-			List<Note> kanjiNotes = kanjiNoteService.GetKanjiNotes(deckNotes);
-
-			//Act
-			List<string> subKanjiIds = anki2Controller.GetSubKanjiIds(kanjiNotes);
-
-			//Assert
-			subKanjiIds.Should().BeEquivalentTo(expectedSubKanjiIds);
-		}
-
-		[Theory]
 		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160682667, new[] { "1474" }, new[] { 1707169522144 })]
 		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160947123, new[] { "1472", "466", "951", "1468" }, new[] { 1707169497960, 1707169570657, 1707169983389, 1707170000793 })]
 		public void Get_notes_by_kanji_ids(string anki2File, long deckId, string[] kanjiIds, long[] expectedNoteIds)
