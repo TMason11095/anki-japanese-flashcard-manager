@@ -15,10 +15,10 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services.Managements
 		private readonly KanjiDeckService _kanjiDeckService;
 		private readonly KanjiNoteService _kanjiNoteService;
 
-		public KanjiServiceManagement(Anki2Controller anki2Controller)
+		public KanjiServiceManagement(Anki2Controller anki2Controller, KanjiDeckService kanjiDeckService)
 		{
 			_anki2Controller = anki2Controller;
-			_kanjiDeckService = new KanjiDeckService(anki2Controller);
+			_kanjiDeckService = kanjiDeckService;
 			_kanjiNoteService = new KanjiNoteService(anki2Controller);
 		}
 

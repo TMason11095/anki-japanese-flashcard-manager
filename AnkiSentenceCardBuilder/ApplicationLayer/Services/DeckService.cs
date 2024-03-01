@@ -1,4 +1,5 @@
 ﻿using AnkiJapaneseFlashcardManager.Config;
+using AnkiJapaneseFlashcardManager.DataAccessLayer.Repositories;
 using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
 using AnkiSentenceCardBuilder.Controllers;
 using System;
@@ -11,11 +12,11 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services
 {
 	public class DeckService
 	{
-		private readonly Anki2Controller _anki2Controller;
+		private readonly DeckRepository _deckRepository;
 
-		public DeckService(Anki2Controller anki2Controller)
+		public DeckService(DeckRepository deckRepository)
 		{
-			_anki2Controller = anki2Controller;
+			_deckRepository = deckRepository;
 		}
 
 		public List<Deck> GetTaggedDecks(string deckTagName)//Deck
@@ -25,7 +26,7 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services
 			//Build the full tag
 			string fullDeckTag = deckTag + deckTagName;
 			//Return the tagged decks
-			return _anki2Controller.GetDecksByDescriptionContaining(fullDeckTag).ToList();
+			return _deckRepository.GetDecksByDescriptionContaining(fullDeckTag).ToList();
 		}
 	}
 }

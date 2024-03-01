@@ -1,4 +1,6 @@
 ﻿using AnkiJapaneseFlashcardManager.ApplicationLayer.Services;
+using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
+using AnkiJapaneseFlashcardManager.DataAccessLayer.Repositories;
 using AnkiSentenceCardBuilder.Controllers;
 using System;
 using System.Collections.Generic;
@@ -19,8 +21,9 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		public void Get_kanji_resource_decks(string anki2File)//TODO: Refactor to check for expected values
 		{
 			//Arange
-			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
-			KanjiDeckService kanjiDeckService = new KanjiDeckService(anki2Controller);
+			Anki2Context anki2Context = new Anki2Context(_anki2FolderPath + anki2File);
+			DeckService deckService = new DeckService(new DeckRepository(anki2Context));
+			KanjiDeckService kanjiDeckService = new KanjiDeckService(deckService);
 
 			//Act
 			var taggedDecks = kanjiDeckService.GetResourceKanjiDecks();
@@ -34,8 +37,9 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		public void No_kanji_resource_decks_is_empty(string anki2File)
 		{
 			//Arange
-			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
-			KanjiDeckService kanjiDeckService = new KanjiDeckService(anki2Controller);
+			Anki2Context anki2Context = new Anki2Context(_anki2FolderPath + anki2File);
+			DeckService deckService = new DeckService(new DeckRepository(anki2Context));
+			KanjiDeckService kanjiDeckService = new KanjiDeckService(deckService);
 
 			//Act
 			var taggedDecks = kanjiDeckService.GetResourceKanjiDecks();
@@ -50,8 +54,9 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		public void Get_new_kanji_decks(string anki2File)//TODO: Refactor to check for expected values
 		{
 			//Arange
-			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
-			KanjiDeckService kanjiDeckService = new KanjiDeckService(anki2Controller);
+			Anki2Context anki2Context = new Anki2Context(_anki2FolderPath + anki2File);
+			DeckService deckService = new DeckService(new DeckRepository(anki2Context));
+			KanjiDeckService kanjiDeckService = new KanjiDeckService(deckService);
 
 			//Act
 			var taggedDecks = kanjiDeckService.GetNewKanjiDecks();
@@ -65,8 +70,9 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		public void No_new_kanji_decks_is_empty(string anki2File)
 		{
 			//Arange
-			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
-			KanjiDeckService kanjiDeckService = new KanjiDeckService(anki2Controller);
+			Anki2Context anki2Context = new Anki2Context(_anki2FolderPath + anki2File);
+			DeckService deckService = new DeckService(new DeckRepository(anki2Context));
+			KanjiDeckService kanjiDeckService = new KanjiDeckService(deckService);
 
 			//Act
 			var learningKanjiDecks = kanjiDeckService.GetNewKanjiDecks();
@@ -80,8 +86,9 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		public void Get_learning_kanji_decks(string anki2File)//TODO: Refactor to check for expected values
 		{
 			//Arange
-			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
-			KanjiDeckService kanjiDeckService = new KanjiDeckService(anki2Controller);
+			Anki2Context anki2Context = new Anki2Context(_anki2FolderPath + anki2File);
+			DeckService deckService = new DeckService(new DeckRepository(anki2Context));
+			KanjiDeckService kanjiDeckService = new KanjiDeckService(deckService);
 
 			//Act
 			var learningKanjiDecks = kanjiDeckService.GetLearningKanjiDecks();
@@ -95,8 +102,9 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		public void No_learning_kanji_decks_is_empty(string anki2File)
 		{
 			//Arange
-			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
-			KanjiDeckService kanjiDeckService = new KanjiDeckService(anki2Controller);
+			Anki2Context anki2Context = new Anki2Context(_anki2FolderPath + anki2File);
+			DeckService deckService = new DeckService(new DeckRepository(anki2Context));
+			KanjiDeckService kanjiDeckService = new KanjiDeckService(deckService);
 
 			//Act
 			var learningKanjiDecks = kanjiDeckService.GetLearningKanjiDecks();

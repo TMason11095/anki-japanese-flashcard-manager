@@ -11,17 +11,15 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services
 {
 	public class KanjiDeckService : IDisposable
 	{
-		private readonly Anki2Controller _anki2Controller;
 		private readonly DeckService _deckService;
 
-		public KanjiDeckService(Anki2Controller anki2Controller)
+		public KanjiDeckService(DeckService deckService)
 		{
-			_anki2Controller = anki2Controller;
-			_deckService = new DeckService(anki2Controller);
+			_deckService = deckService;
 		}
 		public void Dispose()
 		{
-			_anki2Controller.Dispose();
+			//_anki2Controller.Dispose();
 		}
 
 		public List<Deck> GetResourceKanjiDecks()//Deck

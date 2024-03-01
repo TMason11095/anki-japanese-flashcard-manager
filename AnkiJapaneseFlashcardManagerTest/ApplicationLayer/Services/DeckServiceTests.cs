@@ -1,4 +1,6 @@
 ﻿using AnkiJapaneseFlashcardManager.ApplicationLayer.Services;
+using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
+using AnkiJapaneseFlashcardManager.DataAccessLayer.Repositories;
 using AnkiSentenceCardBuilder.Controllers;
 using System;
 using System.Collections.Generic;
@@ -21,8 +23,8 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		public void Get_decks_by_description_tag(string anki2File, string deckTagName)//TODO: Refactor to check for expected values
 		{
 			//Arange
-			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
-			DeckService deckService = new DeckService(anki2Controller);
+			Anki2Context anki2Context = new Anki2Context(_anki2FolderPath + anki2File);
+			DeckService deckService = new DeckService(new DeckRepository(anki2Context));
 
 			//Act
 			var taggedDecks = deckService.GetTaggedDecks(deckTagName);
@@ -37,8 +39,8 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		public void No_decks_with_matching_description_tag_is_empty(string anki2File, string deckTagName)
 		{
 			//Arange
-			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
-			DeckService deckService = new DeckService(anki2Controller);
+			Anki2Context anki2Context = new Anki2Context(_anki2FolderPath + anki2File);
+			DeckService deckService = new DeckService(new DeckRepository(anki2Context));
 
 			//Act
 			var taggedDecks = deckService.GetTaggedDecks(deckTagName);
