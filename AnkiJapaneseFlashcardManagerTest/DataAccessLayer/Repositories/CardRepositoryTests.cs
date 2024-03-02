@@ -19,15 +19,15 @@ namespace Tests.DataAccessLayer.Repositories
 
 		[Theory]
 		//Test case: Note ids found
-		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160947123, new long[] { 1707169497960, 1707169570657, 1707169983389, 1707170000793 })]
-		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160682667, new long[] { 1707169522144 })]
+		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160947123, new[] { 1707169497960, 1707169570657, 1707169983389, 1707170000793 })]
+		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160682667, new[] { 1707169522144 })]
 		//Test case: No note ids found
-		[InlineData("empty_random_decks.anki2", 1706982318565, new long[] { })]
-		[InlineData("empty_random_decks.anki2", 1706982351536, new long[] { })]
-		[InlineData("empty_kanjiResource_newKanji_decks.anki2", 1706982318565, new long[] { })]
-		[InlineData("empty_kanjiResource_newKanji_decks.anki2", 1706982351536, new long[] { })]
-		[InlineData("empty_kanjiResource_newKanji_decks.anki2", 1707160682667, new long[] { })]
-		[InlineData("empty_kanjiResource_newKanji_decks.anki2", 1707160947123, new long[] { })]
+		[InlineData("empty_random_decks.anki2", 1706982318565, new long[0])]
+		[InlineData("empty_random_decks.anki2", 1706982351536, new long[0])]
+		[InlineData("empty_kanjiResource_newKanji_decks.anki2", 1706982318565, new long[0])]
+		[InlineData("empty_kanjiResource_newKanji_decks.anki2", 1706982351536, new long[0])]
+		[InlineData("empty_kanjiResource_newKanji_decks.anki2", 1707160682667, new long[0])]
+		[InlineData("empty_kanjiResource_newKanji_decks.anki2", 1707160947123, new long[0])]
 		//Test case: Duplicate note ids found is a distinct list
 		[InlineData("deck_with_different_card_types.anki2", 1707263514556, new[] { 1707263555296, 1707263973429, 1707263567670 })]
 		public void Get_notes_by_deck_id(string anki2File, long deckId, long[] expectedNoteIds)
@@ -91,8 +91,8 @@ namespace Tests.DataAccessLayer.Repositories
 		}
 
 		[Theory]
-		[InlineData("emptyLearningKanji_0ivl飲1ivl食欠良5ivl人newKanji_decks.anki2", new[] { 1707169522144, 1707169497960, 1707169570657, 1707170000793, 1707169983389 }, 7)]
-		public void No_note_ids_found_with_at_least_the_given_interval_is_empty(string anki2File, long[] noteIds, int interval)//Refactor: Merge with Get_note_ids_with_at_least_the_given_interval()
+		[InlineData("emptyLearningKanji_0ivl飲1ivl食欠良5ivl人newKanji_decks.anki2", new[] { 1707169522144, 1707169497960, 1707169570657, 1707170000793, 1707169983389 }, 7, new long[] { })]
+		public void No_note_ids_found_with_at_least_the_given_interval_is_empty(string anki2File, long[] noteIds, int interval, long[] expectedNoteIds)
 		{
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
@@ -102,7 +102,7 @@ namespace Tests.DataAccessLayer.Repositories
 			var noteIdsWithGivenInterval = cardRepo.GetNoteIdsWithAtLeastInterval(noteIds, interval);
 
 			//Assert
-			noteIdsWithGivenInterval.Should().BeEmpty();
+			noteIdsWithGivenInterval.Should().BeEquivalentTo(expectedNoteIds);
 		}
 	}
 }
