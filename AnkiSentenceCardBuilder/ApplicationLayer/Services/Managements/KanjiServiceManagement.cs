@@ -42,7 +42,7 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services.Managements
 			//Get the first learning deck id to move the new kanji notes to
 			var learningKanjiDeckId = learningKanjiDecks.First().Id;
 			//Move the new kanji notes to the learning kanji deck
-			return _anki2Controller.MoveNotesBetweenDecks(newKanjiNoteIdsToMove, learningKanjiDeckId);
+			return _cardRepository.MoveNotesBetweenDecks(newKanjiNoteIdsToMove, learningKanjiDeckId);
 		}
 
 		public bool MoveResourceSubKanjiToNewKanji()//Deck and Card(Note)
@@ -66,7 +66,7 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services.Managements
 			//Get the first new kanji deck id to move the resource kanji notes to
 			var newKanjiDeckId = newKanjiDecks.First().Id;
 			//Move the resource kanji notes to the new kanji deck
-			return _anki2Controller.MoveNotesBetweenDecks(subKanjiResourceNoteIdsToMove, newKanjiDeckId);
+			return _cardRepository.MoveNotesBetweenDecks(subKanjiResourceNoteIdsToMove, newKanjiDeckId);
 		}
 	}
 }

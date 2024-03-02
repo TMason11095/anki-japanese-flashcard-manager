@@ -80,12 +80,13 @@ namespace AnkiJapaneseFlashcardManagerTests.DataAccessLayer.Repositories
 			File.Copy(originalInputFilePath, tempInputFilePath, true);//Copy the input file to prevent changes between unit tests
 			Anki2Context dbContext = new Anki2Context(tempInputFilePath);
 			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
+			CardRepository cardRepo = new CardRepository(dbContext);
 			List<Card> originalNoteDeckJunctions = anki2Controller.GetTable<Card>()
 																.Where(c => noteIdsToMove.Contains(c.NoteId))
 																.ToList();//Grab the current note/deck relations for the give note ids
 
 			//Act
-			bool movedNotes = anki2Controller.MoveNotesBetweenDecks(noteIdsToMove, deckIdToMoveTo);
+			bool movedNotes = cardRepo.MoveNotesBetweenDecks(noteIdsToMove, deckIdToMoveTo);
 
 			//Assert
 			movedNotes.Should().BeTrue();//Function completed successfully

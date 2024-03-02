@@ -41,21 +41,6 @@ namespace AnkiSentenceCardBuilder.Controllers
 		//	return null;
 		//}
 
-		public bool MoveNotesBetweenDecks(IEnumerable<long> noteIds, long newDeckId)//Card(Note)
-		{
-			//Grab all the cards (Note/Deck junction table) with the given note ids
-			var existingCards = _context.Cards.Where(c => noteIds.Contains(c.NoteId));
-			//Update the deck id for each card
-			foreach (var card in existingCards)
-			{
-				card.DeckId = newDeckId;
-			}
-			//Save the changes
-			_context.SaveChanges();
-			//Return success
-			return true;
-		}
-
 		public IEnumerable<long> GetNoteIdsWithAtLeastInterval(IEnumerable<long> noteIds, int interval)//Card(Note)
 		{
 			return _context.Cards
