@@ -1,5 +1,5 @@
-﻿using AnkiJapaneseFlashcardManager.ApplicationLayer.Helpers;
-using AnkiJapaneseFlashcardManager.Config;
+﻿using AnkiJapaneseFlashcardManager.ApplicationLayer.Config;
+using AnkiJapaneseFlashcardManager.ApplicationLayer.Helpers;
 using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services
 {
-	public class KanjiNoteService
+    public class KanjiNoteService
 	{
 		public KanjiNoteService()
 		{

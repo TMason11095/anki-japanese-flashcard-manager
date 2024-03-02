@@ -1,6 +1,5 @@
 using System.Net;
 using System.Runtime.InteropServices;
-using AnkiJapaneseFlashcardManager.Config;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
 using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
 using Grpc.Core;

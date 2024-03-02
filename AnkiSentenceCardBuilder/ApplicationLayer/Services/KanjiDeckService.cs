@@ -1,4 +1,4 @@
-﻿using AnkiJapaneseFlashcardManager.Config;
+﻿using AnkiJapaneseFlashcardManager.ApplicationLayer.Config;
 using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services
 {
-	public class KanjiDeckService
+    public class KanjiDeckService
 	{
 		private readonly DeckService _deckService;
 
