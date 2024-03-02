@@ -37,44 +37,13 @@ namespace Tests.ApplicationLayer.Services
 		}
 
 		[Theory]
+		//Test case: Sub kanji ids found
 		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160682667, new[] { "1472", "466" })]
-		public void Get_sub_kanji_ids_from_notes(string anki2File, long deckId, string[] expectedSubKanjiIds)
-		{
-			//Arrange
-			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			CardRepository cardRepo = new CardRepository(dbContext);
-			List<Note> deckNotes = cardRepo.GetDeckNotes(deckId);
-			KanjiNoteService kanjiNoteService = new KanjiNoteService();
-			List<Note> kanjiNotes = kanjiNoteService.GetKanjiNotes(deckNotes);
-
-			//Act
-			List<string> subKanjiIds = kanjiNoteService.GetSubKanjiIds(kanjiNotes);
-
-			//Assert
-			subKanjiIds.Should().BeEquivalentTo(expectedSubKanjiIds);
-		}
-
-		[Theory]
+		//Test case: Sub kanji ids not found
 		[InlineData("deck_with_different_card_types.anki2", 1707263514556, new string[0])]
-		public void No_sub_kanji_ids_found_is_empty(string anki2File, long deckId, string[] expectedSubKanjiIds)
-		{
-			//Arrange
-			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			CardRepository cardRepo = new CardRepository(dbContext);
-			List<Note> deckNotes = cardRepo.GetDeckNotes(deckId);
-			KanjiNoteService kanjiNoteService = new KanjiNoteService();
-			List<Note> kanjiNotes = kanjiNoteService.GetKanjiNotes(deckNotes);
-
-			//Act
-			List<string> subKanjiIds = kanjiNoteService.GetSubKanjiIds(kanjiNotes);
-
-			//Assert
-			subKanjiIds.Should().BeEquivalentTo(expectedSubKanjiIds);
-		}
-
-		[Theory]
+		//Test case: Duplicate sub kanji ids found is a distinct list
 		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160947123, new[] { "1468", "951" })]
-		public void Duplicate_sub_kanji_ids_found_is_a_distinct_list(string anki2File, long deckId, string[] expectedSubKanjiIds)
+		public void Get_sub_kanji_ids_from_notes(string anki2File, long deckId, string[] expectedSubKanjiIds)
 		{
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
