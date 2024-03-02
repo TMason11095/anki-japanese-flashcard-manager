@@ -1,5 +1,7 @@
 ﻿using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
+using AnkiJapaneseFlashcardManager.DataAccessLayer.Helpers;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Repositories;
+using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
 using AnkiSentenceCardBuilder.Controllers;
 using System;
 using System.Collections.Generic;
@@ -66,6 +68,36 @@ namespace AnkiJapaneseFlashcardManagerTests.DataAccessLayer.Repositories
 
 			//Assert
 			notes.Select(n => n.Id).Should().BeEquivalentTo(expectedNoteIds);
+		}
+
+		[Theory]
+		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", new[] { 1707169497960, 1707169570657, 1707169983389, 1707170000793 }, 1707160682667)]
+		public void Move_notes_between_decks(string anki2File, long[] noteIdsToMove, long deckIdToMoveTo)
+		{
+			//Arrange
+			string originalInputFilePath = _anki2FolderPath + anki2File;
+			string tempInputFilePath = $"{_anki2FolderPath}temp_{Guid.NewGuid()}.anki2";
+			File.Copy(originalInputFilePath, tempInputFilePath, true);//Copy the input file to prevent changes between unit tests
+			Anki2Context dbContext = new Anki2Context(tempInputFilePath);
+			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
+			List<Card> originalNoteDeckJunctions = anki2Controller.GetTable<Card>()
+																.Where(c => noteIdsToMove.Contains(c.NoteId))
+																.ToList();//Grab the current note/deck relations for the give note ids
+
+			//Act
+			bool movedNotes = anki2Controller.MoveNotesBetweenDecks(noteIdsToMove, deckIdToMoveTo);
+
+			//Assert
+			movedNotes.Should().BeTrue();//Function completed successfully
+			List<Card> finalNoteDeckJunctions = anki2Controller.GetTable<Card>()
+																.Where(c => noteIdsToMove.Contains(c.NoteId))
+																.ToList();//Grab the current note/deck relations for the give note ids after running the function
+			finalNoteDeckJunctions.Count().Should().Be(originalNoteDeckJunctions.Count());//No note/deck relations should have been removed/added
+			finalNoteDeckJunctions.Select(c => c.DeckId).Should().AllBeEquivalentTo(deckIdToMoveTo);//All junction deckIds should be the given deckId
+
+			//Cleanup
+			DbContextHelper.ClearSqlitePool(dbContext);
+			File.Delete(tempInputFilePath);
 		}
 	}
 }
