@@ -29,7 +29,6 @@ namespace AnkiJapaneseFlashcardManagerTests.DataAccessLayer.Repositories
 		{
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 			CardRepository cardRepo = new CardRepository(dbContext);
 
 			//Act
@@ -46,7 +45,6 @@ namespace AnkiJapaneseFlashcardManagerTests.DataAccessLayer.Repositories
 		{
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 			CardRepository cardRepo = new CardRepository(dbContext);
 
 			//Act
@@ -62,7 +60,6 @@ namespace AnkiJapaneseFlashcardManagerTests.DataAccessLayer.Repositories
 		{
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 			CardRepository cardRepo = new CardRepository(dbContext);
 
 			//Act
@@ -81,7 +78,6 @@ namespace AnkiJapaneseFlashcardManagerTests.DataAccessLayer.Repositories
 			string tempInputFilePath = $"{_anki2FolderPath}temp_{Guid.NewGuid()}.anki2";
 			File.Copy(originalInputFilePath, tempInputFilePath, true);//Copy the input file to prevent changes between unit tests
 			Anki2Context dbContext = new Anki2Context(tempInputFilePath);
-			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 			CardRepository cardRepo = new CardRepository(dbContext);
 			List<Card> originalNoteDeckJunctions = dbContext.Cards.AsNoTracking()
 																.Where(c => noteIdsToMove.Contains(c.NoteId))
@@ -111,7 +107,6 @@ namespace AnkiJapaneseFlashcardManagerTests.DataAccessLayer.Repositories
 		{
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 			CardRepository cardRepo = new CardRepository(dbContext);
 
 			//Act
@@ -127,7 +122,6 @@ namespace AnkiJapaneseFlashcardManagerTests.DataAccessLayer.Repositories
 		{
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 			CardRepository cardRepo = new CardRepository(dbContext);
 
 			//Act

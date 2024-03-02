@@ -29,7 +29,6 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services.Management
 			string tempInputFilePath = $"{_anki2FolderPath}temp_{Guid.NewGuid()}.anki2";
 			File.Copy(originalInputFilePath, tempInputFilePath, true);//Copy the input file to prevent changes between unit tests
 			Anki2Context anki2Context = new Anki2Context(tempInputFilePath);
-			Anki2Controller anki2Controller = new Anki2Controller(anki2Context);
 			KanjiDeckService kanjiDeckService = new KanjiDeckService(new DeckService(new DeckRepository(anki2Context)));
 			CardRepository cardRepository = new CardRepository(anki2Context);
 			List<Card> allOriginalCards = anki2Context.Cards.AsNoTracking().ToList();
@@ -69,7 +68,6 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services.Management
 			string tempInputFilePath = $"{_anki2FolderPath}temp_{Guid.NewGuid()}.anki2";
 			File.Copy(originalInputFilePath, tempInputFilePath, true);//Copy the input file to prevent changes between unit tests
 			Anki2Context anki2Context = new Anki2Context(tempInputFilePath);
-			Anki2Controller anki2Controller = new Anki2Controller(anki2Context);
 			DeckService deckService = new DeckService(new DeckRepository(anki2Context));
 			CardRepository cardRepository = new CardRepository(anki2Context);
 			List<Card> allOriginalCards = anki2Context.Cards.AsNoTracking().ToList();

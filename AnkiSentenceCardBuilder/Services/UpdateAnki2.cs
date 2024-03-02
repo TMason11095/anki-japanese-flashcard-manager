@@ -27,7 +27,6 @@ namespace AnkiSentenceCardBuilder.Services
 
 			//Setup db controller
 			Anki2Context dbContext = new Anki2Context(tempDbPath);
-			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 
             //Get the decks
             //var decks = anki2Controller.GetTable<Deck>();
