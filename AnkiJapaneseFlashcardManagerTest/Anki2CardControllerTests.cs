@@ -1,4 +1,5 @@
 ﻿using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
+using AnkiJapaneseFlashcardManager.DataAccessLayer.Helpers;
 using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
 using AnkiSentenceCardBuilder.Controllers;
 using System;
@@ -91,7 +92,7 @@ namespace AnkiJapaneseFlashcardManagerTests
 			finalNoteDeckJunctions.Select(c => c.DeckId).Should().AllBeEquivalentTo(deckIdToMoveTo);//All junction deckIds should be the given deckId
 
 			//Cleanup
-			dbContext.Dispose();
+			DbContextHelper.ClearSqlitePool(dbContext);
 			File.Delete(tempInputFilePath);
 		}
 

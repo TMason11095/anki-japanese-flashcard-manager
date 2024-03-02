@@ -40,12 +40,6 @@ namespace AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts
 				.Options;
 		}
 
-        public override void Dispose()
-        {
-			SqliteConnection.ClearPool((SqliteConnection) Database.GetDbConnection());
-			base.Dispose();
-		}
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Setup relationship between Deck and Note (one-to-many)

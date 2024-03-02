@@ -1,6 +1,7 @@
 ﻿using AnkiJapaneseFlashcardManager.ApplicationLayer.Services;
 using AnkiJapaneseFlashcardManager.ApplicationLayer.Services.Managements;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
+using AnkiJapaneseFlashcardManager.DataAccessLayer.Helpers;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Interfaces.Contexts;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Repositories;
 using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
@@ -53,7 +54,7 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services.Management
 			changedCards.Select(p => p.UpdatedCard.NoteId).Distinct().Should().BeEquivalentTo(expectedNoteIdsToMove);//Updated notes should match
 
 			//Cleanup
-			anki2Context.Dispose();
+			DbContextHelper.ClearSqlitePool(anki2Context);
 			File.Delete(tempInputFilePath);
 		}
 
@@ -92,7 +93,7 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services.Management
 			changedCards.Select(p => p.UpdatedCard.NoteId).Distinct().Should().BeEquivalentTo(expectedNoteIdsToMove);//Updated notes should match
 
 			//Cleanup
-			anki2Context.Dispose();
+			DbContextHelper.ClearSqlitePool(anki2Context);
 			File.Delete(tempInputFilePath);
 		}
 	}
