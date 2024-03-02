@@ -18,44 +18,19 @@ namespace Tests.DataAccessLayer.Repositories
 		string _anki2FolderPath = "./Resources/Anki2 Files/";
 
 		[Theory]
+		//Test case: Note ids found
+		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160947123, new long[] { 1707169497960, 1707169570657, 1707169983389, 1707170000793 })]
+		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160682667, new long[] { 1707169522144 })]
+		//Test case: No note ids found
 		[InlineData("empty_random_decks.anki2", 1706982318565, new long[] { })]
 		[InlineData("empty_random_decks.anki2", 1706982351536, new long[] { })]
 		[InlineData("empty_kanjiResource_newKanji_decks.anki2", 1706982318565, new long[] { })]
 		[InlineData("empty_kanjiResource_newKanji_decks.anki2", 1706982351536, new long[] { })]
 		[InlineData("empty_kanjiResource_newKanji_decks.anki2", 1707160682667, new long[] { })]
 		[InlineData("empty_kanjiResource_newKanji_decks.anki2", 1707160947123, new long[] { })]
-		public void No_notes_found_in_a_deck_is_empty(string anki2File, long deckId, long[] expectedNoteIds)
-		{
-			//Arrange
-			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			CardRepository cardRepo = new CardRepository(dbContext);
-
-			//Act
-			var notes = cardRepo.GetDeckNotes(deckId);
-
-			//Assert
-			notes.Select(n => n.Id).Should().BeEquivalentTo(expectedNoteIds);
-		}
-
-		[Theory]
-		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160947123, new long[] { 1707169497960, 1707169570657, 1707169983389, 1707170000793 })]
-		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160682667, new long[] { 1707169522144 })]
-		public void Get_notes_by_deck_id(string anki2File, long deckId, long[] expectedNoteIds)
-		{
-			//Arrange
-			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			CardRepository cardRepo = new CardRepository(dbContext);
-
-			//Act
-			var notes = cardRepo.GetDeckNotes(deckId);
-
-			//Assert
-			notes.Select(n => n.Id).Should().BeEquivalentTo(expectedNoteIds);
-		}
-
-		[Theory]
+		//Test case: Duplicate note ids found is a distinct list
 		[InlineData("deck_with_different_card_types.anki2", 1707263514556, new[] { 1707263555296, 1707263973429, 1707263567670 })]
-		public void Mulitple_card_entries_of_the_same_note_is_a_distinct_list_of_notes(string anki2File, long deckId, long[] expectedNoteIds)
+		public void Get_notes_by_deck_id(string anki2File, long deckId, long[] expectedNoteIds)
 		{
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
