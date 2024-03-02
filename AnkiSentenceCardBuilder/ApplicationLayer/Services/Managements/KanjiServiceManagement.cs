@@ -22,7 +22,7 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services.Managements
 		{
 			_anki2Controller = anki2Controller;
 			_kanjiDeckService = kanjiDeckService;
-			_kanjiNoteService = new KanjiNoteService(anki2Controller);
+			_kanjiNoteService = new KanjiNoteService();
 			_kanjiCardService = kanjicardService;
 			_cardRepository = cardRepository;
 		}

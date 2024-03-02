@@ -12,11 +12,8 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services
 {
 	public class KanjiNoteService
 	{
-		//private readonly Anki2Controller _anki2Controller;
-
-		public KanjiNoteService(Anki2Controller anki2Controller)
+		public KanjiNoteService()
 		{
-			//_anki2Controller = anki2Controller;
 		}
 
 		public List<Note> GetKanjiNotes(List<Note> deckNotes)//Note

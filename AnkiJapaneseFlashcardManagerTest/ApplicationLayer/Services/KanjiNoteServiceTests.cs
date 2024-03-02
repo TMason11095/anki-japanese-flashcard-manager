@@ -23,10 +23,9 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		{
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 			CardRepository cardRepo = new CardRepository(dbContext);
 			List<Note> notes = cardRepo.GetDeckNotes(deckId);
-			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
+			KanjiNoteService kanjiNoteService = new KanjiNoteService();
 
 			//Act
 			var taggedNotes = kanjiNoteService.GetKanjiNotes(notes);
@@ -41,10 +40,9 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		{
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 			CardRepository cardRepo = new CardRepository(dbContext);
 			List<Note> notes = cardRepo.GetDeckNotes(deckId);
-			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
+			KanjiNoteService kanjiNoteService = new KanjiNoteService();
 
 			//Act
 			var taggedNotes = kanjiNoteService.GetKanjiNotes(notes);
@@ -59,10 +57,9 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		{
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 			CardRepository cardRepo = new CardRepository(dbContext);
 			List<Note> deckNotes = cardRepo.GetDeckNotes(deckId);
-			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
+			KanjiNoteService kanjiNoteService = new KanjiNoteService();
 			List<Note> kanjiNotes = kanjiNoteService.GetKanjiNotes(deckNotes);
 
 			//Act
@@ -78,10 +75,9 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		{
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 			CardRepository cardRepo = new CardRepository(dbContext);
 			List<Note> deckNotes = cardRepo.GetDeckNotes(deckId);
-			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
+			KanjiNoteService kanjiNoteService = new KanjiNoteService();
 			List<Note> kanjiNotes = kanjiNoteService.GetKanjiNotes(deckNotes);
 
 			//Act
@@ -97,10 +93,9 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		{
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 			CardRepository cardRepo = new CardRepository(dbContext);
 			List<Note> deckNotes = cardRepo.GetDeckNotes(deckId);
-			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
+			KanjiNoteService kanjiNoteService = new KanjiNoteService();
 			List<Note> kanjiNotes = kanjiNoteService.GetKanjiNotes(deckNotes);
 
 			//Act
@@ -116,8 +111,7 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		{
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
-			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
+			KanjiNoteService kanjiNoteService = new KanjiNoteService();
 			CardRepository cardRepo = new CardRepository(dbContext);
 			List<Note> sourceNotes = cardRepo.GetDeckNotes(sourceDeckId);
 			int sourceNotesOriginalCount = sourceNotes.Count;
@@ -137,8 +131,7 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		{
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
-			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
+			KanjiNoteService kanjiNoteService = new KanjiNoteService();
 			CardRepository cardRepo = new CardRepository(dbContext);
 			List<Note> sourceNotes = cardRepo.GetDeckNotes(sourceDeckId);
 			int sourceNotesOriginalCount = sourceNotes.Count;
@@ -159,8 +152,7 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		{
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
-			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
+			KanjiNoteService kanjiNoteService = new KanjiNoteService();
 			CardRepository cardRepo = new CardRepository(dbContext);
 			List<Note> notes = cardRepo.GetDeckNotes(deckId);
 
@@ -178,8 +170,7 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		{
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
-			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
+			KanjiNoteService kanjiNoteService = new KanjiNoteService();
 			CardRepository cardRepo = new CardRepository(dbContext);
 			List<Note> notes = cardRepo.GetDeckNotes(deckId);
 
@@ -197,8 +188,7 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		{
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
-			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
+			KanjiNoteService kanjiNoteService = new KanjiNoteService();
 			CardRepository cardRepo = new CardRepository(dbContext);
 			List<Note> notes = cardRepo.GetDeckNotes(deckId);
 
@@ -219,8 +209,7 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		{
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
-			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
+			KanjiNoteService kanjiNoteService = new KanjiNoteService();
 			CardRepository cardRepo = new CardRepository(dbContext);
 			List<Note> notes = cardRepo.GetDeckNotes(deckId);
 
