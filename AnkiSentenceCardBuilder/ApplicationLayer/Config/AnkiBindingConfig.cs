@@ -1,4 +1,4 @@
-﻿using AnkiJapaneseFlashcardManager.Models.DTO;
+﻿using AnkiJapaneseFlashcardManager.ApplicationLayer.DTOs.Config;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

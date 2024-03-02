@@ -43,12 +43,11 @@
     <Using Include="System.Threading.ExecutionContext" Alias="ExecutionContext" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Models\DTO\AnkiBindingTagsDTO.cs">
+    <Compile Update="ApplicationLayer\DTOs\Config\AnkiBindingTagsDTO.cs">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ApplicationLayer\DTOs\Config\" />
     <Folder Include="ApplicationLayer\Interfaces\Services\Managements\" />
   </ItemGroup>
 </Project>
