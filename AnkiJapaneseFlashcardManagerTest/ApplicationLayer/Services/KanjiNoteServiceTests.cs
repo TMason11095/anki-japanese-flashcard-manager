@@ -1,4 +1,5 @@
 ﻿using AnkiJapaneseFlashcardManager.ApplicationLayer.Services;
+using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
 using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
 using AnkiSentenceCardBuilder.Controllers;
 using System;
@@ -20,7 +21,8 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		public void Get_kanji_notes(string anki2File, long deckId, long[] expectedNoteIds)
 		{
 			//Arrange
-			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
+			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 			List<Note> notes = anki2Controller.GetDeckNotes(deckId);
 			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
 
@@ -36,7 +38,8 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		public void No_kanji_notes_found_is_empty(string anki2File, long deckId)
 		{
 			//Arrange
-			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
+			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 			List<Note> notes = anki2Controller.GetDeckNotes(deckId);
 			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
 
@@ -52,7 +55,8 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		public void Get_sub_kanji_ids_from_notes(string anki2File, long deckId, string[] expectedSubKanjiIds)
 		{
 			//Arrange
-			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
+			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 			List<Note> deckNotes = anki2Controller.GetDeckNotes(deckId);
 			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
 			List<Note> kanjiNotes = kanjiNoteService.GetKanjiNotes(deckNotes);
@@ -69,7 +73,8 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		public void No_sub_kanji_ids_found_is_empty(string anki2File, long deckId)
 		{
 			//Arrange
-			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
+			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 			List<Note> deckNotes = anki2Controller.GetDeckNotes(deckId);
 			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
 			List<Note> kanjiNotes = kanjiNoteService.GetKanjiNotes(deckNotes);
@@ -86,7 +91,8 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		public void Duplicate_sub_kanji_ids_found_is_a_distinct_list(string anki2File, long deckId, string[] expectedSubKanjiIds)
 		{
 			//Arrange
-			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
+			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 			List<Note> deckNotes = anki2Controller.GetDeckNotes(deckId);
 			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
 			List<Note> kanjiNotes = kanjiNoteService.GetKanjiNotes(deckNotes);
@@ -103,7 +109,8 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		public void Pull_all_sub_kanji_notes_from_note_list(string anki2File, long sourceDeckId, long originalKanjiDeckId, long[] expectedKanjiNoteIds)
 		{
 			//Arrange
-			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
+			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
 			List<Note> sourceNotes = anki2Controller.GetDeckNotes(sourceDeckId);
 			int sourceNotesOriginalCount = sourceNotes.Count;
@@ -122,7 +129,8 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		public void Sub_kanji_notes_not_found_in_note_list_is_empty(string anki2File, long sourceDeckId, long originalKanjiDeckId)
 		{
 			//Arrange
-			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
+			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
 			List<Note> sourceNotes = anki2Controller.GetDeckNotes(sourceDeckId);
 			int sourceNotesOriginalCount = sourceNotes.Count;
@@ -142,7 +150,8 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		public void Get_notes_by_note_tag(string anki2File, long deckId, string noteTagName, long[] expectedNoteIds)
 		{
 			//Arrange
-			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
+			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
 			List<Note> notes = anki2Controller.GetDeckNotes(deckId);
 
@@ -159,7 +168,8 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		public void No_tagged_notes_found_is_empty(string anki2File, long deckId, string noteTagName)
 		{
 			//Arrange
-			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
+			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
 			List<Note> notes = anki2Controller.GetDeckNotes(deckId);
 
@@ -176,7 +186,8 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		public void Get_notes_by_kanji_ids(string anki2File, long deckId, string[] kanjiIds, long[] expectedNoteIds)
 		{
 			//Arrange
-			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
+			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
 			List<Note> notes = anki2Controller.GetDeckNotes(deckId);
 
@@ -196,7 +207,8 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		public void Invalid_kanji_id_is_empty(string anki2File, long deckId, string[] kanjiIds)
 		{
 			//Arrange
-			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
+			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 			KanjiNoteService kanjiNoteService = new KanjiNoteService(anki2Controller);
 			List<Note> notes = anki2Controller.GetDeckNotes(deckId);
 

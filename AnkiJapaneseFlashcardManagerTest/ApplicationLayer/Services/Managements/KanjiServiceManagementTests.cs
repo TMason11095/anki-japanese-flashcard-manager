@@ -1,4 +1,8 @@
-﻿using AnkiJapaneseFlashcardManager.ApplicationLayer.Services.Managements;
+﻿using AnkiJapaneseFlashcardManager.ApplicationLayer.Services;
+using AnkiJapaneseFlashcardManager.ApplicationLayer.Services.Managements;
+using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
+using AnkiJapaneseFlashcardManager.DataAccessLayer.Interfaces.Contexts;
+using AnkiJapaneseFlashcardManager.DataAccessLayer.Repositories;
 using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
 using AnkiSentenceCardBuilder.Controllers;
 using System;
@@ -22,9 +26,11 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services.Management
 			string originalInputFilePath = _anki2FolderPath + anki2File;
 			string tempInputFilePath = $"{_anki2FolderPath}temp_{Guid.NewGuid()}.anki2";
 			File.Copy(originalInputFilePath, tempInputFilePath, true);//Copy the input file to prevent changes between unit tests
-			Anki2Controller anki2Controller = new Anki2Controller(tempInputFilePath);
+			Anki2Context anki2Context = new Anki2Context(tempInputFilePath);
+			Anki2Controller anki2Controller = new Anki2Controller(anki2Context);
+			KanjiDeckService kanjiDeckService = new KanjiDeckService(new DeckService(new DeckRepository(anki2Context)));
 			List<Card> allOriginalCards = anki2Controller.GetTable<Card>();
-			KanjiServiceManagement kanjiServiceManagement = new KanjiServiceManagement(anki2Controller);
+			KanjiServiceManagement kanjiServiceManagement = new KanjiServiceManagement(anki2Controller, kanjiDeckService);
 
 			//Act
 			bool movedNotes = kanjiServiceManagement.MoveNewKanjiToLearningKanji();
@@ -47,7 +53,7 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services.Management
 			changedCards.Select(p => p.UpdatedCard.NoteId).Distinct().Should().BeEquivalentTo(expectedNoteIdsToMove);//Updated notes should match
 
 			//Cleanup
-			kanjiServiceManagement.Dispose();
+			anki2Context.Dispose();
 			File.Delete(tempInputFilePath);
 		}
 
@@ -59,9 +65,11 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services.Management
 			string originalInputFilePath = _anki2FolderPath + anki2File;
 			string tempInputFilePath = $"{_anki2FolderPath}temp_{Guid.NewGuid()}.anki2";
 			File.Copy(originalInputFilePath, tempInputFilePath, true);//Copy the input file to prevent changes between unit tests
-			Anki2Controller anki2Controller = new Anki2Controller(tempInputFilePath);
+			Anki2Context anki2Context = new Anki2Context(tempInputFilePath);
+			Anki2Controller anki2Controller = new Anki2Controller(anki2Context);
+			DeckService deckService = new DeckService(new DeckRepository(anki2Context));
 			List<Card> allOriginalCards = anki2Controller.GetTable<Card>();
-			KanjiServiceManagement kanjiServiceManagement = new KanjiServiceManagement(anki2Controller);
+			KanjiServiceManagement kanjiServiceManagement = new KanjiServiceManagement(anki2Controller, new KanjiDeckService(deckService));
 
 			//Act
 			bool movedNotes = kanjiServiceManagement.MoveResourceSubKanjiToNewKanji();
@@ -84,7 +92,7 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services.Management
 			changedCards.Select(p => p.UpdatedCard.NoteId).Distinct().Should().BeEquivalentTo(expectedNoteIdsToMove);//Updated notes should match
 
 			//Cleanup
-			kanjiServiceManagement.Dispose();
+			anki2Context.Dispose();
 			File.Delete(tempInputFilePath);
 		}
 	}

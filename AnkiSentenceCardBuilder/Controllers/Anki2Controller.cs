@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace AnkiSentenceCardBuilder.Controllers
 {
-    public class Anki2Controller : IDisposable
+    public class Anki2Controller
 	{
         private readonly Anki2Context _context;
 
@@ -21,43 +21,10 @@ namespace AnkiSentenceCardBuilder.Controllers
             _context = context;
         }
 
-        public Anki2Controller(string dbPath) : this(new Anki2Context(dbPath))
-        {
-        }
-
-		public void Dispose()
-		{
-			SqliteConnection.ClearPool((SqliteConnection) _context.Database.GetDbConnection());
-			_context.Dispose();
-		}
-
 		public List<T> GetTable<T>() where T : class
         {
             return _context.Set<T>().AsNoTracking().ToList();
         }
-
-        private static string DecodeBlob(byte[] blob)
-        {
-            return System.Text.Encoding.UTF8.GetString(blob);
-		}
-
-		public IEnumerable<Deck> GetDecksByDescriptionContaining(string descriptionPart)
-		{
-			//Get all the decks
-			var decks = _context.Decks;
-			//Remap to decode the description field (Kind) (Convert to List as the following .Where() tries calling DecodeBlob() and fails if you don't)
-			var deckDescs = decks.Select(d => new
-			{
-				deck = d,
-				description = DecodeBlob(d.Kind)
-			}).ToList();
-			//Filter to find the decks with the tag in its description
-			var DecksContaining = deckDescs
-				.Where(d => d.description.Contains(descriptionPart, StringComparison.OrdinalIgnoreCase))
-				.Select(d => d.deck);
-			//Return
-			return DecksContaining;
-		}
 
 		//public Deck GetDeckById(long deckId)//TODO
 		//{

@@ -9,19 +9,13 @@ using System.Threading.Tasks;
 
 namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services
 {
-	public class KanjiDeckService : IDisposable
+	public class KanjiDeckService
 	{
-		private readonly Anki2Controller _anki2Controller;
 		private readonly DeckService _deckService;
 
-		public KanjiDeckService(Anki2Controller anki2Controller)
+		public KanjiDeckService(DeckService deckService)
 		{
-			_anki2Controller = anki2Controller;
-			_deckService = new DeckService(anki2Controller);
-		}
-		public void Dispose()
-		{
-			_anki2Controller.Dispose();
+			_deckService = deckService;
 		}
 
 		public List<Deck> GetResourceKanjiDecks()//Deck

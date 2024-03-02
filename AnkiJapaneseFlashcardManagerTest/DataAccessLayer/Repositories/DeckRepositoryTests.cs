@@ -1,13 +1,15 @@
-﻿using AnkiSentenceCardBuilder.Controllers;
+﻿using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
+using AnkiJapaneseFlashcardManager.DataAccessLayer.Repositories;
+using AnkiSentenceCardBuilder.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AnkiJapaneseFlashcardManagerTests
+namespace AnkiJapaneseFlashcardManagerTests.DataAccessLayer.Repositories
 {
-	public class Anki2DeckControllerTests
+	public class DeckRepositoryTests
 	{
 		//TODO: MOVE TO GLOBAL VARIABLE
 		string _anki2FolderPath = "./Resources/Anki2 Files/";
@@ -24,10 +26,11 @@ namespace AnkiJapaneseFlashcardManagerTests
 		public void Get_decks_by_description_containing(string anki2File, string descriptionPart, long[] expectedDeckIds)
 		{
 			//Arange
-			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			Anki2Context anki2Context = new Anki2Context(_anki2FolderPath + anki2File);
+			DeckRepository deckRepo = new DeckRepository(anki2Context);
 
 			//Act
-			var descDecks = anki2Controller.GetDecksByDescriptionContaining(descriptionPart);
+			var descDecks = deckRepo.GetDecksByDescriptionContaining(descriptionPart);
 
 			//Assert
 			descDecks.Select(d => d.Id).Should().BeEquivalentTo(expectedDeckIds);
