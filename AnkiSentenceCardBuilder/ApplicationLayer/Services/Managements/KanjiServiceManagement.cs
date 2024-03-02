@@ -1,5 +1,4 @@
 ﻿using AnkiJapaneseFlashcardManager.DataAccessLayer.Repositories;
-using AnkiSentenceCardBuilder.Controllers;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System;

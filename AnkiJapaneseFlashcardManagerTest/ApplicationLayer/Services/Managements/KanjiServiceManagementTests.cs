@@ -5,7 +5,6 @@ using AnkiJapaneseFlashcardManager.DataAccessLayer.Helpers;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Interfaces.Contexts;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Repositories;
 using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
-using AnkiSentenceCardBuilder.Controllers;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

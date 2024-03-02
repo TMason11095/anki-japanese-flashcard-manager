@@ -3,7 +3,6 @@ using System.Runtime.InteropServices;
 using AnkiJapaneseFlashcardManager.Config;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
 using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
-using AnkiSentenceCardBuilder.Controllers;
 using Grpc.Core;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;

@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Helpers;
 using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
-using AnkiSentenceCardBuilder.Controllers;
 using Azure.Storage.Blobs.Specialized;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
