@@ -34,8 +34,8 @@ namespace Tests.ApplicationLayer.Services
 		}
 
 		[Theory]
-		[InlineData("deck_with_different_card_types.anki2", 1707263514556)]
-		public void No_kanji_notes_found_is_empty(string anki2File, long deckId)
+		[InlineData("deck_with_different_card_types.anki2", 1707263514556, new long[0])]
+		public void No_kanji_notes_found_is_empty(string anki2File, long deckId, long[] expectedNoteIds)
 		{
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
@@ -47,7 +47,7 @@ namespace Tests.ApplicationLayer.Services
 			var taggedNotes = kanjiNoteService.GetKanjiNotes(notes);
 
 			//Assert
-			taggedNotes.Should().BeEmpty();
+			taggedNotes.Select(n => n.Id).Should().BeEquivalentTo(expectedNoteIds);
 		}
 
 		[Theory]
