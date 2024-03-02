@@ -31,16 +31,6 @@ namespace AnkiSentenceCardBuilder.Controllers
 		//	return null;
 		//}
 
-		public List<Note> GetDeckNotes(long deckId)//Card(Note)
-		{
-			//Return the notes from unique card entries with the given deck id
-			return _context.Cards
-					.Where(c => c.DeckId == deckId) //Grab cards with matching deck id
-					.Select(c => c.Note) //Grab the notes
-					.Distinct() //Filter out duplicate entries
-					.ToList();
-		}
-
 		//public Note GetNoteById(long noteId)//TODO
 		//{
 		//	return null;

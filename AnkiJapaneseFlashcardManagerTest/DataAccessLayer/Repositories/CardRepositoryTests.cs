@@ -1,4 +1,5 @@
 ﻿using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
+using AnkiJapaneseFlashcardManager.DataAccessLayer.Repositories;
 using AnkiSentenceCardBuilder.Controllers;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AnkiJapaneseFlashcardManagerTests.DataAccessLayer.Repositories
 {
-	public class ClassRepositoryTests
+	public class CardRepositoryTests
 	{
 		//TODO: MOVE TO GLOBAL VARIABLE
 		string _anki2FolderPath = "./Resources/Anki2 Files/";
@@ -25,9 +26,10 @@ namespace AnkiJapaneseFlashcardManagerTests.DataAccessLayer.Repositories
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
 			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
+			CardRepository cardRepo = new CardRepository(dbContext);
 
 			//Act
-			var notes = anki2Controller.GetDeckNotes(deckId);
+			var notes = cardRepo.GetDeckNotes(deckId);
 
 			//Assert
 			notes.Should().BeEmpty();
@@ -41,9 +43,10 @@ namespace AnkiJapaneseFlashcardManagerTests.DataAccessLayer.Repositories
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
 			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
+			CardRepository cardRepo = new CardRepository(dbContext);
 
 			//Act
-			var notes = anki2Controller.GetDeckNotes(deckId);
+			var notes = cardRepo.GetDeckNotes(deckId);
 
 			//Assert
 			notes.Should().NotBeEmpty();
@@ -56,9 +59,10 @@ namespace AnkiJapaneseFlashcardManagerTests.DataAccessLayer.Repositories
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
 			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
+			CardRepository cardRepo = new CardRepository(dbContext);
 
 			//Act
-			var notes = anki2Controller.GetDeckNotes(deckId);
+			var notes = cardRepo.GetDeckNotes(deckId);
 
 			//Assert
 			notes.Select(n => n.Id).Should().BeEquivalentTo(expectedNoteIds);
