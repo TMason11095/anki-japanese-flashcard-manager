@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Helpers;
 using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
-using AnkiSentenceCardBuilder.Controllers;
 using Azure.Storage.Blobs.Specialized;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
@@ -27,10 +26,9 @@ namespace AnkiSentenceCardBuilder.Services
 
 			//Setup db controller
 			Anki2Context dbContext = new Anki2Context(tempDbPath);
-			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 
             //Get the decks
-            var decks = anki2Controller.GetTable<Deck>();
+            //var decks = anki2Controller.GetTable<Deck>();
 
 			//Cleanup
 			DbContextHelper.ClearSqlitePool(dbContext);

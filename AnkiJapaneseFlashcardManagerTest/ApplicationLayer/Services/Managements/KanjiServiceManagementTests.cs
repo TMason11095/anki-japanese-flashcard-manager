@@ -5,7 +5,7 @@ using AnkiJapaneseFlashcardManager.DataAccessLayer.Helpers;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Interfaces.Contexts;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Repositories;
 using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
-using AnkiSentenceCardBuilder.Controllers;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,18 +28,17 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services.Management
 			string tempInputFilePath = $"{_anki2FolderPath}temp_{Guid.NewGuid()}.anki2";
 			File.Copy(originalInputFilePath, tempInputFilePath, true);//Copy the input file to prevent changes between unit tests
 			Anki2Context anki2Context = new Anki2Context(tempInputFilePath);
-			Anki2Controller anki2Controller = new Anki2Controller(anki2Context);
 			KanjiDeckService kanjiDeckService = new KanjiDeckService(new DeckService(new DeckRepository(anki2Context)));
 			CardRepository cardRepository = new CardRepository(anki2Context);
-			List<Card> allOriginalCards = anki2Controller.GetTable<Card>();
-			KanjiServiceManagement kanjiServiceManagement = new KanjiServiceManagement(anki2Controller, kanjiDeckService, new KanjiCardService(cardRepository), cardRepository);
+			List<Card> allOriginalCards = anki2Context.Cards.AsNoTracking().ToList();
+			KanjiServiceManagement kanjiServiceManagement = new KanjiServiceManagement(kanjiDeckService, new KanjiCardService(cardRepository), cardRepository);
 
 			//Act
 			bool movedNotes = kanjiServiceManagement.MoveNewKanjiToLearningKanji();
 
 			//Get Assert Values
 			//Get changed cards
-			var allCardsAfterFunction = anki2Controller.GetTable<Card>();
+			var allCardsAfterFunction = anki2Context.Cards.AsNoTracking().ToList();
 			var changedCards = allOriginalCards
 				.Join(allCardsAfterFunction,
 					originalCard => originalCard.Id,
@@ -68,18 +67,17 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services.Management
 			string tempInputFilePath = $"{_anki2FolderPath}temp_{Guid.NewGuid()}.anki2";
 			File.Copy(originalInputFilePath, tempInputFilePath, true);//Copy the input file to prevent changes between unit tests
 			Anki2Context anki2Context = new Anki2Context(tempInputFilePath);
-			Anki2Controller anki2Controller = new Anki2Controller(anki2Context);
 			DeckService deckService = new DeckService(new DeckRepository(anki2Context));
 			CardRepository cardRepository = new CardRepository(anki2Context);
-			List<Card> allOriginalCards = anki2Controller.GetTable<Card>();
-			KanjiServiceManagement kanjiServiceManagement = new KanjiServiceManagement(anki2Controller, new KanjiDeckService(deckService), new KanjiCardService(cardRepository), cardRepository);
+			List<Card> allOriginalCards = anki2Context.Cards.AsNoTracking().ToList();
+			KanjiServiceManagement kanjiServiceManagement = new KanjiServiceManagement(new KanjiDeckService(deckService), new KanjiCardService(cardRepository), cardRepository);
 
 			//Act
 			bool movedNotes = kanjiServiceManagement.MoveResourceSubKanjiToNewKanji();
 
 			//Get Assert Values
 			//Get changed cards
-			var allCardsAfterFunction = anki2Controller.GetTable<Card>();
+			var allCardsAfterFunction = anki2Context.Cards.AsNoTracking().ToList();
 			var changedCards = allOriginalCards
 				.Join(allCardsAfterFunction,
 					originalCard => originalCard.Id,

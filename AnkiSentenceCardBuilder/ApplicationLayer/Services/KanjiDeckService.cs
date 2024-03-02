@@ -1,6 +1,5 @@
 ﻿using AnkiJapaneseFlashcardManager.Config;
 using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
-using AnkiSentenceCardBuilder.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

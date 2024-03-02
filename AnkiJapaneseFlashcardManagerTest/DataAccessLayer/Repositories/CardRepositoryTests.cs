@@ -1,8 +1,9 @@
 ﻿using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Helpers;
+using AnkiJapaneseFlashcardManager.DataAccessLayer.Interfaces.Contexts;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Repositories;
 using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
-using AnkiSentenceCardBuilder.Controllers;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,6 @@ namespace AnkiJapaneseFlashcardManagerTests.DataAccessLayer.Repositories
 		{
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 			CardRepository cardRepo = new CardRepository(dbContext);
 
 			//Act
@@ -44,7 +44,6 @@ namespace AnkiJapaneseFlashcardManagerTests.DataAccessLayer.Repositories
 		{
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 			CardRepository cardRepo = new CardRepository(dbContext);
 
 			//Act
@@ -60,7 +59,6 @@ namespace AnkiJapaneseFlashcardManagerTests.DataAccessLayer.Repositories
 		{
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 			CardRepository cardRepo = new CardRepository(dbContext);
 
 			//Act
@@ -79,9 +77,8 @@ namespace AnkiJapaneseFlashcardManagerTests.DataAccessLayer.Repositories
 			string tempInputFilePath = $"{_anki2FolderPath}temp_{Guid.NewGuid()}.anki2";
 			File.Copy(originalInputFilePath, tempInputFilePath, true);//Copy the input file to prevent changes between unit tests
 			Anki2Context dbContext = new Anki2Context(tempInputFilePath);
-			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 			CardRepository cardRepo = new CardRepository(dbContext);
-			List<Card> originalNoteDeckJunctions = anki2Controller.GetTable<Card>()
+			List<Card> originalNoteDeckJunctions = dbContext.Cards.AsNoTracking()
 																.Where(c => noteIdsToMove.Contains(c.NoteId))
 																.ToList();//Grab the current note/deck relations for the give note ids
 
@@ -90,7 +87,7 @@ namespace AnkiJapaneseFlashcardManagerTests.DataAccessLayer.Repositories
 
 			//Assert
 			movedNotes.Should().BeTrue();//Function completed successfully
-			List<Card> finalNoteDeckJunctions = anki2Controller.GetTable<Card>()
+			List<Card> finalNoteDeckJunctions = dbContext.Cards.AsNoTracking()
 																.Where(c => noteIdsToMove.Contains(c.NoteId))
 																.ToList();//Grab the current note/deck relations for the give note ids after running the function
 			finalNoteDeckJunctions.Count().Should().Be(originalNoteDeckJunctions.Count());//No note/deck relations should have been removed/added
@@ -109,7 +106,6 @@ namespace AnkiJapaneseFlashcardManagerTests.DataAccessLayer.Repositories
 		{
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 			CardRepository cardRepo = new CardRepository(dbContext);
 
 			//Act
@@ -125,7 +121,6 @@ namespace AnkiJapaneseFlashcardManagerTests.DataAccessLayer.Repositories
 		{
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 			CardRepository cardRepo = new CardRepository(dbContext);
 
 			//Act
