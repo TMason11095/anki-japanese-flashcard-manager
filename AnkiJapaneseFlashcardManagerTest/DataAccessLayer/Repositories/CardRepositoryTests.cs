@@ -18,13 +18,13 @@ namespace Tests.DataAccessLayer.Repositories
 		string _anki2FolderPath = "./Resources/Anki2 Files/";
 
 		[Theory]
-		[InlineData("empty_random_decks.anki2", 1706982318565)]
-		[InlineData("empty_random_decks.anki2", 1706982351536)]
-		[InlineData("empty_kanjiResource_newKanji_decks.anki2", 1706982318565)]
-		[InlineData("empty_kanjiResource_newKanji_decks.anki2", 1706982351536)]
-		[InlineData("empty_kanjiResource_newKanji_decks.anki2", 1707160682667)]
-		[InlineData("empty_kanjiResource_newKanji_decks.anki2", 1707160947123)]
-		public void No_notes_found_in_a_deck_is_empty(string anki2File, long deckId)
+		[InlineData("empty_random_decks.anki2", 1706982318565, new long[] { })]
+		[InlineData("empty_random_decks.anki2", 1706982351536, new long[] { })]
+		[InlineData("empty_kanjiResource_newKanji_decks.anki2", 1706982318565, new long[] { })]
+		[InlineData("empty_kanjiResource_newKanji_decks.anki2", 1706982351536, new long[] { })]
+		[InlineData("empty_kanjiResource_newKanji_decks.anki2", 1707160682667, new long[] { })]
+		[InlineData("empty_kanjiResource_newKanji_decks.anki2", 1707160947123, new long[] { })]
+		public void No_notes_found_in_a_deck_is_empty(string anki2File, long deckId, long[] expectedNoteIds)
 		{
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
@@ -34,7 +34,7 @@ namespace Tests.DataAccessLayer.Repositories
 			var notes = cardRepo.GetDeckNotes(deckId);
 
 			//Assert
-			notes.Should().BeEmpty();
+			notes.Select(n => n.Id).Should().BeEquivalentTo(expectedNoteIds);
 		}
 
 		[Theory]
