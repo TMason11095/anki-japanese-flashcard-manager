@@ -38,9 +38,9 @@ namespace Tests.DataAccessLayer.Repositories
 		}
 
 		[Theory]
-		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160947123)]
-		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160682667)]
-		public void Get_notes_by_deck_id(string anki2File, long deckId)//TODO: Refactor to check for expected values
+		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160947123, new long[] { 1707169497960, 1707169570657, 1707169983389, 1707170000793 })]
+		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160682667, new long[] { 1707169522144 })]
+		public void Get_notes_by_deck_id(string anki2File, long deckId, long[] expectedNoteIds)
 		{
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
@@ -50,7 +50,7 @@ namespace Tests.DataAccessLayer.Repositories
 			var notes = cardRepo.GetDeckNotes(deckId);
 
 			//Assert
-			notes.Should().NotBeEmpty();
+			notes.Select(n => n.Id).Should().BeEquivalentTo(expectedNoteIds);
 		}
 
 		[Theory]
