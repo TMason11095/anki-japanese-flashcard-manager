@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
+namespace Tests.ApplicationLayer.Services
 {
 	public class KanjiNoteServiceTests
 	{

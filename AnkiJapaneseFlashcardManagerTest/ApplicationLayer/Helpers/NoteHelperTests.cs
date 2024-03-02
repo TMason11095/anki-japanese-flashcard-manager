@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Helpers
+namespace Tests.ApplicationLayer.Helpers
 {
 	public class NoteHelperTests
 	{
