@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services.Managements
 {
-	public class KanjiServiceManagement : IDisposable
+	public class KanjiServiceManagement
 	{
 		private readonly Anki2Controller _anki2Controller;
 		private readonly KanjiDeckService _kanjiDeckService;
@@ -20,11 +20,6 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services.Managements
 			_anki2Controller = anki2Controller;
 			_kanjiDeckService = kanjiDeckService;
 			_kanjiNoteService = new KanjiNoteService(anki2Controller);
-		}
-
-		public void Dispose()
-		{
-			_anki2Controller.Dispose();
 		}
 
 		public bool MoveNewKanjiToLearningKanji()//Deck and Card(Note)

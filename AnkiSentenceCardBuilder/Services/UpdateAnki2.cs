@@ -24,16 +24,20 @@ namespace AnkiSentenceCardBuilder.Services
             //Copy the blob to a local temp folder
             string tempDbPath = await CopyBlobToTempFolder(blobClient, folderName: "Anki2Sentence", fileName: $"{name}.anki2");
 
-            //Setup db controller
-            Anki2Controller anki2Controller = new Anki2Controller(tempDbPath);
+			//Setup db controller
+			Anki2Context dbContext = new Anki2Context(tempDbPath);
+			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 
             //Get the decks
             var decks = anki2Controller.GetTable<Deck>();
 
+			//Cleanup
+			dbContext.Dispose();
 
-            //using var blobStreamReader = new StreamReader(stream);
-            //var content = await blobStreamReader.ReadToEndAsync();
-            _logger.LogInformation($"C# Blob trigger function Processed blob\n Name: {name} Temp: {tempDbPath}");
+
+			//using var blobStreamReader = new StreamReader(stream);
+			//var content = await blobStreamReader.ReadToEndAsync();
+			_logger.LogInformation($"C# Blob trigger function Processed blob\n Name: {name} Temp: {tempDbPath}");
         }
 
         //Returns full path where the blob was copied to

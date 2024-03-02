@@ -53,7 +53,7 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services.Management
 			changedCards.Select(p => p.UpdatedCard.NoteId).Distinct().Should().BeEquivalentTo(expectedNoteIdsToMove);//Updated notes should match
 
 			//Cleanup
-			kanjiServiceManagement.Dispose();
+			anki2Context.Dispose();
 			File.Delete(tempInputFilePath);
 		}
 
@@ -65,7 +65,7 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services.Management
 			string originalInputFilePath = _anki2FolderPath + anki2File;
 			string tempInputFilePath = $"{_anki2FolderPath}temp_{Guid.NewGuid()}.anki2";
 			File.Copy(originalInputFilePath, tempInputFilePath, true);//Copy the input file to prevent changes between unit tests
-			Anki2Context anki2Context = new Anki2Context(_anki2FolderPath + anki2File);
+			Anki2Context anki2Context = new Anki2Context(tempInputFilePath);
 			Anki2Controller anki2Controller = new Anki2Controller(anki2Context);
 			DeckService deckService = new DeckService(new DeckRepository(anki2Context));
 			List<Card> allOriginalCards = anki2Controller.GetTable<Card>();
@@ -92,7 +92,7 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services.Management
 			changedCards.Select(p => p.UpdatedCard.NoteId).Distinct().Should().BeEquivalentTo(expectedNoteIdsToMove);//Updated notes should match
 
 			//Cleanup
-			kanjiServiceManagement.Dispose();
+			anki2Context.Dispose();
 			File.Delete(tempInputFilePath);
 		}
 	}

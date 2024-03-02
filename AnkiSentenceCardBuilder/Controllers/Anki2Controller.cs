@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace AnkiSentenceCardBuilder.Controllers
 {
-    public class Anki2Controller : IDisposable
+    public class Anki2Controller
 	{
         private readonly Anki2Context _context;
 
@@ -20,16 +20,6 @@ namespace AnkiSentenceCardBuilder.Controllers
         {
             _context = context;
         }
-
-        public Anki2Controller(string dbPath) : this(new Anki2Context(dbPath))
-        {
-        }
-
-		public void Dispose()
-		{
-			SqliteConnection.ClearPool((SqliteConnection) _context.Database.GetDbConnection());
-			_context.Dispose();
-		}
 
 		public List<T> GetTable<T>() where T : class
         {

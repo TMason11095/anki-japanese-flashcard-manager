@@ -24,7 +24,8 @@ namespace AnkiJapaneseFlashcardManagerTests
 		public void No_notes_found_in_a_deck_is_empty(string anki2File, long deckId)
 		{
 			//Arrange
-			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
+			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 
 			//Act
 			var notes = anki2Controller.GetDeckNotes(deckId);
@@ -39,7 +40,8 @@ namespace AnkiJapaneseFlashcardManagerTests
 		public void Get_notes_by_deck_id(string anki2File, long deckId)//TODO: Refactor to check for expected values
 		{
 			//Arrange
-			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
+			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 
 			//Act
 			var notes = anki2Controller.GetDeckNotes(deckId);
@@ -53,7 +55,8 @@ namespace AnkiJapaneseFlashcardManagerTests
 		public void Mulitple_card_entries_of_the_same_note_is_a_distinct_list_of_notes(string anki2File, long deckId, long[] expectedNoteIds)
 		{
 			//Arrange
-			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
+			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 
 			//Act
 			var notes = anki2Controller.GetDeckNotes(deckId);
@@ -70,7 +73,8 @@ namespace AnkiJapaneseFlashcardManagerTests
 			string originalInputFilePath = _anki2FolderPath + anki2File;
 			string tempInputFilePath = $"{_anki2FolderPath}temp_{Guid.NewGuid()}.anki2";
 			File.Copy(originalInputFilePath, tempInputFilePath, true);//Copy the input file to prevent changes between unit tests
-			Anki2Controller anki2Controller = new Anki2Controller(tempInputFilePath);
+			Anki2Context dbContext = new Anki2Context(tempInputFilePath);
+			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 			List<Card> originalNoteDeckJunctions = anki2Controller.GetTable<Card>()
 																.Where(c => noteIdsToMove.Contains(c.NoteId))
 																.ToList();//Grab the current note/deck relations for the give note ids
@@ -87,7 +91,7 @@ namespace AnkiJapaneseFlashcardManagerTests
 			finalNoteDeckJunctions.Select(c => c.DeckId).Should().AllBeEquivalentTo(deckIdToMoveTo);//All junction deckIds should be the given deckId
 
 			//Cleanup
-			anki2Controller.Dispose();
+			dbContext.Dispose();
 			File.Delete(tempInputFilePath);
 		}
 
@@ -98,7 +102,8 @@ namespace AnkiJapaneseFlashcardManagerTests
 		public void Get_note_ids_with_at_least_the_given_interval(string anki2File, long[] noteIds, int interval, long[] expectedNoteIds)
 		{
 			//Arrange
-			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
+			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 
 			//Act
 			var noteIdsWithGivenInterval = anki2Controller.GetNoteIdsWithAtLeastInterval(noteIds, interval);
@@ -112,7 +117,8 @@ namespace AnkiJapaneseFlashcardManagerTests
 		public void No_note_ids_found_with_at_least_the_given_interval_is_empty(string anki2File, long[] noteIds, int interval)//Refactor: Merge with Get_note_ids_with_at_least_the_given_interval()
 		{
 			//Arrange
-			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
+			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 
 			//Act
 			var noteIdsWithGivenInterval = anki2Controller.GetNoteIdsWithAtLeastInterval(noteIds, interval);
@@ -129,7 +135,8 @@ namespace AnkiJapaneseFlashcardManagerTests
 		public void Get_note_ids_with_at_least_the_kanji_interval(string anki2File, long[] noteIds, long[] expectedNoteIds)
 		{
 			//Arrange
-			Anki2Controller anki2Controller = new Anki2Controller(_anki2FolderPath + anki2File);
+			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
+			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 
 			//Act
 			var noteIdsWithKanjiInterval = anki2Controller.GetNoteIdsWithAtLeastKanjiInterval(noteIds);

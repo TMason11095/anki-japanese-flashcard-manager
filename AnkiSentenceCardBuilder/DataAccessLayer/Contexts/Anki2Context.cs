@@ -1,5 +1,6 @@
 ﻿using AnkiJapaneseFlashcardManager.DataAccessLayer.Interfaces.Contexts;
 using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,12 @@ namespace AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts
             return new DbContextOptionsBuilder<Anki2Context>()
 				.UseSqlite($"Data Source={dbPath}")
 				.Options;
+		}
+
+        public override void Dispose()
+        {
+			SqliteConnection.ClearPool((SqliteConnection) Database.GetDbConnection());
+			base.Dispose();
 		}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
