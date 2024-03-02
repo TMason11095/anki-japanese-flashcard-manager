@@ -55,8 +55,8 @@ namespace Tests.ApplicationLayer.Services
 		}
 
 		[Theory]
-		[InlineData("deck_with_different_card_types.anki2", 1707263514556)]
-		public void No_sub_kanji_ids_found_is_empty(string anki2File, long deckId)
+		[InlineData("deck_with_different_card_types.anki2", 1707263514556, new string[0])]
+		public void No_sub_kanji_ids_found_is_empty(string anki2File, long deckId, string[] expectedSubKanjiIds)
 		{
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
@@ -69,7 +69,7 @@ namespace Tests.ApplicationLayer.Services
 			List<string> subKanjiIds = kanjiNoteService.GetSubKanjiIds(kanjiNotes);
 
 			//Assert
-			subKanjiIds.Should().BeEmpty();
+			subKanjiIds.Should().BeEquivalentTo(expectedSubKanjiIds);
 		}
 
 		[Theory]
