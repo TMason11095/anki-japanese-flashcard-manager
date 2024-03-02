@@ -33,7 +33,7 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services.Management
 			KanjiDeckService kanjiDeckService = new KanjiDeckService(new DeckService(new DeckRepository(anki2Context)));
 			CardRepository cardRepository = new CardRepository(anki2Context);
 			List<Card> allOriginalCards = anki2Context.Cards.AsNoTracking().ToList();
-			KanjiServiceManagement kanjiServiceManagement = new KanjiServiceManagement(anki2Controller, kanjiDeckService, new KanjiCardService(cardRepository), cardRepository);
+			KanjiServiceManagement kanjiServiceManagement = new KanjiServiceManagement(kanjiDeckService, new KanjiCardService(cardRepository), cardRepository);
 
 			//Act
 			bool movedNotes = kanjiServiceManagement.MoveNewKanjiToLearningKanji();
@@ -73,7 +73,7 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services.Management
 			DeckService deckService = new DeckService(new DeckRepository(anki2Context));
 			CardRepository cardRepository = new CardRepository(anki2Context);
 			List<Card> allOriginalCards = anki2Context.Cards.AsNoTracking().ToList();
-			KanjiServiceManagement kanjiServiceManagement = new KanjiServiceManagement(anki2Controller, new KanjiDeckService(deckService), new KanjiCardService(cardRepository), cardRepository);
+			KanjiServiceManagement kanjiServiceManagement = new KanjiServiceManagement(new KanjiDeckService(deckService), new KanjiCardService(cardRepository), cardRepository);
 
 			//Act
 			bool movedNotes = kanjiServiceManagement.MoveResourceSubKanjiToNewKanji();
