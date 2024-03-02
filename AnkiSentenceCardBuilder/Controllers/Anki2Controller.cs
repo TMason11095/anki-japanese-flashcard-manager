@@ -21,11 +21,6 @@ namespace AnkiSentenceCardBuilder.Controllers
             _context = context;
         }
 
-		public List<T> GetTable<T>() where T : class
-        {
-            return _context.Set<T>().AsNoTracking().ToList();
-        }
-
 		//public Deck GetDeckById(long deckId)//TODO
 		//{
 		//	return null;
