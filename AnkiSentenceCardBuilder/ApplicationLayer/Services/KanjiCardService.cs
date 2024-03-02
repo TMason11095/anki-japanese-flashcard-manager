@@ -1,4 +1,5 @@
 ﻿using AnkiJapaneseFlashcardManager.Config;
+using AnkiJapaneseFlashcardManager.DataAccessLayer.Repositories;
 using AnkiSentenceCardBuilder.Controllers;
 using System;
 using System.Collections.Generic;
@@ -10,11 +11,11 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services
 {
 	public class KanjiCardService
 	{
-		private readonly Anki2Controller _controller;
+		private readonly CardRepository _cardRepository;
 
-		public KanjiCardService(Anki2Controller controller)
+		public KanjiCardService(CardRepository cardRepository)
 		{
-			_controller = controller;
+			_cardRepository = cardRepository;
 		}
 
 		public IEnumerable<long> GetNoteIdsWithAtLeastKanjiInterval(IEnumerable<long> noteIds)//Card(Note)
@@ -22,7 +23,7 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services
 			//Get the minimum interval for moving newKanji into learningKanji
 			int newKanjiInterval = AnkiBindingConfig.Bindings.NoteIntervalLimits.MoveFromNewKanji;
 			//Return the note ids with the minimum interval
-			return _controller.GetNoteIdsWithAtLeastInterval(noteIds, newKanjiInterval);
+			return _cardRepository.GetNoteIdsWithAtLeastInterval(noteIds, newKanjiInterval);
 		}
 	}
 }

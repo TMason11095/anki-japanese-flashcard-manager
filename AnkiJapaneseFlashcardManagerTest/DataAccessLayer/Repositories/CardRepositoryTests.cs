@@ -1,5 +1,6 @@
 ﻿using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Helpers;
+using AnkiJapaneseFlashcardManager.DataAccessLayer.Repositories;
 using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
 using AnkiSentenceCardBuilder.Controllers;
 using System;
@@ -8,9 +9,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AnkiJapaneseFlashcardManagerTests
+namespace AnkiJapaneseFlashcardManagerTests.DataAccessLayer.Repositories
 {
-    public class Anki2CardControllerTests
+	public class CardRepositoryTests
 	{
 		//TODO: MOVE TO GLOBAL VARIABLE
 		string _anki2FolderPath = "./Resources/Anki2 Files/";
@@ -27,9 +28,10 @@ namespace AnkiJapaneseFlashcardManagerTests
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
 			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
+			CardRepository cardRepo = new CardRepository(dbContext);
 
 			//Act
-			var notes = anki2Controller.GetDeckNotes(deckId);
+			var notes = cardRepo.GetDeckNotes(deckId);
 
 			//Assert
 			notes.Should().BeEmpty();
@@ -43,9 +45,10 @@ namespace AnkiJapaneseFlashcardManagerTests
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
 			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
+			CardRepository cardRepo = new CardRepository(dbContext);
 
 			//Act
-			var notes = anki2Controller.GetDeckNotes(deckId);
+			var notes = cardRepo.GetDeckNotes(deckId);
 
 			//Assert
 			notes.Should().NotBeEmpty();
@@ -58,9 +61,10 @@ namespace AnkiJapaneseFlashcardManagerTests
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
 			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
+			CardRepository cardRepo = new CardRepository(dbContext);
 
 			//Act
-			var notes = anki2Controller.GetDeckNotes(deckId);
+			var notes = cardRepo.GetDeckNotes(deckId);
 
 			//Assert
 			notes.Select(n => n.Id).Should().BeEquivalentTo(expectedNoteIds);
@@ -76,12 +80,13 @@ namespace AnkiJapaneseFlashcardManagerTests
 			File.Copy(originalInputFilePath, tempInputFilePath, true);//Copy the input file to prevent changes between unit tests
 			Anki2Context dbContext = new Anki2Context(tempInputFilePath);
 			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
+			CardRepository cardRepo = new CardRepository(dbContext);
 			List<Card> originalNoteDeckJunctions = anki2Controller.GetTable<Card>()
 																.Where(c => noteIdsToMove.Contains(c.NoteId))
 																.ToList();//Grab the current note/deck relations for the give note ids
 
 			//Act
-			bool movedNotes = anki2Controller.MoveNotesBetweenDecks(noteIdsToMove, deckIdToMoveTo);
+			bool movedNotes = cardRepo.MoveNotesBetweenDecks(noteIdsToMove, deckIdToMoveTo);
 
 			//Assert
 			movedNotes.Should().BeTrue();//Function completed successfully
@@ -105,9 +110,10 @@ namespace AnkiJapaneseFlashcardManagerTests
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
 			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
+			CardRepository cardRepo = new CardRepository(dbContext);
 
 			//Act
-			var noteIdsWithGivenInterval = anki2Controller.GetNoteIdsWithAtLeastInterval(noteIds, interval);
+			var noteIdsWithGivenInterval = cardRepo.GetNoteIdsWithAtLeastInterval(noteIds, interval);
 
 			//Assert
 			noteIdsWithGivenInterval.Should().BeEquivalentTo(expectedNoteIds);
@@ -120,9 +126,10 @@ namespace AnkiJapaneseFlashcardManagerTests
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
 			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
+			CardRepository cardRepo = new CardRepository(dbContext);
 
 			//Act
-			var noteIdsWithGivenInterval = anki2Controller.GetNoteIdsWithAtLeastInterval(noteIds, interval);
+			var noteIdsWithGivenInterval = cardRepo.GetNoteIdsWithAtLeastInterval(noteIds, interval);
 
 			//Assert
 			noteIdsWithGivenInterval.Should().BeEmpty();

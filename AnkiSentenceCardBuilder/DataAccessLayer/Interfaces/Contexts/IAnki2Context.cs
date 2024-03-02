@@ -13,5 +13,7 @@ namespace AnkiJapaneseFlashcardManager.DataAccessLayer.Interfaces.Contexts
 		public DbSet<Card> Cards { get; }
 		public DbSet<Deck> Decks { get; }
 		public DbSet<Note> Notes { get; }
+
+		public int SaveChanges();
 	}
 }
