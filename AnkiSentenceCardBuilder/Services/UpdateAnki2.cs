@@ -1,6 +1,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
+using AnkiJapaneseFlashcardManager.DataAccessLayer.Helpers;
 using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
 using AnkiSentenceCardBuilder.Controllers;
 using Azure.Storage.Blobs.Specialized;
@@ -32,7 +33,7 @@ namespace AnkiSentenceCardBuilder.Services
             var decks = anki2Controller.GetTable<Deck>();
 
 			//Cleanup
-			dbContext.Dispose();
+			DbContextHelper.ClearSqlitePool(dbContext);
 
 
 			//using var blobStreamReader = new StreamReader(stream);
