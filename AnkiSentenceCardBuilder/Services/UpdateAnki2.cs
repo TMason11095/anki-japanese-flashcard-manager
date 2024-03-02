@@ -30,7 +30,7 @@ namespace AnkiSentenceCardBuilder.Services
 			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
 
             //Get the decks
-            var decks = anki2Controller.GetTable<Deck>();
+            //var decks = anki2Controller.GetTable<Deck>();
 
 			//Cleanup
 			DbContextHelper.ClearSqlitePool(dbContext);
