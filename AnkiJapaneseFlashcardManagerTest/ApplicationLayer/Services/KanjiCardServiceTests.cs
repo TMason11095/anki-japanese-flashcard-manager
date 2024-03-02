@@ -1,5 +1,6 @@
 ﻿using AnkiJapaneseFlashcardManager.ApplicationLayer.Services;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
+using AnkiJapaneseFlashcardManager.DataAccessLayer.Repositories;
 using AnkiSentenceCardBuilder.Controllers;
 using System;
 using System.Collections.Generic;
@@ -23,8 +24,7 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services
 		{
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
-			KanjiCardService kanjiCardService = new KanjiCardService(anki2Controller);
+			KanjiCardService kanjiCardService = new KanjiCardService(new CardRepository(dbContext));
 
 			//Act
 			var noteIdsWithKanjiInterval = kanjiCardService.GetNoteIdsWithAtLeastKanjiInterval(noteIds);

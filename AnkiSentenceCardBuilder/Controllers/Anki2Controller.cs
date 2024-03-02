@@ -41,15 +41,6 @@ namespace AnkiSentenceCardBuilder.Controllers
 		//	return null;
 		//}
 
-		public IEnumerable<long> GetNoteIdsWithAtLeastInterval(IEnumerable<long> noteIds, int interval)//Card(Note)
-		{
-			return _context.Cards
-						.Where(c => noteIds.Contains(c.NoteId))//Grab cards with matching note ids
-						.Where(c => c.Interval >= interval)//Filter cards with matching intervals
-						.Select(c => c.NoteId)//Grab the note ids
-						.ToList();//Return the list
-		}
-
 		/// <summary>
 		/// Get the minimum interval for each note in a list of note ids
 		/// </summary>

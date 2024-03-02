@@ -110,9 +110,10 @@ namespace AnkiJapaneseFlashcardManagerTests.DataAccessLayer.Repositories
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
 			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
+			CardRepository cardRepo = new CardRepository(dbContext);
 
 			//Act
-			var noteIdsWithGivenInterval = anki2Controller.GetNoteIdsWithAtLeastInterval(noteIds, interval);
+			var noteIdsWithGivenInterval = cardRepo.GetNoteIdsWithAtLeastInterval(noteIds, interval);
 
 			//Assert
 			noteIdsWithGivenInterval.Should().BeEquivalentTo(expectedNoteIds);
@@ -125,9 +126,10 @@ namespace AnkiJapaneseFlashcardManagerTests.DataAccessLayer.Repositories
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
 			Anki2Controller anki2Controller = new Anki2Controller(dbContext);
+			CardRepository cardRepo = new CardRepository(dbContext);
 
 			//Act
-			var noteIdsWithGivenInterval = anki2Controller.GetNoteIdsWithAtLeastInterval(noteIds, interval);
+			var noteIdsWithGivenInterval = cardRepo.GetNoteIdsWithAtLeastInterval(noteIds, interval);
 
 			//Assert
 			noteIdsWithGivenInterval.Should().BeEmpty();

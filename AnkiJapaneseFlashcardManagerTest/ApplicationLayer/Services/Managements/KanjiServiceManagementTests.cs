@@ -30,8 +30,9 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services.Management
 			Anki2Context anki2Context = new Anki2Context(tempInputFilePath);
 			Anki2Controller anki2Controller = new Anki2Controller(anki2Context);
 			KanjiDeckService kanjiDeckService = new KanjiDeckService(new DeckService(new DeckRepository(anki2Context)));
+			CardRepository cardRepository = new CardRepository(anki2Context);
 			List<Card> allOriginalCards = anki2Controller.GetTable<Card>();
-			KanjiServiceManagement kanjiServiceManagement = new KanjiServiceManagement(anki2Controller, kanjiDeckService, new KanjiCardService(anki2Controller), new CardRepository(anki2Context));
+			KanjiServiceManagement kanjiServiceManagement = new KanjiServiceManagement(anki2Controller, kanjiDeckService, new KanjiCardService(cardRepository), cardRepository);
 
 			//Act
 			bool movedNotes = kanjiServiceManagement.MoveNewKanjiToLearningKanji();
@@ -69,8 +70,9 @@ namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services.Management
 			Anki2Context anki2Context = new Anki2Context(tempInputFilePath);
 			Anki2Controller anki2Controller = new Anki2Controller(anki2Context);
 			DeckService deckService = new DeckService(new DeckRepository(anki2Context));
+			CardRepository cardRepository = new CardRepository(anki2Context);
 			List<Card> allOriginalCards = anki2Controller.GetTable<Card>();
-			KanjiServiceManagement kanjiServiceManagement = new KanjiServiceManagement(anki2Controller, new KanjiDeckService(deckService), new KanjiCardService(anki2Controller), new CardRepository(anki2Context));
+			KanjiServiceManagement kanjiServiceManagement = new KanjiServiceManagement(anki2Controller, new KanjiDeckService(deckService), new KanjiCardService(cardRepository), cardRepository);
 
 			//Act
 			bool movedNotes = kanjiServiceManagement.MoveResourceSubKanjiToNewKanji();
