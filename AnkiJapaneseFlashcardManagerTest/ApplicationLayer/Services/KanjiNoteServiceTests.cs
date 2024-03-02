@@ -16,26 +16,12 @@ namespace Tests.ApplicationLayer.Services
 		string _anki2FolderPath = "./Resources/Anki2 Files/";
 
 		[Theory]
+		//Test Case: Note ids found
 		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160947123, new[] { 1707169497960, 1707169570657, 1707169983389, 1707170000793 })]
 		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160682667, new[] { 1707169522144 })]
-		public void Get_kanji_notes(string anki2File, long deckId, long[] expectedNoteIds)
-		{
-			//Arrange
-			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			CardRepository cardRepo = new CardRepository(dbContext);
-			List<Note> notes = cardRepo.GetDeckNotes(deckId);
-			KanjiNoteService kanjiNoteService = new KanjiNoteService();
-
-			//Act
-			var taggedNotes = kanjiNoteService.GetKanjiNotes(notes);
-
-			//Assert
-			taggedNotes.Select(n => n.Id).Should().BeEquivalentTo(expectedNoteIds);
-		}
-
-		[Theory]
+		//Test Case: Note ids not found
 		[InlineData("deck_with_different_card_types.anki2", 1707263514556, new long[0])]
-		public void No_kanji_notes_found_is_empty(string anki2File, long deckId, long[] expectedNoteIds)
+		public void Get_kanji_notes(string anki2File, long deckId, long[] expectedNoteIds)
 		{
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
