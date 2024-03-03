@@ -127,8 +127,8 @@ namespace Tests.ApplicationLayer.Services
 		}
 
 		[Theory]
-		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160682667, new[] { "0", "nonExistentId" })]
-		public void Invalid_kanji_id_is_empty(string anki2File, long deckId, string[] kanjiIds)
+		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160682667, new[] { "0", "nonExistentId" }, new long[0])]
+		public void Invalid_kanji_id_is_empty(string anki2File, long deckId, string[] kanjiIds, long[] expectedNoteIds)
 		{
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
@@ -140,7 +140,7 @@ namespace Tests.ApplicationLayer.Services
 			List<Note> kanjiNotes = kanjiNoteService.GetNotesByKanjiIds(notes, kanjiIds);
 
 			//Assert
-			kanjiNotes.Should().BeEmpty();
+			kanjiNotes.Select(n => n.Id).Should().BeEquivalentTo(expectedNoteIds);
 		}
 	}
 }
