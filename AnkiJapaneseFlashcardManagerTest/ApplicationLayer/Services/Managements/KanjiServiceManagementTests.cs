@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AnkiJapaneseFlashcardManagerTests.ApplicationLayer.Services.Managements
+namespace Tests.ApplicationLayer.Services.Managements
 {
 	public class KanjiServiceManagementTests
 	{

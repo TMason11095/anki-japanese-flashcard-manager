@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AnkiJapaneseFlashcardManagerTests.DataAccessLayer.Repositories
+namespace Tests.DataAccessLayer.Repositories
 {
 	public class DeckRepositoryTests
 	{

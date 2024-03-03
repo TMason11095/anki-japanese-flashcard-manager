@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AnkiJapaneseFlashcardManagerTests.DataAccessLayer.Repositories
+namespace Tests.DataAccessLayer.Repositories
 {
 	public class CardRepositoryTests
 	{
@@ -18,44 +18,19 @@ namespace AnkiJapaneseFlashcardManagerTests.DataAccessLayer.Repositories
 		string _anki2FolderPath = "./Resources/Anki2 Files/";
 
 		[Theory]
-		[InlineData("empty_random_decks.anki2", 1706982318565)]
-		[InlineData("empty_random_decks.anki2", 1706982351536)]
-		[InlineData("empty_kanjiResource_newKanji_decks.anki2", 1706982318565)]
-		[InlineData("empty_kanjiResource_newKanji_decks.anki2", 1706982351536)]
-		[InlineData("empty_kanjiResource_newKanji_decks.anki2", 1707160682667)]
-		[InlineData("empty_kanjiResource_newKanji_decks.anki2", 1707160947123)]
-		public void No_notes_found_in_a_deck_is_empty(string anki2File, long deckId)
-		{
-			//Arrange
-			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			CardRepository cardRepo = new CardRepository(dbContext);
-
-			//Act
-			var notes = cardRepo.GetDeckNotes(deckId);
-
-			//Assert
-			notes.Should().BeEmpty();
-		}
-
-		[Theory]
-		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160947123)]
-		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160682667)]
-		public void Get_notes_by_deck_id(string anki2File, long deckId)//TODO: Refactor to check for expected values
-		{
-			//Arrange
-			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			CardRepository cardRepo = new CardRepository(dbContext);
-
-			//Act
-			var notes = cardRepo.GetDeckNotes(deckId);
-
-			//Assert
-			notes.Should().NotBeEmpty();
-		}
-
-		[Theory]
+		//Test case: Note ids found
+		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160947123, new[] { 1707169497960, 1707169570657, 1707169983389, 1707170000793 })]
+		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160682667, new[] { 1707169522144 })]
+		//Test case: No note ids found
+		[InlineData("empty_random_decks.anki2", 1706982318565, new long[0])]
+		[InlineData("empty_random_decks.anki2", 1706982351536, new long[0])]
+		[InlineData("empty_kanjiResource_newKanji_decks.anki2", 1706982318565, new long[0])]
+		[InlineData("empty_kanjiResource_newKanji_decks.anki2", 1706982351536, new long[0])]
+		[InlineData("empty_kanjiResource_newKanji_decks.anki2", 1707160682667, new long[0])]
+		[InlineData("empty_kanjiResource_newKanji_decks.anki2", 1707160947123, new long[0])]
+		//Test case: Duplicate note ids found is a distinct list
 		[InlineData("deck_with_different_card_types.anki2", 1707263514556, new[] { 1707263555296, 1707263973429, 1707263567670 })]
-		public void Mulitple_card_entries_of_the_same_note_is_a_distinct_list_of_notes(string anki2File, long deckId, long[] expectedNoteIds)
+		public void Get_notes_by_deck_id(string anki2File, long deckId, long[] expectedNoteIds)
 		{
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
@@ -99,9 +74,12 @@ namespace AnkiJapaneseFlashcardManagerTests.DataAccessLayer.Repositories
 		}
 
 		[Theory]
+		//Test case: Note ids found
 		[InlineData("emptyLearningKanji_0ivl飲1ivl食欠良5ivl人newKanji_decks.anki2", new[] { 1707169522144, 1707169497960, 1707169570657, 1707170000793, 1707169983389 }, 1, new[] { 1707169497960, 1707169570657, 1707170000793, 1707169983389 })]
 		[InlineData("emptyLearningKanji_0ivl飲1ivl食欠良5ivl人newKanji_decks.anki2", new[] { 1707169522144, 1707169497960, 1707169570657, 1707170000793, 1707169983389 }, 4, new[] { 1707169983389 })]
 		[InlineData("emptyLearningKanji_0ivl飲1ivl食欠良5ivl人newKanji_decks.anki2", new[] { 1707169522144, 1707169497960, 1707169570657, 1707170000793, 1707169983389 }, 5, new[] { 1707169983389 })]
+		//Test case: No note ids found
+		[InlineData("emptyLearningKanji_0ivl飲1ivl食欠良5ivl人newKanji_decks.anki2", new[] { 1707169522144, 1707169497960, 1707169570657, 1707170000793, 1707169983389 }, 7, new long[] { })]
 		public void Get_note_ids_with_at_least_the_given_interval(string anki2File, long[] noteIds, int interval, long[] expectedNoteIds)
 		{
 			//Arrange
@@ -113,21 +91,6 @@ namespace AnkiJapaneseFlashcardManagerTests.DataAccessLayer.Repositories
 
 			//Assert
 			noteIdsWithGivenInterval.Should().BeEquivalentTo(expectedNoteIds);
-		}
-
-		[Theory]
-		[InlineData("emptyLearningKanji_0ivl飲1ivl食欠良5ivl人newKanji_decks.anki2", new[] { 1707169522144, 1707169497960, 1707169570657, 1707170000793, 1707169983389 }, 7)]
-		public void No_note_ids_found_with_at_least_the_given_interval_is_empty(string anki2File, long[] noteIds, int interval)//Refactor: Merge with Get_note_ids_with_at_least_the_given_interval()
-		{
-			//Arrange
-			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			CardRepository cardRepo = new CardRepository(dbContext);
-
-			//Act
-			var noteIdsWithGivenInterval = cardRepo.GetNoteIdsWithAtLeastInterval(noteIds, interval);
-
-			//Assert
-			noteIdsWithGivenInterval.Should().BeEmpty();
 		}
 	}
 }
