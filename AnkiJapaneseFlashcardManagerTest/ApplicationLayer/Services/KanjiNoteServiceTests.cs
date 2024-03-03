@@ -101,9 +101,9 @@ namespace Tests.ApplicationLayer.Services
 		}
 
 		[Theory]
-		[InlineData("deck_with_different_card_types.anki2", 1707263514556, "kid:")]
-		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160947123, "nonExistentTag:")]
-		public void No_tagged_notes_found_is_empty(string anki2File, long deckId, string noteTagName)
+		[InlineData("deck_with_different_card_types.anki2", 1707263514556, "kid:", new long[0])]
+		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160947123, "nonExistentTag:", new long[0])]
+		public void No_tagged_notes_found_is_empty(string anki2File, long deckId, string noteTagName, long[] expectedNoteIds)
 		{
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
@@ -115,7 +115,7 @@ namespace Tests.ApplicationLayer.Services
 			var taggedNotes = kanjiNoteService.GetTaggedNotes(notes, noteTagName);
 
 			//Assert
-			taggedNotes.Should().BeEmpty();
+			taggedNotes.Select(n => n.Id).Should().BeEquivalentTo(expectedNoteIds);
 		}
 
 		[Theory]
