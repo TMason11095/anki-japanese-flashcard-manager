@@ -1,4 +1,5 @@
 ﻿using AnkiJapaneseFlashcardManager.ApplicationLayer.Services;
+using AnkiJapaneseFlashcardManager.ApplicationLayer.Services.Managements;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Helpers;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Repositories;
@@ -62,6 +63,13 @@ namespace Tests.TestHelpers
 		{
 			get { return SingletonObject(ref _kanjiNoteService, () => new KanjiNoteService()); }
 			private set { _kanjiNoteService = value; }
+		}
+
+		private KanjiServiceManagement _kanjiServiceManagement;
+		public KanjiServiceManagement KanjiServiceManagement
+		{
+			get { return SingletonObject(ref _kanjiServiceManagement, () => new KanjiServiceManagement(this.KanjiDeckService, this.KanjiCardService, this.CardRepository)); }
+			private set { _kanjiServiceManagement = value; }
 		}
 
 		private T SingletonObject<T>(ref T singletonObject, Func<T> constructor)
