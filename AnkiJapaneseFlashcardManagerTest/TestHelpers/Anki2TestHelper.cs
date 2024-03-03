@@ -1,5 +1,7 @@
 ﻿using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
+using AnkiJapaneseFlashcardManager.DataAccessLayer.Helpers;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,30 +10,47 @@ using System.Threading.Tasks;
 
 namespace Tests.TestHelpers
 {
-	public class Anki2TestHelper
+	public class Anki2TestHelper : IDisposable
 	{
 		private const string Anki2FolderPath = "./Resources/Anki2 Files/";
 		private string _anki2File;
 		private string _anki2FilePath;
+		private string _anki2TempFilePath;
+		private bool _useEditableCopy;
+		private string _currentlyUsedFilePath;
+
 		private Anki2Context _anki2Context;
 
 		private DeckRepository _deckRepository;
 		private CardRepository _cardRepository;
 
-		public Anki2TestHelper(string anki2File)//, bool createEditableCopy = false)
+		public Anki2TestHelper(string anki2File, bool createTempCopy = false)
 		{
 			//Setup the file path
 			_anki2File = anki2File;
 			_anki2FilePath = Anki2FolderPath + _anki2File;
 
-			////Create the editable copy
-			//if (createEditableCopy)
-			//{
-
-			//}
+			//Create the editable copy
+			_useEditableCopy = createTempCopy;
+			if (_useEditableCopy)
+			{
+				//Create a temp copy of the anki2 file
+				_anki2TempFilePath = $"{Anki2FolderPath}temp_{Guid.NewGuid()}.anki2";
+				File.Copy(_anki2FilePath, _anki2TempFilePath, true);
+			}
 
 			//Setup the DbContext
 			_anki2Context = new Anki2Context(_anki2FilePath);
+		}
+
+		public void Dispose()
+		{
+			//Clean up the temp file if needed
+			if (_useEditableCopy)
+			{
+				DbContextHelper.ClearSqlitePool(_anki2Context);
+				File.Delete(_anki2TempFilePath);
+			}
 		}
 
 		public DeckRepository GetDeckRepository()
