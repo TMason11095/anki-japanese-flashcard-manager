@@ -23,8 +23,7 @@ namespace Tests.ApplicationLayer.Services.Managements
 		{
 			//Arrange
 			Anki2TestHelper helper = new Anki2TestHelper(anki2File, createTempCopy: true);
-			Anki2Context anki2Context = helper.Anki2Context;
-			List<Card> allOriginalCards = anki2Context.Cards.AsNoTracking().ToList();
+			List<Card> allOriginalCards = helper.GetAllNoTrackingCards();
 			KanjiServiceManagement kanjiServiceManagement = helper.KanjiServiceManagement;
 
 			//Act
@@ -32,7 +31,7 @@ namespace Tests.ApplicationLayer.Services.Managements
 
 			//Get Assert Values
 			//Get changed cards
-			var allCardsAfterFunction = anki2Context.Cards.AsNoTracking().ToList();
+			var allCardsAfterFunction = helper.GetAllNoTrackingCards();
 			var changedCards = allOriginalCards
 				.Join(allCardsAfterFunction,
 					originalCard => originalCard.Id,
@@ -53,8 +52,7 @@ namespace Tests.ApplicationLayer.Services.Managements
 		{
 			//Arrange
 			Anki2TestHelper helper = new Anki2TestHelper(anki2File, createTempCopy: true);
-			Anki2Context anki2Context = helper.Anki2Context;
-			List<Card> allOriginalCards = anki2Context.Cards.AsNoTracking().ToList();
+			List<Card> allOriginalCards = helper.GetAllNoTrackingCards();
 			KanjiServiceManagement kanjiServiceManagement = helper.KanjiServiceManagement;
 
 			//Act
@@ -62,7 +60,7 @@ namespace Tests.ApplicationLayer.Services.Managements
 
 			//Get Assert Values
 			//Get changed cards
-			var allCardsAfterFunction = anki2Context.Cards.AsNoTracking().ToList();
+			var allCardsAfterFunction = helper.GetAllNoTrackingCards();
 			var changedCards = allOriginalCards
 				.Join(allCardsAfterFunction,
 					originalCard => originalCard.Id,
