@@ -1,4 +1,5 @@
-﻿using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
+﻿using AnkiJapaneseFlashcardManager.ApplicationLayer.Services;
+using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Helpers;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -33,6 +34,13 @@ namespace Tests.TestHelpers
 		{
 			get { return SingletonObject(ref _cardRepository, () => new CardRepository(Anki2Context)); }
 			private set { _cardRepository = value; }
+		}
+
+		private KanjiNoteService _kanjiNoteService;
+		public KanjiNoteService KanjiNoteService
+		{
+			get { return SingletonObject(ref _kanjiNoteService, () => new KanjiNoteService()); }
+			private set { _kanjiNoteService = value; }
 		}
 
 		private T SingletonObject<T>(ref T singletonObject, Func<T> constructor)
