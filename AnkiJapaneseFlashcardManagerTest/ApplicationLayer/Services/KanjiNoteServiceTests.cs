@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tests.TestHelpers;
 
 namespace Tests.ApplicationLayer.Services
 {
@@ -24,8 +25,7 @@ namespace Tests.ApplicationLayer.Services
 		public void Get_kanji_notes(string anki2File, long deckId, long[] expectedNoteIds)
 		{
 			//Arrange
-			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			CardRepository cardRepo = new CardRepository(dbContext);
+			CardRepository cardRepo = new Anki2TestHelper(anki2File).CardRepository;
 			List<Note> notes = cardRepo.GetDeckNotes(deckId);
 			KanjiNoteService kanjiNoteService = new KanjiNoteService();
 
