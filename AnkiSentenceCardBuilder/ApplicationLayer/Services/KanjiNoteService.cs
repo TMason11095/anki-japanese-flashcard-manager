@@ -61,7 +61,7 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services
 			//Get kanji id tag
 			string kanjiIdTag = AnkiBindingConfig.Bindings.NoteTags.KanjiId;
 			//Return the kanji notes with matching ids
-			return kanjiNotes.Where(n => NoteHelper.GetIdsFromTagList(n.TagsList, kanjiIdTag).Exists(id => kanjiIds.Contains(id)));
+			return kanjiNotes.Where(n => NoteHelper.GetIdsFromTagList(n.TagsList, kanjiIdTag).ToList().Exists(id => kanjiIds.Contains(id)));
 		}
 	}
 }
