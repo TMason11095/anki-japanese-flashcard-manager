@@ -12,9 +12,6 @@ namespace Tests.ApplicationLayer.Services
 {
 	public class KanjiDeckServiceTests
 	{
-		//TODO: MOVE TO GLOBAL VARIABLE
-		string _anki2FolderPath = "./Resources/Anki2 Files/";
-
 		[Theory]
 		//Test case: Deck ids found
 		[InlineData("empty_kanjiResource_deck.anki2", new long[] { 1706982246215 })]
