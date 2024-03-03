@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tests.TestHelpers;
 
 namespace Tests.ApplicationLayer.Services
 {
@@ -23,9 +24,7 @@ namespace Tests.ApplicationLayer.Services
 		public void Get_kanji_resource_decks(string anki2File, long[] expectedDeckIds)
 		{
 			//Arange
-			Anki2Context anki2Context = new Anki2Context(_anki2FolderPath + anki2File);
-			DeckService deckService = new DeckService(new DeckRepository(anki2Context));
-			KanjiDeckService kanjiDeckService = new KanjiDeckService(deckService);
+			KanjiDeckService kanjiDeckService = new Anki2TestHelper(anki2File).KanjiDeckService;
 
 			//Act
 			var taggedDecks = kanjiDeckService.GetResourceKanjiDecks();
@@ -43,9 +42,7 @@ namespace Tests.ApplicationLayer.Services
 		public void Get_new_kanji_decks(string anki2File, long[] expectedDeckIds)
 		{
 			//Arange
-			Anki2Context anki2Context = new Anki2Context(_anki2FolderPath + anki2File);
-			DeckService deckService = new DeckService(new DeckRepository(anki2Context));
-			KanjiDeckService kanjiDeckService = new KanjiDeckService(deckService);
+			KanjiDeckService kanjiDeckService = new Anki2TestHelper(anki2File).KanjiDeckService;
 
 			//Act
 			var taggedDecks = kanjiDeckService.GetNewKanjiDecks();
@@ -62,9 +59,7 @@ namespace Tests.ApplicationLayer.Services
 		public void Get_learning_kanji_decks(string anki2File, long[] expectedDeckIds)
 		{
 			//Arange
-			Anki2Context anki2Context = new Anki2Context(_anki2FolderPath + anki2File);
-			DeckService deckService = new DeckService(new DeckRepository(anki2Context));
-			KanjiDeckService kanjiDeckService = new KanjiDeckService(deckService);
+			KanjiDeckService kanjiDeckService = new Anki2TestHelper(anki2File).KanjiDeckService;
 
 			//Act
 			var learningKanjiDecks = kanjiDeckService.GetLearningKanjiDecks();
