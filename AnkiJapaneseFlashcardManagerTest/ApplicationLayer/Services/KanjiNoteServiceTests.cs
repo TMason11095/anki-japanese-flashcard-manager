@@ -60,28 +60,11 @@ namespace Tests.ApplicationLayer.Services
 		}
 
 		[Theory]
+		//Test Case: Note ids pulled
 		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160947123, 1707160682667, new[] { 1707169497960, 1707169570657, 1707169983389, 1707170000793 })]
-		public void Pull_all_sub_kanji_notes_from_note_list(string anki2File, long sourceDeckId, long originalKanjiDeckId, long[] expectedKanjiNoteIds)
-		{
-			//Arrange
-			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			KanjiNoteService kanjiNoteService = new KanjiNoteService();
-			CardRepository cardRepo = new CardRepository(dbContext);
-			List<Note> sourceNotes = cardRepo.GetDeckNotes(sourceDeckId);
-			int sourceNotesOriginalCount = sourceNotes.Count;
-			List<Note> originalKanjiNotes = cardRepo.GetDeckNotes(originalKanjiDeckId);
-
-			//Act
-			var subKanjiNotes = kanjiNoteService.PullAllSubKanjiNotesFromNoteList(ref sourceNotes, originalKanjiNotes);
-
-			//Assert
-			sourceNotes.Count.Should().Be(sourceNotesOriginalCount - subKanjiNotes.Count);//Should have removed all the found kanji notes
-			subKanjiNotes.Select(n => n.Id).Should().BeEquivalentTo(expectedKanjiNoteIds);
-		}
-
-		[Theory]
+		//Test Case: Note ids not pulled
 		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1706982318565, 1707160682667, new long[0])]
-		public void Sub_kanji_notes_not_found_in_note_list_is_empty(string anki2File, long sourceDeckId, long originalKanjiDeckId, long[] expectedKanjiNoteIds)
+		public void Pull_all_sub_kanji_notes_from_note_list(string anki2File, long sourceDeckId, long originalKanjiDeckId, long[] expectedKanjiNoteIds)
 		{
 			//Arrange
 			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
