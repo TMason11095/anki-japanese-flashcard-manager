@@ -24,7 +24,7 @@ namespace Tests.ApplicationLayer.Services
 			//Arrange
 			Anki2TestHelper helper = new Anki2TestHelper(anki2File);
 			CardRepository cardRepo = helper.CardRepository;
-			List<Note> notes = cardRepo.GetDeckNotes(deckId);
+			IEnumerable<Note> notes = cardRepo.GetDeckNotes(deckId);
 			KanjiNoteService kanjiNoteService = helper.KanjiNoteService;
 
 			//Act
@@ -46,12 +46,12 @@ namespace Tests.ApplicationLayer.Services
 			//Arrange
 			Anki2TestHelper helper = new Anki2TestHelper(anki2File);
 			CardRepository cardRepo = helper.CardRepository;
-			List<Note> notes = cardRepo.GetDeckNotes(deckId);
+			IEnumerable<Note> notes = cardRepo.GetDeckNotes(deckId);
 			KanjiNoteService kanjiNoteService = helper.KanjiNoteService;
-			List<Note> kanjiNotes = kanjiNoteService.GetKanjiNotes(notes);
+			IEnumerable<Note> kanjiNotes = kanjiNoteService.GetKanjiNotes(notes);
 
 			//Act
-			List<string> subKanjiIds = kanjiNoteService.GetSubKanjiIds(kanjiNotes);
+			IEnumerable<string> subKanjiIds = kanjiNoteService.GetSubKanjiIds(kanjiNotes);
 
 			//Assert
 			subKanjiIds.Should().BeEquivalentTo(expectedSubKanjiIds);
@@ -68,9 +68,9 @@ namespace Tests.ApplicationLayer.Services
 			Anki2TestHelper helper = new Anki2TestHelper(anki2File);
 			KanjiNoteService kanjiNoteService = helper.KanjiNoteService;
 			CardRepository cardRepo = helper.CardRepository;
-			List<Note> sourceNotes = cardRepo.GetDeckNotes(sourceDeckId);
+			List<Note> sourceNotes = cardRepo.GetDeckNotes(sourceDeckId).ToList();
 			int sourceNotesOriginalCount = sourceNotes.Count;
-			List<Note> originalKanjiNotes = cardRepo.GetDeckNotes(originalKanjiDeckId);
+			List<Note> originalKanjiNotes = cardRepo.GetDeckNotes(originalKanjiDeckId).ToList();
 
 			//Act
 			var subKanjiNotes = kanjiNoteService.PullAllSubKanjiNotesFromNoteList(ref sourceNotes, originalKanjiNotes);
@@ -93,7 +93,7 @@ namespace Tests.ApplicationLayer.Services
 			Anki2TestHelper helper = new Anki2TestHelper(anki2File);
 			KanjiNoteService kanjiNoteService = helper.KanjiNoteService;
 			CardRepository cardRepo = helper.CardRepository;
-			List<Note> notes = cardRepo.GetDeckNotes(deckId);
+			IEnumerable<Note> notes = cardRepo.GetDeckNotes(deckId);
 
 			//Act
 			var taggedNotes = kanjiNoteService.GetTaggedNotes(notes, noteTagName);
@@ -114,14 +114,14 @@ namespace Tests.ApplicationLayer.Services
 			Anki2TestHelper helper = new Anki2TestHelper(anki2File);
 			KanjiNoteService kanjiNoteService = helper.KanjiNoteService;
 			CardRepository cardRepo = helper.CardRepository;
-			List<Note> notes = cardRepo.GetDeckNotes(deckId);
+			IEnumerable<Note> notes = cardRepo.GetDeckNotes(deckId);
 
 			//Redundant? (Filter for "kid:" but then instantly filter again to grab the ids)
 			//(Only care about using GetKanjiNotes() when trying to access data that isn't "kid")
 			//List<Note> kanjiNotes = anki2Controller.GetKanjiNotes(notes);
 
 			//Act
-			List<Note> kanjiNotes = kanjiNoteService.GetNotesByKanjiIds(notes, kanjiIds);
+			var kanjiNotes = kanjiNoteService.GetNotesByKanjiIds(notes, kanjiIds);
 
 			//Assert
 			kanjiNotes.Select(n => n.Id).Should().BeEquivalentTo(expectedNoteIds);
