@@ -48,13 +48,9 @@ namespace Tests.DataAccessLayer.Repositories
 		public void Move_notes_between_decks(string anki2File, long[] noteIdsToMove, long deckIdToMoveTo)
 		{
 			//Arrange
-			var test = new Anki2TestHelper(anki2File, createTempCopy: true);
-
-			string originalInputFilePath = _anki2FolderPath + anki2File;
-			string tempInputFilePath = $"{_anki2FolderPath}temp_{Guid.NewGuid()}.anki2";
-			File.Copy(originalInputFilePath, tempInputFilePath, true);//Copy the input file to prevent changes between unit tests
-			Anki2Context dbContext = new Anki2Context(tempInputFilePath);
-			CardRepository cardRepo = new CardRepository(dbContext);
+			Anki2TestHelper helper = new Anki2TestHelper(anki2File, createTempCopy: true);
+			Anki2Context dbContext = helper.GetAnki2Context();
+			CardRepository cardRepo = helper.GetCardRepository();
 			List<Card> originalNoteDeckJunctions = dbContext.Cards.AsNoTracking()
 																.Where(c => noteIdsToMove.Contains(c.NoteId))
 																.ToList();//Grab the current note/deck relations for the give note ids
@@ -69,10 +65,6 @@ namespace Tests.DataAccessLayer.Repositories
 																.ToList();//Grab the current note/deck relations for the give note ids after running the function
 			finalNoteDeckJunctions.Count().Should().Be(originalNoteDeckJunctions.Count());//No note/deck relations should have been removed/added
 			finalNoteDeckJunctions.Select(c => c.DeckId).Should().AllBeEquivalentTo(deckIdToMoveTo);//All junction deckIds should be the given deckId
-
-			//Cleanup
-			DbContextHelper.ClearSqlitePool(dbContext);
-			File.Delete(tempInputFilePath);
 		}
 
 		[Theory]
