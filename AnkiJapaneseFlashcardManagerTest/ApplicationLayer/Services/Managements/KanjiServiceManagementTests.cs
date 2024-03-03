@@ -38,8 +38,7 @@ namespace Tests.ApplicationLayer.Services.Managements
 					originalCard => originalCard.Id,
 					updatedCard => updatedCard.Id,
 					(originalCard, updatedCard) => new { OriginalCard = originalCard, UpdatedCard = updatedCard })
-				.Where(pair => !pair.OriginalCard.Equals(pair.UpdatedCard))
-				.ToList();
+				.Where(pair => !pair.OriginalCard.Equals(pair.UpdatedCard));
 			//Assert
 			movedNotes.Should().BeTrue();//Function completed successfully
 			changedCards.Select(p => p.OriginalCard.DeckId).Should().AllBeEquivalentTo(expectedFromDeckId);//Original deck id should match
