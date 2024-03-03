@@ -105,8 +105,11 @@ namespace Tests.ApplicationLayer.Services
 		}
 
 		[Theory]
+		//Test case: Note ids found
 		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160682667, new[] { "1474" }, new[] { 1707169522144 })]
 		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160947123, new[] { "1472", "466", "951", "1468" }, new[] { 1707169497960, 1707169570657, 1707169983389, 1707170000793 })]
+		//Test case: Note ids not found
+		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160682667, new[] { "0", "nonExistentId" }, new long[0])]
 		public void Get_notes_by_kanji_ids(string anki2File, long deckId, string[] kanjiIds, long[] expectedNoteIds)
 		{
 			//Arrange
@@ -118,23 +121,6 @@ namespace Tests.ApplicationLayer.Services
 			//Redundant? (Filter for "kid:" but then instantly filter again to grab the ids)
 			//(Only care about using GetKanjiNotes() when trying to access data that isn't "kid")
 			//List<Note> kanjiNotes = anki2Controller.GetKanjiNotes(notes);
-
-			//Act
-			List<Note> kanjiNotes = kanjiNoteService.GetNotesByKanjiIds(notes, kanjiIds);
-
-			//Assert
-			kanjiNotes.Select(n => n.Id).Should().BeEquivalentTo(expectedNoteIds);
-		}
-
-		[Theory]
-		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160682667, new[] { "0", "nonExistentId" }, new long[0])]
-		public void Invalid_kanji_id_is_empty(string anki2File, long deckId, string[] kanjiIds, long[] expectedNoteIds)
-		{
-			//Arrange
-			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			KanjiNoteService kanjiNoteService = new KanjiNoteService();
-			CardRepository cardRepo = new CardRepository(dbContext);
-			List<Note> notes = cardRepo.GetDeckNotes(deckId);
 
 			//Act
 			List<Note> kanjiNotes = kanjiNoteService.GetNotesByKanjiIds(notes, kanjiIds);
