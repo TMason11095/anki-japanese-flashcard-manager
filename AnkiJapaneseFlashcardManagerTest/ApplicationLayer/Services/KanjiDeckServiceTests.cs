@@ -15,9 +15,9 @@ namespace Tests.ApplicationLayer.Services
 		string _anki2FolderPath = "./Resources/Anki2 Files/";
 
 		[Theory]
-		[InlineData("empty_kanjiResource_deck.anki2")]
-		[InlineData("empty_kanjiResource_newKanji_decks.anki2")]
-		public void Get_kanji_resource_decks(string anki2File)//TODO: Refactor to check for expected values
+		[InlineData("empty_kanjiResource_deck.anki2", new long[] { 1706982246215 })]
+		[InlineData("empty_kanjiResource_newKanji_decks.anki2", new long[] { 1707160947123 })]
+		public void Get_kanji_resource_decks(string anki2File, long[] expectedDeckIds)
 		{
 			//Arange
 			Anki2Context anki2Context = new Anki2Context(_anki2FolderPath + anki2File);
@@ -28,7 +28,7 @@ namespace Tests.ApplicationLayer.Services
 			var taggedDecks = kanjiDeckService.GetResourceKanjiDecks();
 
 			//Assert
-			taggedDecks.Should().NotBeEmpty();
+			taggedDecks.Select(d => d.Id).Should().BeEquivalentTo(expectedDeckIds);
 		}
 
 		[Theory]
