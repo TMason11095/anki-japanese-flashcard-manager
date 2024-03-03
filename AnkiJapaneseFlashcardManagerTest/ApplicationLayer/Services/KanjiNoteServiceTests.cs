@@ -13,9 +13,6 @@ namespace Tests.ApplicationLayer.Services
 {
 	public class KanjiNoteServiceTests
 	{
-		//TODO: MOVE TO GLOBAL VARIABLE
-		string _anki2FolderPath = "./Resources/Anki2 Files/";
-
 		[Theory]
 		//Test Case: Note ids found
 		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160947123, new[] { 1707169497960, 1707169570657, 1707169983389, 1707170000793 })]
@@ -25,9 +22,10 @@ namespace Tests.ApplicationLayer.Services
 		public void Get_kanji_notes(string anki2File, long deckId, long[] expectedNoteIds)
 		{
 			//Arrange
-			CardRepository cardRepo = new Anki2TestHelper(anki2File).CardRepository;
+			Anki2TestHelper helper = new Anki2TestHelper(anki2File);
+			CardRepository cardRepo = helper.CardRepository;
 			List<Note> notes = cardRepo.GetDeckNotes(deckId);
-			KanjiNoteService kanjiNoteService = new KanjiNoteService();
+			KanjiNoteService kanjiNoteService = helper.KanjiNoteService;
 
 			//Act
 			var taggedNotes = kanjiNoteService.GetKanjiNotes(notes);
@@ -46,11 +44,11 @@ namespace Tests.ApplicationLayer.Services
 		public void Get_sub_kanji_ids_from_notes(string anki2File, long deckId, string[] expectedSubKanjiIds)
 		{
 			//Arrange
-			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			CardRepository cardRepo = new CardRepository(dbContext);
-			List<Note> deckNotes = cardRepo.GetDeckNotes(deckId);
-			KanjiNoteService kanjiNoteService = new KanjiNoteService();
-			List<Note> kanjiNotes = kanjiNoteService.GetKanjiNotes(deckNotes);
+			Anki2TestHelper helper = new Anki2TestHelper(anki2File);
+			CardRepository cardRepo = helper.CardRepository;
+			List<Note> notes = cardRepo.GetDeckNotes(deckId);
+			KanjiNoteService kanjiNoteService = helper.KanjiNoteService;
+			List<Note> kanjiNotes = kanjiNoteService.GetKanjiNotes(notes);
 
 			//Act
 			List<string> subKanjiIds = kanjiNoteService.GetSubKanjiIds(kanjiNotes);
@@ -67,9 +65,9 @@ namespace Tests.ApplicationLayer.Services
 		public void Pull_all_sub_kanji_notes_from_note_list(string anki2File, long sourceDeckId, long originalKanjiDeckId, long[] expectedKanjiNoteIds)
 		{
 			//Arrange
-			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			KanjiNoteService kanjiNoteService = new KanjiNoteService();
-			CardRepository cardRepo = new CardRepository(dbContext);
+			Anki2TestHelper helper = new Anki2TestHelper(anki2File);
+			KanjiNoteService kanjiNoteService = helper.KanjiNoteService;
+			CardRepository cardRepo = helper.CardRepository;
 			List<Note> sourceNotes = cardRepo.GetDeckNotes(sourceDeckId);
 			int sourceNotesOriginalCount = sourceNotes.Count;
 			List<Note> originalKanjiNotes = cardRepo.GetDeckNotes(originalKanjiDeckId);
@@ -92,9 +90,9 @@ namespace Tests.ApplicationLayer.Services
 		public void Get_notes_by_note_tag(string anki2File, long deckId, string noteTagName, long[] expectedNoteIds)
 		{
 			//Arrange
-			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			KanjiNoteService kanjiNoteService = new KanjiNoteService();
-			CardRepository cardRepo = new CardRepository(dbContext);
+			Anki2TestHelper helper = new Anki2TestHelper(anki2File);
+			KanjiNoteService kanjiNoteService = helper.KanjiNoteService;
+			CardRepository cardRepo = helper.CardRepository;
 			List<Note> notes = cardRepo.GetDeckNotes(deckId);
 
 			//Act
@@ -113,9 +111,9 @@ namespace Tests.ApplicationLayer.Services
 		public void Get_notes_by_kanji_ids(string anki2File, long deckId, string[] kanjiIds, long[] expectedNoteIds)
 		{
 			//Arrange
-			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			KanjiNoteService kanjiNoteService = new KanjiNoteService();
-			CardRepository cardRepo = new CardRepository(dbContext);
+			Anki2TestHelper helper = new Anki2TestHelper(anki2File);
+			KanjiNoteService kanjiNoteService = helper.KanjiNoteService;
+			CardRepository cardRepo = helper.CardRepository;
 			List<Note> notes = cardRepo.GetDeckNotes(deckId);
 
 			//Redundant? (Filter for "kid:" but then instantly filter again to grab the ids)
