@@ -71,8 +71,8 @@ namespace Tests.ApplicationLayer.Services
 		}
 
 		[Theory]
-		[InlineData("empty_random_decks.anki2")]
-		public void No_learning_kanji_decks_is_empty(string anki2File)
+		[InlineData("empty_random_decks.anki2", new long[0])]
+		public void No_learning_kanji_decks_is_empty(string anki2File, long[] expectedDeckIds)
 		{
 			//Arange
 			Anki2Context anki2Context = new Anki2Context(_anki2FolderPath + anki2File);
@@ -83,7 +83,7 @@ namespace Tests.ApplicationLayer.Services
 			var learningKanjiDecks = kanjiDeckService.GetLearningKanjiDecks();
 
 			//Assert
-			learningKanjiDecks.Should().BeEmpty();
+			learningKanjiDecks.Select(d => d.Id).Should().BeEquivalentTo(expectedDeckIds);
 		}
 	}
 }
