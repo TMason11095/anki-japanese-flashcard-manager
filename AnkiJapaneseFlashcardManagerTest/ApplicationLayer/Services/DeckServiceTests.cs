@@ -15,11 +15,11 @@ namespace Tests.ApplicationLayer.Services
 		string _anki2FolderPath = "./Resources/Anki2 Files/";
 
 		[Theory]
-		[InlineData("empty_kanjiResource_deck.anki2", "KanjiResource")]
-		[InlineData("empty_kanjiResource_newKanji_decks.anki2", "KanjiResource")]
-		[InlineData("empty_random_decks.anki2", "Random")]
-		[InlineData("empty_random_decks.anki2", "RandomResource")]
-		public void Get_decks_by_description_tag(string anki2File, string deckTagName)//TODO: Refactor to check for expected values
+		[InlineData("empty_kanjiResource_deck.anki2", "KanjiResource", new long[] { 1706982246215 })]
+		[InlineData("empty_kanjiResource_newKanji_decks.anki2", "KanjiResource", new long[] { 1707160947123 })]
+		[InlineData("empty_random_decks.anki2", "Random", new long[] { 1706982351536, 1706982318565 })]
+		[InlineData("empty_random_decks.anki2", "RandomResource", new long[] { 1706982318565 })]
+		public void Get_decks_by_description_tag(string anki2File, string deckTagName, long[] expectedDeckIds)
 		{
 			//Arange
 			Anki2Context anki2Context = new Anki2Context(_anki2FolderPath + anki2File);
@@ -29,7 +29,7 @@ namespace Tests.ApplicationLayer.Services
 			var taggedDecks = deckService.GetTaggedDecks(deckTagName);
 
 			//Assert
-			taggedDecks.Should().NotBeEmpty();
+			taggedDecks.Select(d => d.Id).Should().BeEquivalentTo(expectedDeckIds);
 		}
 
 		[Theory]
