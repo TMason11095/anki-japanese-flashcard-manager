@@ -55,24 +55,11 @@ namespace Tests.ApplicationLayer.Services
 		}
 
 		[Theory]
+		//Test case: Deck ids found
 		[InlineData("emptyLearningKanji_飲newKanji_食欠人良resourceKanji_decks.anki2", new long[] { 1707525964862 })]
-		public void Get_learning_kanji_decks(string anki2File, long[] expectedDeckIds)
-		{
-			//Arange
-			Anki2Context anki2Context = new Anki2Context(_anki2FolderPath + anki2File);
-			DeckService deckService = new DeckService(new DeckRepository(anki2Context));
-			KanjiDeckService kanjiDeckService = new KanjiDeckService(deckService);
-
-			//Act
-			var learningKanjiDecks = kanjiDeckService.GetLearningKanjiDecks();
-
-			//Assert
-			learningKanjiDecks.Select(d => d.Id).Should().BeEquivalentTo(expectedDeckIds);
-		}
-
-		[Theory]
+		//Test case: Deck ids not found
 		[InlineData("empty_random_decks.anki2", new long[0])]
-		public void No_learning_kanji_decks_is_empty(string anki2File, long[] expectedDeckIds)
+		public void Get_learning_kanji_decks(string anki2File, long[] expectedDeckIds)
 		{
 			//Arange
 			Anki2Context anki2Context = new Anki2Context(_anki2FolderPath + anki2File);
