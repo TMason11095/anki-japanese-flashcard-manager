@@ -3,6 +3,7 @@ using AnkiJapaneseFlashcardManager.ApplicationLayer.Services.Managements;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Helpers;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Repositories;
+using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -113,6 +114,11 @@ namespace Tests.TestHelpers
 				DbContextHelper.ClearSqlitePool(Anki2Context);
 				File.Delete(_anki2TempFilePath);
 			}
+		}
+
+		public List<Card> GetAllNoTrackingCards()
+		{
+			return Anki2Context.Cards.AsNoTracking().ToList();
 		}
 	}
 }
