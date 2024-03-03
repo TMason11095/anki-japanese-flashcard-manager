@@ -46,20 +46,19 @@ namespace Tests.DataAccessLayer.Repositories
 		{
 			//Arrange
 			Anki2TestHelper helper = new Anki2TestHelper(anki2File, createTempCopy: true);
-			Anki2Context dbContext = helper.Anki2Context;
 			CardRepository cardRepo = helper.CardRepository;
-			List<Card> originalNoteDeckJunctions = dbContext.Cards.AsNoTracking()
-																.Where(c => noteIdsToMove.Contains(c.NoteId))
-																.ToList();//Grab the current note/deck relations for the give note ids
+			List<Card> originalNoteDeckJunctions = helper.GetAllNoTrackingCards()
+															.Where(c => noteIdsToMove.Contains(c.NoteId))
+															.ToList();//Grab the current note/deck relations for the give note ids
 
 			//Act
 			bool movedNotes = cardRepo.MoveNotesBetweenDecks(noteIdsToMove, deckIdToMoveTo);
 
 			//Assert
 			movedNotes.Should().BeTrue();//Function completed successfully
-			List<Card> finalNoteDeckJunctions = dbContext.Cards.AsNoTracking()
-																.Where(c => noteIdsToMove.Contains(c.NoteId))
-																.ToList();//Grab the current note/deck relations for the give note ids after running the function
+			List<Card> finalNoteDeckJunctions = helper.GetAllNoTrackingCards()
+														.Where(c => noteIdsToMove.Contains(c.NoteId))
+														.ToList();//Grab the current note/deck relations for the give note ids after running the function
 			finalNoteDeckJunctions.Count().Should().Be(originalNoteDeckJunctions.Count());//No note/deck relations should have been removed/added
 			finalNoteDeckJunctions.Select(c => c.DeckId).Should().AllBeEquivalentTo(deckIdToMoveTo);//All junction deckIds should be the given deckId
 		}
