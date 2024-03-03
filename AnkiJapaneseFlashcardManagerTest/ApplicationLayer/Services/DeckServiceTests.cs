@@ -6,14 +6,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tests.TestHelpers;
 
 namespace Tests.ApplicationLayer.Services
 {
 	public class DeckServiceTests
 	{
-		//TODO: MOVE TO GLOBAL VARIABLE
-		string _anki2FolderPath = "./Resources/Anki2 Files/";
-
 		[Theory]
 		//Test case: Deck ids found
 		[InlineData("empty_kanjiResource_deck.anki2", "KanjiResource", new long[] { 1706982246215 })]
@@ -26,8 +24,7 @@ namespace Tests.ApplicationLayer.Services
 		public void Get_decks_by_description_tag(string anki2File, string deckTagName, long[] expectedDeckIds)
 		{
 			//Arange
-			Anki2Context anki2Context = new Anki2Context(_anki2FolderPath + anki2File);
-			DeckService deckService = new DeckService(new DeckRepository(anki2Context));
+			DeckService deckService = new Anki2TestHelper(anki2File).DeckService;
 
 			//Act
 			var taggedDecks = deckService.GetTaggedDecks(deckTagName);
