@@ -23,7 +23,7 @@ namespace Tests.DataAccessLayer.Repositories
 		public void Get_decks_by_description_containing(string anki2File, string descriptionPart, long[] expectedDeckIds)
 		{
 			//Arange
-			DeckRepository deckRepo = new Anki2TestHelper(anki2File).GetDeckRepository();
+			DeckRepository deckRepo = new Anki2TestHelper(anki2File).DeckRepository;
 
 			//Act
 			var descDecks = deckRepo.GetDecksByDescriptionContaining(descriptionPart);

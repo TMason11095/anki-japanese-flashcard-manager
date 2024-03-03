@@ -34,7 +34,7 @@ namespace Tests.DataAccessLayer.Repositories
 		public void Get_notes_by_deck_id(string anki2File, long deckId, long[] expectedNoteIds)
 		{
 			//Arrange
-			CardRepository cardRepo = new Anki2TestHelper(anki2File).GetCardRepository();
+			CardRepository cardRepo = new Anki2TestHelper(anki2File).CardRepository;
 
 			//Act
 			var notes = cardRepo.GetDeckNotes(deckId);
@@ -49,8 +49,8 @@ namespace Tests.DataAccessLayer.Repositories
 		{
 			//Arrange
 			Anki2TestHelper helper = new Anki2TestHelper(anki2File, createTempCopy: true);
-			Anki2Context dbContext = helper.GetAnki2Context();
-			CardRepository cardRepo = helper.GetCardRepository();
+			Anki2Context dbContext = helper.Anki2Context;
+			CardRepository cardRepo = helper.CardRepository;
 			List<Card> originalNoteDeckJunctions = dbContext.Cards.AsNoTracking()
 																.Where(c => noteIdsToMove.Contains(c.NoteId))
 																.ToList();//Grab the current note/deck relations for the give note ids
@@ -77,7 +77,7 @@ namespace Tests.DataAccessLayer.Repositories
 		public void Get_note_ids_with_at_least_the_given_interval(string anki2File, long[] noteIds, int interval, long[] expectedNoteIds)
 		{
 			//Arrange
-			CardRepository cardRepo = new Anki2TestHelper(anki2File).GetCardRepository();
+			CardRepository cardRepo = new Anki2TestHelper(anki2File).CardRepository;
 
 			//Act
 			var noteIdsWithGivenInterval = cardRepo.GetNoteIdsWithAtLeastInterval(noteIds, interval);

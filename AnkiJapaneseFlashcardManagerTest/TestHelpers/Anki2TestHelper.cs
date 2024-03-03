@@ -19,10 +19,32 @@ namespace Tests.TestHelpers
 		private bool _useEditableCopy;
 		private string _currentlyUsedFilePath;
 
-		private Anki2Context _anki2Context;
+		public Anki2Context Anki2Context { get; private set; }
 
 		private DeckRepository _deckRepository;
+		public DeckRepository DeckRepository
+		{
+			get { return SingletonObject(ref _deckRepository, () => new DeckRepository(Anki2Context)); }
+			private set { _deckRepository = value; }
+		}
+		
 		private CardRepository _cardRepository;
+		public CardRepository CardRepository
+		{
+			get { return SingletonObject(ref _cardRepository, () => new CardRepository(Anki2Context)); }
+			private set { _cardRepository = value; }
+		}
+
+		private T SingletonObject<T>(ref T singletonObject, Func<T> constructor)
+			where T : class
+		{
+			if (singletonObject is null)
+			{
+				singletonObject = constructor();
+			}
+			//Return
+			return singletonObject;
+		}
 
 		public Anki2TestHelper(string anki2File, bool createTempCopy = false)
 		{
@@ -43,7 +65,7 @@ namespace Tests.TestHelpers
 			}
 
 			//Setup the DbContext
-			_anki2Context = new Anki2Context(_currentlyUsedFilePath);
+			Anki2Context = new Anki2Context(_currentlyUsedFilePath);
 		}
 
 		public void Dispose()
@@ -51,36 +73,9 @@ namespace Tests.TestHelpers
 			//Clean up the temp file if needed
 			if (_useEditableCopy)
 			{
-				DbContextHelper.ClearSqlitePool(_anki2Context);
+				DbContextHelper.ClearSqlitePool(Anki2Context);
 				File.Delete(_anki2TempFilePath);
 			}
-		}
-
-		public Anki2Context GetAnki2Context()
-		{
-			return _anki2Context;
-		}
-
-		public DeckRepository GetDeckRepository()
-		{
-			//Create new instance if 1st time
-			if (_deckRepository is null)
-			{
-				_deckRepository = new DeckRepository(_anki2Context);
-			}
-			//Return
-			return _deckRepository;
-		}
-
-		public CardRepository GetCardRepository()
-		{
-			//Create new instance if 1st time
-			if (_cardRepository is null)
-			{
-				_cardRepository = new CardRepository(_anki2Context);
-			}
-			//Return
-			return _cardRepository;
 		}
 	}
 }
