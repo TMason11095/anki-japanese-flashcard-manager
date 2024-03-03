@@ -35,9 +35,9 @@ namespace Tests.ApplicationLayer.Services
 		}
 
 		[Theory]
-		[InlineData("empty_newKanji_deck.anki2")]
-		[InlineData("empty_kanjiResource_newKanji_decks.anki2")]
-		public void Get_new_kanji_decks(string anki2File)//TODO: Refactor to check for expected values
+		[InlineData("empty_newKanji_deck.anki2", new long[] { 1707160682667 })]
+		[InlineData("empty_kanjiResource_newKanji_decks.anki2", new long[] { 1707160682667 })]
+		public void Get_new_kanji_decks(string anki2File, long[] expectedDeckIds)
 		{
 			//Arange
 			Anki2Context anki2Context = new Anki2Context(_anki2FolderPath + anki2File);
@@ -48,7 +48,7 @@ namespace Tests.ApplicationLayer.Services
 			var taggedDecks = kanjiDeckService.GetNewKanjiDecks();
 
 			//Assert
-			taggedDecks.Should().NotBeEmpty();
+			taggedDecks.Select(d => d.Id).Should().BeEquivalentTo(expectedDeckIds);
 		}
 
 		[Theory]
