@@ -6,14 +6,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tests.TestHelpers;
 
 namespace Tests.ApplicationLayer.Services
 {
 	public class KanjiCardServiceTests
 	{
-		//TODO: MOVE TO GLOBAL VARIABLE
-		string _anki2FolderPath = "./Resources/Anki2 Files/";
-
 		[Theory]
 		//Test case: Note ids found
 		[InlineData("emptyLearningKanji_1ivl飲12ivl良monthsIvl食欠人newKanji_decks.anki2", new[] { 1548988102030, 1552619440878, 1559353225229, 1559353240186, 1559353264106 }, new[] { 1548988102030, 1552619440878, 1559353225229, 1559353240186 })]
@@ -22,8 +20,7 @@ namespace Tests.ApplicationLayer.Services
 		public void Get_note_ids_with_at_least_the_kanji_interval(string anki2File, long[] noteIds, long[] expectedNoteIds)
 		{
 			//Arrange
-			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			KanjiCardService kanjiCardService = new KanjiCardService(new CardRepository(dbContext));
+			KanjiCardService kanjiCardService = new Anki2TestHelper(anki2File).KanjiCardService;
 
 			//Act
 			var noteIdsWithKanjiInterval = kanjiCardService.GetNoteIdsWithAtLeastKanjiInterval(noteIds);

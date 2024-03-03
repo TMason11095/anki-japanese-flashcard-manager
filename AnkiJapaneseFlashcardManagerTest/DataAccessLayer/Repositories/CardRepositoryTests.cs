@@ -9,14 +9,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tests.TestHelpers;
 
 namespace Tests.DataAccessLayer.Repositories
 {
 	public class CardRepositoryTests
 	{
-		//TODO: MOVE TO GLOBAL VARIABLE
-		string _anki2FolderPath = "./Resources/Anki2 Files/";
-
 		[Theory]
 		//Test case: Note ids found
 		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", 1707160947123, new[] { 1707169497960, 1707169570657, 1707169983389, 1707170000793 })]
@@ -33,8 +31,7 @@ namespace Tests.DataAccessLayer.Repositories
 		public void Get_notes_by_deck_id(string anki2File, long deckId, long[] expectedNoteIds)
 		{
 			//Arrange
-			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			CardRepository cardRepo = new CardRepository(dbContext);
+			CardRepository cardRepo = new Anki2TestHelper(anki2File).CardRepository;
 
 			//Act
 			var notes = cardRepo.GetDeckNotes(deckId);
@@ -48,11 +45,9 @@ namespace Tests.DataAccessLayer.Repositories
 		public void Move_notes_between_decks(string anki2File, long[] noteIdsToMove, long deckIdToMoveTo)
 		{
 			//Arrange
-			string originalInputFilePath = _anki2FolderPath + anki2File;
-			string tempInputFilePath = $"{_anki2FolderPath}temp_{Guid.NewGuid()}.anki2";
-			File.Copy(originalInputFilePath, tempInputFilePath, true);//Copy the input file to prevent changes between unit tests
-			Anki2Context dbContext = new Anki2Context(tempInputFilePath);
-			CardRepository cardRepo = new CardRepository(dbContext);
+			Anki2TestHelper helper = new Anki2TestHelper(anki2File, createTempCopy: true);
+			Anki2Context dbContext = helper.Anki2Context;
+			CardRepository cardRepo = helper.CardRepository;
 			List<Card> originalNoteDeckJunctions = dbContext.Cards.AsNoTracking()
 																.Where(c => noteIdsToMove.Contains(c.NoteId))
 																.ToList();//Grab the current note/deck relations for the give note ids
@@ -67,10 +62,6 @@ namespace Tests.DataAccessLayer.Repositories
 																.ToList();//Grab the current note/deck relations for the give note ids after running the function
 			finalNoteDeckJunctions.Count().Should().Be(originalNoteDeckJunctions.Count());//No note/deck relations should have been removed/added
 			finalNoteDeckJunctions.Select(c => c.DeckId).Should().AllBeEquivalentTo(deckIdToMoveTo);//All junction deckIds should be the given deckId
-
-			//Cleanup
-			DbContextHelper.ClearSqlitePool(dbContext);
-			File.Delete(tempInputFilePath);
 		}
 
 		[Theory]
@@ -83,8 +74,7 @@ namespace Tests.DataAccessLayer.Repositories
 		public void Get_note_ids_with_at_least_the_given_interval(string anki2File, long[] noteIds, int interval, long[] expectedNoteIds)
 		{
 			//Arrange
-			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			CardRepository cardRepo = new CardRepository(dbContext);
+			CardRepository cardRepo = new Anki2TestHelper(anki2File).CardRepository;
 
 			//Act
 			var noteIdsWithGivenInterval = cardRepo.GetNoteIdsWithAtLeastInterval(noteIds, interval);

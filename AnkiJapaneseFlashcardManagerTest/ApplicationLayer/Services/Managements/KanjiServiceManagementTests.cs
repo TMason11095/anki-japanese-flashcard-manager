@@ -11,27 +11,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tests.TestHelpers;
 
 namespace Tests.ApplicationLayer.Services.Managements
 {
 	public class KanjiServiceManagementTests
 	{
-		//TODO: MOVE TO GLOBAL VARIABLE
-		string _anki2FolderPath = "./Resources/Anki2 Files/";
-
 		[Theory]
 		[InlineData("emptyLearningKanji_1ivl飲12ivl良monthsIvl食欠人newKanji_decks.anki2", new[] { 1548988102030, 1552619440878, 1559353225229, 1559353240186 }, 1670499333507, 1708110494009)]
 		public void Move_new_kanji_notes_to_learning_kanji_deck(string anki2File, long[] expectedNoteIdsToMove, long expectedFromDeckId, long expectedToDeckId)
 		{
 			//Arrange
-			string originalInputFilePath = _anki2FolderPath + anki2File;
-			string tempInputFilePath = $"{_anki2FolderPath}temp_{Guid.NewGuid()}.anki2";
-			File.Copy(originalInputFilePath, tempInputFilePath, true);//Copy the input file to prevent changes between unit tests
-			Anki2Context anki2Context = new Anki2Context(tempInputFilePath);
-			KanjiDeckService kanjiDeckService = new KanjiDeckService(new DeckService(new DeckRepository(anki2Context)));
-			CardRepository cardRepository = new CardRepository(anki2Context);
+			Anki2TestHelper helper = new Anki2TestHelper(anki2File, createTempCopy: true);
+			Anki2Context anki2Context = helper.Anki2Context;
 			List<Card> allOriginalCards = anki2Context.Cards.AsNoTracking().ToList();
-			KanjiServiceManagement kanjiServiceManagement = new KanjiServiceManagement(kanjiDeckService, new KanjiCardService(cardRepository), cardRepository);
+			KanjiServiceManagement kanjiServiceManagement = helper.KanjiServiceManagement;
 
 			//Act
 			bool movedNotes = kanjiServiceManagement.MoveNewKanjiToLearningKanji();
@@ -52,10 +46,6 @@ namespace Tests.ApplicationLayer.Services.Managements
 			changedCards.Select(p => p.OriginalCard.NoteId).Distinct().Should().BeEquivalentTo(expectedNoteIdsToMove);//Original notes should match
 			changedCards.Select(p => p.UpdatedCard.DeckId).Should().AllBeEquivalentTo(expectedToDeckId);//Updated deck id should match
 			changedCards.Select(p => p.UpdatedCard.NoteId).Distinct().Should().BeEquivalentTo(expectedNoteIdsToMove);//Updated notes should match
-
-			//Cleanup
-			DbContextHelper.ClearSqlitePool(anki2Context);
-			File.Delete(tempInputFilePath);
 		}
 
 		[Theory]
@@ -63,14 +53,10 @@ namespace Tests.ApplicationLayer.Services.Managements
 		public void Move_resource_sub_kanji_notes_to_new_kanji_deck(string anki2File, long[] expectedNoteIdsToMove, long expectedFromDeckId, long expectedToDeckId)
 		{
 			//Arrange
-			string originalInputFilePath = _anki2FolderPath + anki2File;
-			string tempInputFilePath = $"{_anki2FolderPath}temp_{Guid.NewGuid()}.anki2";
-			File.Copy(originalInputFilePath, tempInputFilePath, true);//Copy the input file to prevent changes between unit tests
-			Anki2Context anki2Context = new Anki2Context(tempInputFilePath);
-			DeckService deckService = new DeckService(new DeckRepository(anki2Context));
-			CardRepository cardRepository = new CardRepository(anki2Context);
+			Anki2TestHelper helper = new Anki2TestHelper(anki2File, createTempCopy: true);
+			Anki2Context anki2Context = helper.Anki2Context;
 			List<Card> allOriginalCards = anki2Context.Cards.AsNoTracking().ToList();
-			KanjiServiceManagement kanjiServiceManagement = new KanjiServiceManagement(new KanjiDeckService(deckService), new KanjiCardService(cardRepository), cardRepository);
+			KanjiServiceManagement kanjiServiceManagement = helper.KanjiServiceManagement;
 
 			//Act
 			bool movedNotes = kanjiServiceManagement.MoveResourceSubKanjiToNewKanji();
@@ -91,10 +77,6 @@ namespace Tests.ApplicationLayer.Services.Managements
 			changedCards.Select(p => p.OriginalCard.NoteId).Distinct().Should().BeEquivalentTo(expectedNoteIdsToMove);//Original notes should match
 			changedCards.Select(p => p.UpdatedCard.DeckId).Should().AllBeEquivalentTo(expectedToDeckId);//Updated deck id should match
 			changedCards.Select(p => p.UpdatedCard.NoteId).Distinct().Should().BeEquivalentTo(expectedNoteIdsToMove);//Updated notes should match
-
-			//Cleanup
-			DbContextHelper.ClearSqlitePool(anki2Context);
-			File.Delete(tempInputFilePath);
 		}
 	}
 }
