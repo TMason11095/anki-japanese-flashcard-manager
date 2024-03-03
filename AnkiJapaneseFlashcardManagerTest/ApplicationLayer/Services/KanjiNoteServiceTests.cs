@@ -48,10 +48,10 @@ namespace Tests.ApplicationLayer.Services
 			CardRepository cardRepo = helper.CardRepository;
 			List<Note> notes = cardRepo.GetDeckNotes(deckId);
 			KanjiNoteService kanjiNoteService = helper.KanjiNoteService;
-			List<Note> kanjiNotes = kanjiNoteService.GetKanjiNotes(notes);
+			IEnumerable<Note> kanjiNotes = kanjiNoteService.GetKanjiNotes(notes);
 
 			//Act
-			List<string> subKanjiIds = kanjiNoteService.GetSubKanjiIds(kanjiNotes);
+			IEnumerable<string> subKanjiIds = kanjiNoteService.GetSubKanjiIds(kanjiNotes);
 
 			//Assert
 			subKanjiIds.Should().BeEquivalentTo(expectedSubKanjiIds);
@@ -121,7 +121,7 @@ namespace Tests.ApplicationLayer.Services
 			//List<Note> kanjiNotes = anki2Controller.GetKanjiNotes(notes);
 
 			//Act
-			List<Note> kanjiNotes = kanjiNoteService.GetNotesByKanjiIds(notes, kanjiIds);
+			var kanjiNotes = kanjiNoteService.GetNotesByKanjiIds(notes, kanjiIds);
 
 			//Assert
 			kanjiNotes.Select(n => n.Id).Should().BeEquivalentTo(expectedNoteIds);
