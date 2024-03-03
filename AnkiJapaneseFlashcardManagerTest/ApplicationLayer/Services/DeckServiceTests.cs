@@ -33,9 +33,9 @@ namespace Tests.ApplicationLayer.Services
 		}
 
 		[Theory]
-		[InlineData("empty_kanjiResource_deck.anki2", "NonExistentTag")]
-		[InlineData("empty_random_decks.anki2", "KanjiResource")]
-		public void No_decks_with_matching_description_tag_is_empty(string anki2File, string deckTagName)
+		[InlineData("empty_kanjiResource_deck.anki2", "NonExistentTag", new long[0])]
+		[InlineData("empty_random_decks.anki2", "KanjiResource", new long[0])]
+		public void No_decks_with_matching_description_tag_is_empty(string anki2File, string deckTagName, long[] expectedDeckIds)
 		{
 			//Arange
 			Anki2Context anki2Context = new Anki2Context(_anki2FolderPath + anki2File);
@@ -45,7 +45,7 @@ namespace Tests.ApplicationLayer.Services
 			var taggedDecks = deckService.GetTaggedDecks(deckTagName);
 
 			//Assert
-			taggedDecks.Should().BeEmpty();
+			taggedDecks.Select(d => d.Id).Should().BeEquivalentTo(expectedDeckIds);
 		}
 	}
 }
