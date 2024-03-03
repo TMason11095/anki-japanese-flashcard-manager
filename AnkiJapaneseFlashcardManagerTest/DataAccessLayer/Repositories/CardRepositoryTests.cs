@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tests.TestHelpers;
 
 namespace Tests.DataAccessLayer.Repositories
 {
@@ -33,8 +34,7 @@ namespace Tests.DataAccessLayer.Repositories
 		public void Get_notes_by_deck_id(string anki2File, long deckId, long[] expectedNoteIds)
 		{
 			//Arrange
-			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			CardRepository cardRepo = new CardRepository(dbContext);
+			CardRepository cardRepo = new Anki2TestHelper(anki2File).GetCardRepository();
 
 			//Act
 			var notes = cardRepo.GetDeckNotes(deckId);
@@ -83,8 +83,7 @@ namespace Tests.DataAccessLayer.Repositories
 		public void Get_note_ids_with_at_least_the_given_interval(string anki2File, long[] noteIds, int interval, long[] expectedNoteIds)
 		{
 			//Arrange
-			Anki2Context dbContext = new Anki2Context(_anki2FolderPath + anki2File);
-			CardRepository cardRepo = new CardRepository(dbContext);
+			CardRepository cardRepo = new Anki2TestHelper(anki2File).GetCardRepository();
 
 			//Act
 			var noteIdsWithGivenInterval = cardRepo.GetNoteIdsWithAtLeastInterval(noteIds, interval);
