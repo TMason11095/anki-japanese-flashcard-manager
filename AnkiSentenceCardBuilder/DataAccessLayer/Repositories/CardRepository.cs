@@ -18,14 +18,13 @@ namespace AnkiJapaneseFlashcardManager.DataAccessLayer.Repositories
 			_context = context;
 		}
 
-		public List<Note> GetDeckNotes(long deckId)//Card(Note)
+		public IEnumerable<Note> GetDeckNotes(long deckId)//Card(Note)
 		{
 			//Return the notes from unique card entries with the given deck id
 			return _context.Cards
 					.Where(c => c.DeckId == deckId) //Grab cards with matching deck id
 					.Select(c => c.Note) //Grab the notes
-					.Distinct() //Filter out duplicate entries
-					.ToList();
+					.Distinct(); //Filter out duplicate entries
 		}
 
 		public bool MoveNotesBetweenDecks(IEnumerable<long> noteIds, long newDeckId)//Card(Note)
@@ -48,8 +47,7 @@ namespace AnkiJapaneseFlashcardManager.DataAccessLayer.Repositories
 			return _context.Cards
 						.Where(c => noteIds.Contains(c.NoteId))//Grab cards with matching note ids
 						.Where(c => c.Interval >= interval)//Filter cards with matching intervals
-						.Select(c => c.NoteId)//Grab the note ids
-						.ToList();//Return the list
+						.Select(c => c.NoteId);//Grab the note ids
 		}
 	}
 }
