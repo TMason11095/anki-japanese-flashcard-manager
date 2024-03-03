@@ -14,7 +14,9 @@ namespace Tests.TestHelpers
 		private string _anki2File;
 		private string _anki2FilePath;
 		private Anki2Context _anki2Context;
+
 		private DeckRepository _deckRepository;
+		private CardRepository _cardRepository;
 
 		public Anki2TestHelper(string anki2File)//, bool createEditableCopy = false)
 		{
@@ -34,12 +36,24 @@ namespace Tests.TestHelpers
 
 		public DeckRepository GetDeckRepository()
 		{
+			//Create new instance if 1st time
 			if (_deckRepository is null)
 			{
 				_deckRepository = new DeckRepository(_anki2Context);
 			}
 			//Return
 			return _deckRepository;
+		}
+
+		public CardRepository GetCardRepository()
+		{
+			//Create new instance if 1st time
+			if (_cardRepository is null)
+			{
+				_cardRepository = new CardRepository(_anki2Context);
+			}
+			//Return
+			return _cardRepository;
 		}
 	}
 }
