@@ -25,15 +25,29 @@ namespace Tests.TestHelpers
 		private DeckRepository _deckRepository;
 		public DeckRepository DeckRepository
 		{
-			get { return SingletonObject(ref _deckRepository, () => new DeckRepository(Anki2Context)); }
+			get { return SingletonObject(ref _deckRepository, () => new DeckRepository(this.Anki2Context)); }
 			private set { _deckRepository = value; }
 		}
 		
 		private CardRepository _cardRepository;
 		public CardRepository CardRepository
 		{
-			get { return SingletonObject(ref _cardRepository, () => new CardRepository(Anki2Context)); }
+			get { return SingletonObject(ref _cardRepository, () => new CardRepository(this.Anki2Context)); }
 			private set { _cardRepository = value; }
+		}
+
+		private DeckService _deckService;
+		public DeckService DeckService
+		{
+			get { return SingletonObject(ref _deckService, () => new DeckService(this.DeckRepository)); }
+			private set { _deckService = value; }
+		}
+
+		private KanjiDeckService _kanjiDeckService;
+		public KanjiDeckService KanjiDeckService
+		{
+			get { return SingletonObject(ref _kanjiDeckService, () => new KanjiDeckService(this.DeckService)); }
+			private set { _kanjiDeckService = value; }
 		}
 
 		private KanjiNoteService _kanjiNoteService;
