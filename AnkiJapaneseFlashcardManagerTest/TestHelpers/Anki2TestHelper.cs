@@ -56,6 +56,11 @@ namespace Tests.TestHelpers
 			}
 		}
 
+		public DbContext GetAnki2Context()
+		{
+			return _anki2Context;
+		}
+
 		public DeckRepository GetDeckRepository()
 		{
 			//Create new instance if 1st time
