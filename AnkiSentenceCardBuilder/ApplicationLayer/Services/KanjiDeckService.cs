@@ -17,7 +17,7 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services
 			_deckService = deckService;
 		}
 
-		public List<Deck> GetResourceKanjiDecks()//Deck
+		public IEnumerable<Deck> GetResourceKanjiDecks()//Deck
 		{
 			//Get resource kanji deck tag name
 			string deckTagName = AnkiBindingConfig.Bindings.ResourceDecks.Kanji;
@@ -25,7 +25,7 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services
 			return _deckService.GetTaggedDecks(deckTagName);
 		}
 
-		public List<Deck> GetNewKanjiDecks()//Deck
+		public IEnumerable<Deck> GetNewKanjiDecks()//Deck
 		{
 			//Get new kanji deck tag name
 			string deckTagName = AnkiBindingConfig.Bindings.NewDecks.Kanji;
@@ -33,7 +33,7 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services
 			return _deckService.GetTaggedDecks(deckTagName);
 		}
 
-		public List<Deck> GetLearningKanjiDecks()//Deck
+		public IEnumerable<Deck> GetLearningKanjiDecks()//Deck
 		{
 			//Get new kanji deck tag name
 			string deckTagName = AnkiBindingConfig.Bindings.LearningDecks.Kanji;
