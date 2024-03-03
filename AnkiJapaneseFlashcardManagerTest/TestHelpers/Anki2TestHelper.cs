@@ -50,6 +50,13 @@ namespace Tests.TestHelpers
 			private set { _kanjiDeckService = value; }
 		}
 
+		private KanjiCardService _kanjiCardService;
+		public KanjiCardService KanjiCardService
+		{
+			get { return SingletonObject(ref _kanjiCardService, () => new KanjiCardService(this.CardRepository)); }
+			private set { _kanjiCardService = value; }
+		}
+
 		private KanjiNoteService _kanjiNoteService;
 		public KanjiNoteService KanjiNoteService
 		{
