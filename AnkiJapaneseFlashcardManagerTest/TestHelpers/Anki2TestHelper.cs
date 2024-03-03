@@ -29,6 +29,7 @@ namespace Tests.TestHelpers
 			//Setup the file path
 			_anki2File = anki2File;
 			_anki2FilePath = Anki2FolderPath + _anki2File;
+			_currentlyUsedFilePath = _anki2FilePath;
 
 			//Create the editable copy
 			_useEditableCopy = createTempCopy;
@@ -37,10 +38,12 @@ namespace Tests.TestHelpers
 				//Create a temp copy of the anki2 file
 				_anki2TempFilePath = $"{Anki2FolderPath}temp_{Guid.NewGuid()}.anki2";
 				File.Copy(_anki2FilePath, _anki2TempFilePath, true);
+				//Set the current file path
+				_currentlyUsedFilePath = _anki2TempFilePath;
 			}
 
 			//Setup the DbContext
-			_anki2Context = new Anki2Context(_anki2FilePath);
+			_anki2Context = new Anki2Context(_currentlyUsedFilePath);
 		}
 
 		public void Dispose()

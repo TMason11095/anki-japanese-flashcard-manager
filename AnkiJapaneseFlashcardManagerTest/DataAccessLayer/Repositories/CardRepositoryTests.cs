@@ -48,6 +48,8 @@ namespace Tests.DataAccessLayer.Repositories
 		public void Move_notes_between_decks(string anki2File, long[] noteIdsToMove, long deckIdToMoveTo)
 		{
 			//Arrange
+			var test = new Anki2TestHelper(anki2File, createTempCopy: true);
+
 			string originalInputFilePath = _anki2FolderPath + anki2File;
 			string tempInputFilePath = $"{_anki2FolderPath}temp_{Guid.NewGuid()}.anki2";
 			File.Copy(originalInputFilePath, tempInputFilePath, true);//Copy the input file to prevent changes between unit tests
