@@ -29,7 +29,7 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services.Managements
 			//Get new kanji decks
 			var newKanjiDecks = _kanjiDeckService.GetNewKanjiDecks();
 			//Get the new kanji note ids
-			var newKanjiNoteIds = newKanjiDecks.SelectMany(d => _cardRepository.GetDeckNotes(d.Id)).Select(n => n.Id).ToList();
+			var newKanjiNoteIds = newKanjiDecks.SelectMany(d => _cardRepository.GetDeckNotes(d.Id)).Select(n => n.Id);
 			//Get the new kanji note ids to be moved (based on the minimum interval)
 			var newKanjiNoteIdsToMove = _kanjiCardService.GetNoteIdsWithAtLeastKanjiInterval(newKanjiNoteIds);
 			//Get the learning kanji decks
