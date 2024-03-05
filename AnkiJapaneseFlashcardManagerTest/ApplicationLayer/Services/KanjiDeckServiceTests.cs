@@ -1,4 +1,5 @@
-﻿using AnkiJapaneseFlashcardManager.ApplicationLayer.Services;
+﻿using AnkiJapaneseFlashcardManager.ApplicationLayer.Helpers;
+using AnkiJapaneseFlashcardManager.ApplicationLayer.Services;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Repositories;
 using System;
@@ -27,7 +28,7 @@ namespace Tests.ApplicationLayer.Services
 			var taggedDecks = kanjiDeckService.GetResourceKanjiDecks();
 
 			//Assert
-			taggedDecks.Select(d => d.Id).Should().BeEquivalentTo(expectedDeckIds);
+			taggedDecks.GetIds().Should().BeEquivalentTo(expectedDeckIds);
 		}
 
 		[Theory]
@@ -45,7 +46,7 @@ namespace Tests.ApplicationLayer.Services
 			var taggedDecks = kanjiDeckService.GetNewKanjiDecks();
 
 			//Assert
-			taggedDecks.Select(d => d.Id).Should().BeEquivalentTo(expectedDeckIds);
+			taggedDecks.GetIds().Should().BeEquivalentTo(expectedDeckIds);
 		}
 
 		[Theory]
@@ -62,7 +63,7 @@ namespace Tests.ApplicationLayer.Services
 			var learningKanjiDecks = kanjiDeckService.GetLearningKanjiDecks();
 
 			//Assert
-			learningKanjiDecks.Select(d => d.Id).Should().BeEquivalentTo(expectedDeckIds);
+			learningKanjiDecks.GetIds().Should().BeEquivalentTo(expectedDeckIds);
 		}
 	}
 }
