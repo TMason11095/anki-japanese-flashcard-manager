@@ -1,4 +1,5 @@
-﻿using AnkiJapaneseFlashcardManager.DataAccessLayer.Repositories;
+﻿using AnkiJapaneseFlashcardManager.ApplicationLayer.Helpers;
+using AnkiJapaneseFlashcardManager.DataAccessLayer.Repositories;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -29,7 +30,7 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services.Managements
 			//Get new kanji decks
 			var newKanjiDecks = _kanjiDeckService.GetNewKanjiDecks();
 			//Get the new kanji note ids
-			var newKanjiNoteIds = newKanjiDecks.SelectMany(d => _cardRepository.GetDeckNotes(d.Id)).Select(n => n.Id);
+			var newKanjiNoteIds = newKanjiDecks.SelectMany(d => _cardRepository.GetDeckNotes(d.Id)).GetIds();
 			//Get the new kanji note ids to be moved (based on the minimum interval)
 			var newKanjiNoteIdsToMove = _kanjiCardService.GetNoteIdsWithAtLeastKanjiInterval(newKanjiNoteIds);
 			//Get the learning kanji decks
@@ -59,7 +60,7 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services.Managements
 			//Skip if no new kanji sub kanji notes to move
 			if (!SubKanjiResourceNotes.Any()) { return true; }
 			//Get the sub kanji resource note ids
-			var subKanjiResourceNoteIdsToMove = SubKanjiResourceNotes.Select(n => n.Id);
+			var subKanjiResourceNoteIdsToMove = SubKanjiResourceNotes.GetIds();
 			//Get the first new kanji deck id to move the resource kanji notes to
 			var newKanjiDeckId = newKanjiDecks.First().Id;
 			//Move the resource kanji notes to the new kanji deck
