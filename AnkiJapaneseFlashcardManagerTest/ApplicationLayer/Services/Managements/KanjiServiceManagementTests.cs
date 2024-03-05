@@ -32,18 +32,13 @@ namespace Tests.ApplicationLayer.Services.Managements
 			//Get Assert Values
 			//Get changed cards
 			var allCardsAfterFunction = helper.GetAllNoTrackingCards();
-			var changedCards = allOriginalCards
-				.Join(allCardsAfterFunction,
-					originalCard => originalCard.Id,
-					updatedCard => updatedCard.Id,
-					(originalCard, updatedCard) => new { OriginalCard = originalCard, UpdatedCard = updatedCard })
-				.Where(pair => !pair.OriginalCard.Equals(pair.UpdatedCard));
+			var changedCards = BeforeAfterCard.GetChangedCards(allOriginalCards, allCardsAfterFunction);
 			//Assert
 			movedNotes.Should().BeTrue();//Function completed successfully
-			changedCards.Select(p => p.OriginalCard.DeckId).Should().AllBeEquivalentTo(expectedFromDeckId);//Original deck id should match
-			changedCards.Select(p => p.OriginalCard.NoteId).Distinct().Should().BeEquivalentTo(expectedNoteIdsToMove);//Original notes should match
-			changedCards.Select(p => p.UpdatedCard.DeckId).Should().AllBeEquivalentTo(expectedToDeckId);//Updated deck id should match
-			changedCards.Select(p => p.UpdatedCard.NoteId).Distinct().Should().BeEquivalentTo(expectedNoteIdsToMove);//Updated notes should match
+			changedCards.Select(p => p.BeforeCard.DeckId).Should().AllBeEquivalentTo(expectedFromDeckId);//Original deck id should match
+			changedCards.Select(p => p.BeforeCard.NoteId).Distinct().Should().BeEquivalentTo(expectedNoteIdsToMove);//Original notes should match
+			changedCards.Select(p => p.AfterCard.DeckId).Should().AllBeEquivalentTo(expectedToDeckId);//Updated deck id should match
+			changedCards.Select(p => p.AfterCard.NoteId).Distinct().Should().BeEquivalentTo(expectedNoteIdsToMove);//Updated notes should match
 		}
 
 		[Theory]
