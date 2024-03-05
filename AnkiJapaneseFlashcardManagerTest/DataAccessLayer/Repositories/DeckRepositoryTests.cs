@@ -1,4 +1,5 @@
-﻿using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
+﻿using AnkiJapaneseFlashcardManager.ApplicationLayer.Helpers;
+using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Repositories;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ namespace Tests.DataAccessLayer.Repositories
 			var descDecks = deckRepo.GetDecksByDescriptionContaining(descriptionPart);
 
 			//Assert
-			descDecks.Select(d => d.Id).Should().BeEquivalentTo(expectedDeckIds);
+			descDecks.GetIds().Should().BeEquivalentTo(expectedDeckIds);
 		}
 	}
 }
