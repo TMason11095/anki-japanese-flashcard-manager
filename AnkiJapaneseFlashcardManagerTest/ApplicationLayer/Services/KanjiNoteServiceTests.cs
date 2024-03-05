@@ -1,4 +1,5 @@
-﻿using AnkiJapaneseFlashcardManager.ApplicationLayer.Services;
+﻿using AnkiJapaneseFlashcardManager.ApplicationLayer.Helpers;
+using AnkiJapaneseFlashcardManager.ApplicationLayer.Services;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Repositories;
 using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
@@ -31,7 +32,7 @@ namespace Tests.ApplicationLayer.Services
 			var taggedNotes = kanjiNoteService.GetKanjiNotes(notes);
 
 			//Assert
-			taggedNotes.Select(n => n.Id).Should().BeEquivalentTo(expectedNoteIds);
+			taggedNotes.GetIds().Should().BeEquivalentTo(expectedNoteIds);
 		}
 
 		[Theory]
@@ -77,7 +78,7 @@ namespace Tests.ApplicationLayer.Services
 
 			//Assert
 			sourceNotes.Count.Should().Be(sourceNotesOriginalCount - subKanjiNotes.Count);//Should have removed all the found kanji notes
-			subKanjiNotes.Select(n => n.Id).Should().BeEquivalentTo(expectedKanjiNoteIds);
+			subKanjiNotes.GetIds().Should().BeEquivalentTo(expectedKanjiNoteIds);
 		}
 
 		[Theory]
@@ -99,7 +100,7 @@ namespace Tests.ApplicationLayer.Services
 			var taggedNotes = kanjiNoteService.GetTaggedNotes(notes, noteTagName);
 
 			//Assert
-			taggedNotes.Select(n => n.Id).Should().BeEquivalentTo(expectedNoteIds);
+			taggedNotes.GetIds().Should().BeEquivalentTo(expectedNoteIds);
 		}
 
 		[Theory]
@@ -124,7 +125,7 @@ namespace Tests.ApplicationLayer.Services
 			var kanjiNotes = kanjiNoteService.GetNotesByKanjiIds(notes, kanjiIds);
 
 			//Assert
-			kanjiNotes.Select(n => n.Id).Should().BeEquivalentTo(expectedNoteIds);
+			kanjiNotes.GetIds().Should().BeEquivalentTo(expectedNoteIds);
 		}
 	}
 }
