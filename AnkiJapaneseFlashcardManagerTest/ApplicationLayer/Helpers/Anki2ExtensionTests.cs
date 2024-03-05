@@ -29,5 +29,23 @@ namespace Tests.ApplicationLayer.Helpers
 			//Assert
 			deckIds.Should().BeEquivalentTo(expectedDeckIds);
 		}
+
+		[Theory]
+		//Test Case: Note ids found
+		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", new[] { 1707169497960, 1707169522144, 1707169570657, 1707169983389, 1707170000793 })]
+		//Test Case: No note ids found
+		[InlineData("empty_kanjiResource_deck.anki2", new long[0])]
+		public void Notes_get_ids(string anki2File, long[] expectedNoteIds)
+		{
+			//Arrange
+			Anki2TestHelper helper = new Anki2TestHelper(anki2File);
+			List<Note> notes = helper.GetAllNoTrackingNotes();
+
+			//Act
+			var noteIds = notes.GetIds();
+
+			//Assert
+			noteIds.Should().BeEquivalentTo(expectedNoteIds);
+		}
 	}
 }

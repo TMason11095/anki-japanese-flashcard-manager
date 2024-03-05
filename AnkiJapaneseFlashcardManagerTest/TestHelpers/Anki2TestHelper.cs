@@ -125,5 +125,10 @@ namespace Tests.TestHelpers
 		{
 			return Anki2Context.Decks.AsNoTracking().ToList();
 		}
+
+		public List<Note> GetAllNoTrackingNotes()
+		{
+			return Anki2Context.Notes.AsNoTracking().ToList();
+		}
 	}
 }
