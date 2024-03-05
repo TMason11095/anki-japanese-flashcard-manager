@@ -59,7 +59,7 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services.Managements
 			//Skip if no new kanji sub kanji notes to move
 			if (!SubKanjiResourceNotes.Any()) { return true; }
 			//Get the sub kanji resource note ids
-			var subKanjiResourceNoteIdsToMove = SubKanjiResourceNotes.Select(n => n.Id).ToList();
+			var subKanjiResourceNoteIdsToMove = SubKanjiResourceNotes.Select(n => n.Id);
 			//Get the first new kanji deck id to move the resource kanji notes to
 			var newKanjiDeckId = newKanjiDecks.First().Id;
 			//Move the resource kanji notes to the new kanji deck
