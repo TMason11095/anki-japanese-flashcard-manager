@@ -69,7 +69,7 @@ namespace Tests.ApplicationLayer.Helpers
 			var noteIds = decks.GetNotes(cardRepository);
 
 			//Assert
-			noteIds.Should().BeEquivalentTo(expectedNoteIds);
+			noteIds.GetIds().Should().BeEquivalentTo(expectedNoteIds);
 		}
 	}
 }

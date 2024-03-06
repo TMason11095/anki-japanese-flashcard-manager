@@ -22,7 +22,7 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Helpers
 
 		public static IEnumerable<Note> GetNotes(this IEnumerable<Deck> decks, CardRepository cardRepository)
 		{
-			return null;
+			return decks.SelectMany(d => cardRepository.GetDeckNotes(d.Id));
 		}
 	}
 }
