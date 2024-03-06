@@ -1,4 +1,5 @@
-﻿using AnkiJapaneseFlashcardManager.ApplicationLayer.Services;
+﻿using AnkiJapaneseFlashcardManager.ApplicationLayer.Helpers;
+using AnkiJapaneseFlashcardManager.ApplicationLayer.Services;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Repositories;
 using System;
@@ -30,7 +31,7 @@ namespace Tests.ApplicationLayer.Services
 			var taggedDecks = deckService.GetTaggedDecks(deckTagName);
 
 			//Assert
-			taggedDecks.Select(d => d.Id).Should().BeEquivalentTo(expectedDeckIds);
+			taggedDecks.GetIds().Should().BeEquivalentTo(expectedDeckIds);
 		}
 	}
 }

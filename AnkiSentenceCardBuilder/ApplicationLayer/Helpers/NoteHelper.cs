@@ -11,8 +11,7 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Helpers
 		public static IEnumerable<string> GetIdsFromTagList(IEnumerable<string> tagList, string tag)//Note?
 		{
 			return tagList.Where(t => t.StartsWith(tag))
-						.Select(t => t.Substring(tag.Length))
-						.ToList();
+						.Select(t => t.Substring(tag.Length));
 		}
 	}
 }

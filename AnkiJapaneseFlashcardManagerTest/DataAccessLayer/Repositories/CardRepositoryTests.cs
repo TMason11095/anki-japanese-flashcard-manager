@@ -1,4 +1,5 @@
-﻿using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
+﻿using AnkiJapaneseFlashcardManager.ApplicationLayer.Helpers;
+using AnkiJapaneseFlashcardManager.DataAccessLayer.Contexts;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Helpers;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Interfaces.Contexts;
 using AnkiJapaneseFlashcardManager.DataAccessLayer.Repositories;
@@ -37,7 +38,7 @@ namespace Tests.DataAccessLayer.Repositories
 			var notes = cardRepo.GetDeckNotes(deckId);
 
 			//Assert
-			notes.Select(n => n.Id).Should().BeEquivalentTo(expectedNoteIds);
+			notes.GetIds().Should().BeEquivalentTo(expectedNoteIds);
 		}
 
 		[Theory]
