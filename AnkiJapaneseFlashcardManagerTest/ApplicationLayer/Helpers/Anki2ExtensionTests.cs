@@ -1,4 +1,5 @@
 ﻿using AnkiJapaneseFlashcardManager.ApplicationLayer.Helpers;
+using AnkiJapaneseFlashcardManager.DataAccessLayer.Repositories;
 using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
 using System;
 using System.Collections.Generic;
@@ -43,6 +44,29 @@ namespace Tests.ApplicationLayer.Helpers
 
 			//Act
 			var noteIds = notes.GetIds();
+
+			//Assert
+			noteIds.Should().BeEquivalentTo(expectedNoteIds);
+		}
+
+		[Theory]
+		//Test Case: Note ids found
+		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", new[] { 1707160947123, 1707160682667 }, new[] { 1707169497960, 1707169570657, 1707169983389, 1707170000793, 1707169522144 })]
+		//Test Case: No note ids found
+		[InlineData("empty_random_decks.anki2", new[] { 1706982318565, 1706982351536 }, new long[0])]
+		[InlineData("empty_kanjiResource_newKanji_decks.anki2", new[] { 1706982318565, 1706982351536, 1707160682667, 1707160947123 }, new long[0])]
+		//Test Case: No deck ids given
+		[InlineData("飲newKanji_食欠人良resourceKanji_decks.anki2", new long[0], new long[0])]
+		public void Decks_get_notes(string anki2File, long[] deckIds, long[] expectedNoteIds)
+		{
+			//Arrange
+			Anki2TestHelper helper = new Anki2TestHelper(anki2File);
+			IEnumerable<Deck> decks = helper.GetAllNoTrackingDecks()
+				.Where(d => deckIds.Contains(d.Id));
+			CardRepository cardRepository = helper.CardRepository;
+
+			//Act
+			var noteIds = decks.GetNotes(cardRepository);
 
 			//Assert
 			noteIds.Should().BeEquivalentTo(expectedNoteIds);
