@@ -30,7 +30,7 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services.Managements
 			//Get new kanji decks
 			var newKanjiDecks = _kanjiDeckService.GetNewKanjiDecks();
 			//Get the new kanji note ids
-			var newKanjiNoteIds = newKanjiDecks.SelectMany(d => _cardRepository.GetDeckNotes(d.Id)).GetIds();
+			var newKanjiNoteIds = newKanjiDecks.GetNotes(_cardRepository).GetIds();
 			//Get the new kanji note ids to be moved (based on the minimum interval)
 			var newKanjiNoteIdsToMove = _kanjiCardService.GetNoteIdsWithAtLeastKanjiInterval(newKanjiNoteIds);
 			//Get the learning kanji decks
@@ -48,13 +48,13 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services.Managements
 			//Get the kanji resource decks
 			var kanjiResourceDecks = _kanjiDeckService.GetResourceKanjiDecks();
 			//Get the kanji resource notes
-			var kanjiResourceNotes = kanjiResourceDecks.SelectMany(d => _cardRepository.GetDeckNotes(d.Id)).ToList();
+			var kanjiResourceNotes = kanjiResourceDecks.GetNotes(_cardRepository).ToList();
 			//Get the new kanji decks
 			var newKanjiDecks = _kanjiDeckService.GetNewKanjiDecks();
 			//Fail if no new kanji decks found
 			if (!newKanjiDecks.Any()) { return false; }
 			//Get the new kanji notes
-			var newKanjiNotes = newKanjiDecks.SelectMany(d => _cardRepository.GetDeckNotes(d.Id)).ToList();
+			var newKanjiNotes = newKanjiDecks.GetNotes(_cardRepository).ToList();
 			//Pull kanji resource notes based on the new kanji sub kanji ids
 			var SubKanjiResourceNotes = _kanjiNoteService.PullAllSubKanjiNotesFromNoteList(ref kanjiResourceNotes, newKanjiNotes);
 			//Skip if no new kanji sub kanji notes to move
