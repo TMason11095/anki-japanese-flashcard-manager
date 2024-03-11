@@ -1,12 +1,5 @@
 ﻿using AnkiJapaneseFlashcardManager.ApplicationLayer.Helpers;
-using AnkiJapaneseFlashcardManager.DataAccessLayer.Repositories;
-using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using AnkiJapaneseFlashcardManager.DomainLayer.Interfaces.Repositories;
 
 namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services.Managements
 {
@@ -15,9 +8,9 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services.Managements
 		private readonly KanjiDeckService _kanjiDeckService;
 		private readonly KanjiNoteService _kanjiNoteService;
 		private readonly KanjiCardService _kanjiCardService;
-		private readonly CardRepository _cardRepository;
+		private readonly ICardRepository _cardRepository;
 
-		public KanjiServiceManagement(KanjiDeckService kanjiDeckService, KanjiCardService kanjicardService, CardRepository cardRepository)
+		public KanjiServiceManagement(KanjiDeckService kanjiDeckService, KanjiCardService kanjicardService, ICardRepository cardRepository)
 		{
 			_kanjiDeckService = kanjiDeckService;
 			_kanjiNoteService = new KanjiNoteService();
