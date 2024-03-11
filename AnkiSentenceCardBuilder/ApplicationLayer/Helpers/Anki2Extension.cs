@@ -1,10 +1,5 @@
-﻿using AnkiJapaneseFlashcardManager.DataAccessLayer.Repositories;
-using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
+using AnkiJapaneseFlashcardManager.DomainLayer.Interfaces.Repositories;
 
 namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Helpers
 {
@@ -20,7 +15,7 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Helpers
 			return decks.Select(d => d.Id);
 		}
 
-		public static IEnumerable<Note> GetNotes(this IEnumerable<Deck> decks, CardRepository cardRepository)
+		public static IEnumerable<Note> GetNotes(this IEnumerable<Deck> decks, ICardRepository cardRepository)
 		{
 			return decks.SelectMany(d => cardRepository.GetDeckNotes(d.Id));
 		}
