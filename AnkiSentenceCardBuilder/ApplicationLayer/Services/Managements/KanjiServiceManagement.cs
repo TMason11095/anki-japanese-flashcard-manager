@@ -1,9 +1,10 @@
 ﻿using AnkiJapaneseFlashcardManager.ApplicationLayer.Helpers;
+using AnkiJapaneseFlashcardManager.ApplicationLayer.Interfaces.Services.Managements;
 using AnkiJapaneseFlashcardManager.DomainLayer.Interfaces.Repositories;
 
 namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services.Managements
 {
-	public class KanjiServiceManagement
+	public class KanjiServiceManagement : IKanjiServiceManagement
 	{
 		private readonly KanjiDeckService _kanjiDeckService;
 		private readonly KanjiNoteService _kanjiNoteService;

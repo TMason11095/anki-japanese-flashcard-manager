@@ -47,7 +47,4 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ApplicationLayer\Interfaces\Services\Managements\" />
-  </ItemGroup>
 </Project>
