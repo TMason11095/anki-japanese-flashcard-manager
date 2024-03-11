@@ -1,5 +1,6 @@
 ﻿using AnkiJapaneseFlashcardManager.DataAccessLayer.Interfaces.Contexts;
 using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
+using AnkiJapaneseFlashcardManager.DomainLayer.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace AnkiJapaneseFlashcardManager.DataAccessLayer.Repositories
 {
-	public class DeckRepository
+	public class DeckRepository : IDeckRepository
 	{
 		private readonly IAnki2Context _context;
 

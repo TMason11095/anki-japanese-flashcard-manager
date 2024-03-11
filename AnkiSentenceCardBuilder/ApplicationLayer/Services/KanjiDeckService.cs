@@ -1,18 +1,14 @@
 ﻿using AnkiJapaneseFlashcardManager.ApplicationLayer.Config;
+using AnkiJapaneseFlashcardManager.ApplicationLayer.Interfaces.Services;
 using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services
 {
-    public class KanjiDeckService
+    public class KanjiDeckService : IKanjiDeckService
 	{
-		private readonly DeckService _deckService;
+		private readonly IDeckService _deckService;
 
-		public KanjiDeckService(DeckService deckService)
+		public KanjiDeckService(IDeckService deckService)
 		{
 			_deckService = deckService;
 		}

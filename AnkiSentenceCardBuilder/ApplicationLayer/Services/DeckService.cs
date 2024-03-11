@@ -1,19 +1,15 @@
 ﻿using AnkiJapaneseFlashcardManager.ApplicationLayer.Config;
-using AnkiJapaneseFlashcardManager.DataAccessLayer.Repositories;
+using AnkiJapaneseFlashcardManager.ApplicationLayer.Interfaces.Services;
 using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using AnkiJapaneseFlashcardManager.DomainLayer.Interfaces.Repositories;
 
 namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services
 {
-    public class DeckService
+    public class DeckService : IDeckService
 	{
-		private readonly DeckRepository _deckRepository;
+		private readonly IDeckRepository _deckRepository;
 
-		public DeckService(DeckRepository deckRepository)
+		public DeckService(IDeckRepository deckRepository)
 		{
 			_deckRepository = deckRepository;
 		}

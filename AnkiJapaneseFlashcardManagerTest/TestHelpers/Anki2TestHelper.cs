@@ -69,7 +69,7 @@ namespace Tests.TestHelpers
 		private KanjiServiceManagement _kanjiServiceManagement;
 		public KanjiServiceManagement KanjiServiceManagement
 		{
-			get { return SingletonObject(ref _kanjiServiceManagement, () => new KanjiServiceManagement(this.KanjiDeckService, this.KanjiCardService, this.CardRepository)); }
+			get { return SingletonObject(ref _kanjiServiceManagement, () => new KanjiServiceManagement(this.KanjiDeckService, this.KanjiNoteService, this.KanjiCardService, this.CardRepository)); }
 			private set { _kanjiServiceManagement = value; }
 		}
 
