@@ -1,10 +1,11 @@
 ﻿using AnkiJapaneseFlashcardManager.ApplicationLayer.Config;
+using AnkiJapaneseFlashcardManager.ApplicationLayer.Interfaces.Services;
 using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
 using AnkiJapaneseFlashcardManager.DomainLayer.Interfaces.Repositories;
 
 namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services
 {
-    public class DeckService
+    public class DeckService : IDeckService
 	{
 		private readonly IDeckRepository _deckRepository;
 
