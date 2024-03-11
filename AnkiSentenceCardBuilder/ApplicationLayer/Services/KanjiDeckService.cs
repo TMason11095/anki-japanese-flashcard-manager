@@ -4,7 +4,7 @@ using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
 
 namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services
 {
-    public class KanjiDeckService
+    public class KanjiDeckService : IKanjiDeckService
 	{
 		private readonly IDeckService _deckService;
 
