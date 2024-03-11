@@ -1,6 +1,6 @@
 ﻿using AnkiJapaneseFlashcardManager.ApplicationLayer.Config;
 using AnkiJapaneseFlashcardManager.ApplicationLayer.Helpers;
-using AnkiJapaneseFlashcardManager.ApplicationLayer.Interfaces;
+using AnkiJapaneseFlashcardManager.ApplicationLayer.Interfaces.Services;
 using AnkiJapaneseFlashcardManager.DomainLayer.Entities;
 using System;
 using System.Collections.Generic;
