@@ -1,4 +1,5 @@
 ﻿using AnkiJapaneseFlashcardManager.ApplicationLayer.Helpers;
+using AnkiJapaneseFlashcardManager.ApplicationLayer.Interfaces.Services;
 using AnkiJapaneseFlashcardManager.ApplicationLayer.Interfaces.Services.Managements;
 using AnkiJapaneseFlashcardManager.DomainLayer.Interfaces.Repositories;
 
@@ -6,12 +7,12 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services.Managements
 {
 	public class KanjiServiceManagement : IKanjiServiceManagement
 	{
-		private readonly KanjiDeckService _kanjiDeckService;
+		private readonly IKanjiDeckService _kanjiDeckService;
 		private readonly KanjiNoteService _kanjiNoteService;
-		private readonly KanjiCardService _kanjiCardService;
+		private readonly IKanjiCardService _kanjiCardService;
 		private readonly ICardRepository _cardRepository;
 
-		public KanjiServiceManagement(KanjiDeckService kanjiDeckService, KanjiCardService kanjicardService, ICardRepository cardRepository)
+		public KanjiServiceManagement(IKanjiDeckService kanjiDeckService, IKanjiCardService kanjicardService, ICardRepository cardRepository)
 		{
 			_kanjiDeckService = kanjiDeckService;
 			_kanjiNoteService = new KanjiNoteService();
