@@ -8,11 +8,11 @@ namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services.Managements
 	public class KanjiServiceManagement : IKanjiServiceManagement
 	{
 		private readonly IKanjiDeckService _kanjiDeckService;
-		private readonly KanjiNoteService _kanjiNoteService;
+		private readonly IKanjiNoteService _kanjiNoteService;
 		private readonly IKanjiCardService _kanjiCardService;
 		private readonly ICardRepository _cardRepository;
 
-		public KanjiServiceManagement(IKanjiDeckService kanjiDeckService, KanjiNoteService kanjiNoteService, IKanjiCardService kanjicardService, ICardRepository cardRepository)
+		public KanjiServiceManagement(IKanjiDeckService kanjiDeckService, IKanjiNoteService kanjiNoteService, IKanjiCardService kanjicardService, ICardRepository cardRepository)
 		{
 			_kanjiDeckService = kanjiDeckService;
 			_kanjiNoteService = kanjiNoteService;
