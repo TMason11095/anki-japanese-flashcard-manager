@@ -12,6 +12,7 @@ var host = new HostBuilder()
         services.ConfigureFunctionsApplicationInsights();
 		//Dependency injection
 		services.AddScoped<ICardRepository, CardRepository>();
+		services.AddScoped<IDeckRepository, DeckRepository>();
 	})
     .Build();
 
