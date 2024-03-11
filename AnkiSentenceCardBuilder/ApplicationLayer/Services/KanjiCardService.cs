@@ -1,9 +1,10 @@
 ﻿using AnkiJapaneseFlashcardManager.ApplicationLayer.Config;
+using AnkiJapaneseFlashcardManager.ApplicationLayer.Interfaces.Services;
 using AnkiJapaneseFlashcardManager.DomainLayer.Interfaces.Repositories;
 
 namespace AnkiJapaneseFlashcardManager.ApplicationLayer.Services
 {
-    public class KanjiCardService
+    public class KanjiCardService : IKanjiCardService
 	{
 		private readonly ICardRepository _cardRepository;
 
